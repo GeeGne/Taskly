@@ -7,12 +7,12 @@ export default function Tasks () {
   const [ newTask, setNewTask ] = useState('');
   const addTaskInpRef = useRef(null);
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setNewTask(value);
   }
 
-  const handleClick = e => {
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { type, task } = e.currentTarget.dataset ;
 
     switch (type) {
