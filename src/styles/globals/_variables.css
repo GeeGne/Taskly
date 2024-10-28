@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #16432C;
+  --secondary-color: #6A9C89;
+  --font-heading-color: hsl(0, 0%, 10%);
+  --font-heading-invert-color: hsl(0, 0%, 90%);
+  --font-body-color: hsl(0, 0%, 30%);
+  --font-body-invert-color: hsl(0, 0%, 70%);
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(0, 0%, 0%);
+}
