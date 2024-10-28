@@ -3,24 +3,24 @@ import React, { useState, useRef } from 'react';
 
 
 export default function Tasks () {
-  const [ tasks, setTasks ] = useState([]);
+  const [ tasks, setTasks ] = useState<string[]>([]);
   const [ newTask, setNewTask ] = useState('');
-  const addTaskInpRef = useRef(null);
+  const addTaskInpRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setNewTask(value);
   }
 
-  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type, task } = e.currentTarget.dataset ;
 
     switch (type) {
       case "add_button_is_clicked":
         if (newTask === '') return;
 
-        setTasks(list => [newTask, ...list]);
-        addTaskInpRef.current.value = '';
+        setTasks((list: string[]) => [newTask, ...list]);
+        if (addTaskInpRef.current) addTaskInpRef.current.value = '';
         setNewTask('');
         break;
       case "delete_task_button_is_clicked":
