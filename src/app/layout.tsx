@@ -1,5 +1,8 @@
 import "@/app/globals.css";
 
+// COMPONENTS
+import ReactQueryProvider from '@/components/ReactQueryProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -7,11 +10,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <main className="app-layout">
-          {children}
-        </main>
-      </body>
+      <ReactQueryProvider>
+        <body>
+          <main className="app-layout">
+            {children}
+          </main>
+        </body>
+      </ReactQueryProvider>
     </html>
   );
 }
