@@ -4,10 +4,21 @@ import Link from 'next/link';
 import gitHubIcon from "../../public/assets/github.svg";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
+import { useEffect, useState } from 'react';
+
 // API
 import handleGitHubLogin from '@/api/handleGitHubLogin';
+import checkAuth from '@/api/checkAuth';
+
+// supabase
+import { Session, User } from '@supabase/supabase-js';
 
 export default function Home() {
+
+  const { data } = useQuery({
+    queryKey: ['auth'],
+    queryFn: checkAuth
+  })
 
   const handleGitHubMutation = useMutation({
     mutationFn: handleGitHubLogin
