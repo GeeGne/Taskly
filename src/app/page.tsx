@@ -3,26 +3,37 @@ import Image from "next/image";
 import Link from 'next/link';
 import gitHubIcon from "../../public/assets/github.svg";
 import { useQuery, useMutation } from "@tanstack/react-query";
-
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // API
 import handleGitHubLogin from '@/api/handleGitHubLogin';
-import checkAuth from '@/api/checkAuth';
+import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 
-// supabase
+// SUPABASE
 import { Session, User } from '@supabase/supabase-js';
+
+// UTILS
+import Redirector from '@/utils/Redirector';
+
 
 export default function Home() {
 
-  const { data } = useQuery({
+  const router = useRouter();
+  const redirect = new Redirector(router);
+
+  const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
-    queryFn: checkAuth
+    queryFn: checkAuthAndGetUser
   })
 
   const handleGitHubMutation = useMutation({
     mutationFn: handleGitHubLogin
   })
+
+  useEffect(() => {
+    redirect.home(user);
+  }, [user])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type } = e.currentTarget.dataset;
@@ -34,6 +45,7 @@ export default function Home() {
         console.error('Unknown type: ', type);
     }
   }
+
 
   return (
     <div 

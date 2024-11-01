@@ -3,7 +3,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   max-width: 1400px;
-  height: 100vh;
+  height: auto;
   margin-inline: auto;
   margin-block: auto;
 

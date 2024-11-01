@@ -1,6 +1,7 @@
 @import '@/styles/globals/_variables.css';
 @import '@/styles/globals/_base.css';
 @import '@/styles/globals/_typography.css';
+@import '@/styles/globals/_animation.css';
 @import '@/styles/layout/app.css';
 
 @tailwind base;
