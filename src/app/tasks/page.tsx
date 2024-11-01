@@ -1,17 +1,21 @@
 "use client"
 // HOOKS
 import React, { useState, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import getTasks from '@/api/getTasks';
+import addTask from '@/api/addTask';
+import deleteTask from '@/api/deleteTask';
 
 export default function Tasks () {
   const imitateTasks = [1, 2, 3, 4, 5];
-  // const [ tasks, setTasks ] = useState<string[]>([]);
+  const [ addActivityBtn, setAddActivityBtn ] = useState<boolean>(false);
+  const [ deleteActivityBtn, setDeleteActivityBtn ] = useState<any>({ activity: false, taskId: ''})
   const [ newTask, setNewTask ] = useState('');
   const addTaskInpRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -23,36 +27,71 @@ export default function Tasks () {
     queryFn: getTasks
   })
 
+  const addTaskMutation = useMutation({
+    mutationFn: addTask,
+    onMutate: () => {
+      setAddActivityBtn(true);
+    },
+    onSettled: () => {
+      setAddActivityBtn(false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    }
+  })
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: deleteTask,
+    onMutate: (taskId) => {
+      setDeleteActivityBtn({ activity: true, taskId });
+    },
+    onSettled: () => {
+      setDeleteActivityBtn({ activity: false });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['tasks']})
+    }
+  })
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setNewTask(value);
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { type, task } = e.currentTarget.dataset;
-
+    const { type, task, taskId } = e.currentTarget.dataset;
     switch (type) {
       case "add_button_is_clicked":
         if (newTask === '') return;
-// 
-        // setTasks((list: string[]) => [newTask, ...list]);
-        // if (addTaskInpRef.current) addTaskInpRef.current.value = '';
-        // setNewTask('');
+        addTaskMutation.mutate(newTask);
         break;
       case "delete_task_button_is_clicked":
-        // setTasks(list => list.filter(item => item !== task))
+        deleteTaskMutation.mutate(taskId);
         break;
       default:
         console.error('Unknown Type: ', type);
     }
   }
-
-  const handleWelcomeTag = () => {
+  const handleWelcomeTag = (text: string) => {
     if (isLoading) {
       return 'Loading...';
     }
 
-    return <>Welcome {user?.user_metadata.full_name} ✨</>;
+    return text;
+  }
+
+  const handleAddBtn = (text: string) => {
+    if (addActivityBtn) return 'ADDING...';
+
+    return text;
+  }
+
+  const handleDeleteBtn = (text: string, taskId: string) => {
+    console.log('1', taskId)
+    console.log('2', deleteActivityBtn)
+    if (deleteActivityBtn.activity && deleteActivityBtn.taskId === taskId) return '...';
+
+    return text;
   }
 
   // console.log('user: ', user);
@@ -62,7 +101,7 @@ export default function Tasks () {
       <h1
         className="flex font-bold text-3xl text-primary width-[100%] justify-center py-8"
       >
-        {handleWelcomeTag()}
+        {handleWelcomeTag(`Welcome ${user?.user_metadata.full_name} ✨`)}
       </h1>
       <div
         className="flex flex-col w-[calc(100%-2rem)] md:w-[750px] my-auto mx-auto bg-secondary items-center rounded-lg pb-4 mx-4 md:mx-auto"
@@ -83,7 +122,7 @@ export default function Tasks () {
           onClick={handleClick}
           data-type="add_button_is_clicked"
         >
-          ADD
+          {handleAddBtn('ADD')}
         </button>
         <ul
           className="w-[100%] flex flex-col"
@@ -91,7 +130,7 @@ export default function Tasks () {
           {isTasksLoading
             ? imitateTasks.map((itm, i) =>
               <li
-              className={`flex items-center text-body w-[100%] py-2 px-4 ${i % 2 === 0 ? 'bg-[hsl(0,0%,75%)]' : 'bg-[hsl(0,0%,95%)]'}`}
+              className={`--flirk flex items-center text-body w-[100%] py-2 px-4 ${i % 2 === 0 ? 'bg-[hsl(0,0%,75%)]' : 'bg-[hsl(0,0%,95%)]'}`}
               key={i}
               >
                 <span
@@ -100,7 +139,7 @@ export default function Tasks () {
                   this is a long text pretending to be a task.
                 </span>
                 <button 
-                  className="ml-auto bg-[hsl(0,0%,55%)] text-[hsl(0,0%,55%)] p-2 text-heading-invert font-bold drop-shadow-xl rounded-md hover:opacity-70"
+                  className="ml-auto bg-[hsl(0,0%,55%)] text-[hsla(0,0%,0%,0)] p-2 font-bold drop-shadow-xl rounded-md hover:opacity-70"
                 >
                   X
                 </button>
@@ -118,9 +157,10 @@ export default function Tasks () {
                   className="ml-auto bg-primary p-2 text-heading-invert font-bold drop-shadow-xl rounded-md hover:opacity-70"
                   data-type="delete_task_button_is_clicked"
                   data-task={itm.title}
+                  data-task-id={itm.id}
                   onClick={handleClick}
                 >
-                  X
+                  {handleDeleteBtn('X', String(itm.id))}
                 </button>
               </li>
             )

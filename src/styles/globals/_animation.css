@@ -1,0 +1,21 @@
+@keyframes flirk {
+  0% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0.5
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+.--flirk {
+  animation-name: flirk;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
