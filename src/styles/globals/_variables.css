@@ -7,4 +7,8 @@
   --font-body-invert-color: hsl(0, 0%, 70%);
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(0, 0%, 0%);
+  --background-1-url: url(/assets/background-1.jpg);
+  --background-2-url: url(/assets/background-2.jpg);
+  --background-3-url: url(/assets/background-3.jpg);
+  --background-4-url: url(/assets/background-4.jpg);
 }

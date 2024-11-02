@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from 'next/link';
 import gitHubIcon from "../../public/assets/github.svg";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -20,6 +20,7 @@ import Redirector from '@/utils/Redirector';
 export default function Home() {
 
   const router = useRouter();
+  const queryClient = useQueryClient();
   const redirect = new Redirector(router);
 
   const { data: user, isLoading } = useQuery({
@@ -45,7 +46,6 @@ export default function Home() {
         console.error('Unknown type: ', type);
     }
   }
-
 
   return (
     <div 

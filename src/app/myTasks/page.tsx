@@ -1,6 +1,6 @@
 "use client"
 // HOOKS
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API
@@ -97,12 +97,12 @@ export default function Tasks () {
   return (
     <>
       <h1
-        className="flex font-bold text-3xl text-primary width-[100%] justify-center py-8"
+        className="flex font-bold text-3xl text-primary width-[100%] justify-center py-8 drop-shadow-md"
       >
         {handleWelcomeTag(`Welcome ${user?.user_metadata.full_name} ✨`)}
       </h1>
       <div
-        className="flex flex-col w-[calc(100%-2rem)] md:w-[750px] my-auto mx-auto bg-secondary items-center rounded-lg pb-4 mx-4 md:mx-auto"
+        className="flex flex-col w-[calc(100%-2rem)] md:w-[750px] my-auto mx-auto bg-secondary items-center rounded-lg pb-4 mx-4 md:mx-auto drop-shadow-md"
       >
         <h2
           className="font-bold text-heading text-3xl py-8"
