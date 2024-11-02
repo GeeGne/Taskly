@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabaseClient.ts';
 async function checkAuthAndGetUser () {
   try {
     const { data } = await supabase.auth.getUser();
-    if (!data.user) throw new Error('No user to signin');
+    if (!data.user) return null;
 
     return data.user;
   } catch (err) {

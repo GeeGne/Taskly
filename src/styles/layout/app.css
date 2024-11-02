@@ -12,5 +12,6 @@
 
   & main {
     display: relative;
+    padding-bottom: 1rem;
   }
 }
