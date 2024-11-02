@@ -87,8 +87,6 @@ export default function Tasks () {
   }
 
   const handleDeleteBtn = (text: string, taskId: string) => {
-    console.log('1', taskId)
-    console.log('2', deleteActivityBtn)
     if (deleteActivityBtn.activity && deleteActivityBtn.taskId === taskId) return '...';
 
     return text;

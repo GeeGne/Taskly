@@ -1,13 +1,16 @@
 .app-layout {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   max-width: 1400px;
   height: auto;
   margin-inline: auto;
   margin-block: auto;
 
-  &.main {
+  & header {
+  }
+
+  & main {
     display: relative;
   }
 }
