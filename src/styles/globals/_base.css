@@ -14,13 +14,13 @@ html {
 
 body {
   background-color: var(--background-color);
-  background-image: var(--background-1-url);
+  /* background-image: var(--background-1-url); */
   background-repeat: no-repeat;
   /* background-position: center; */
   background-size: cover;
   font-family: 'PT-Sans', sans-serif;
   min-height: 100vh;
-  backdrop-filter: blur(2px) brightness(95%);
+  /* backdrop-filter: blur(2px) brightness(95%); */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-font-smoothing: antialiased;

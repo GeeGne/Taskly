@@ -5,6 +5,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+// COMPONENTS
+import WireStyle from '@/components/WireStyle';
+
 // ASSETS
 import googleIcon from "../../public/assets/google.svg";
 import facebookIcon from "../../public/assets/facebook.svg";
@@ -57,10 +60,11 @@ export default function Home() {
 
   return (
     <div 
-      className="flex flex-col lg:flex-row w-[100%] min-h-[100vh] bg-yellow "
+      className="flex flex-col md:flex-row w-[100%] min-h-[100vh] bg-yellow "
     >
+      <WireStyle/>
       <div
-        className="flex flex-col lg:flex-grow px-4 pt-4 pb-16 gap-4 bg-primary lg:w-[50%] lg:min-h-[100%] items-center"
+        className="flex flex-col md:flex-grow px-4 pt-4 pb-16 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"
       >
         <Image
           className="invert-[100%] h-[2rem] object-cover"
@@ -79,10 +83,10 @@ export default function Home() {
         </h2>
       </div>
       <div
-        className="lg:w-[50%] lg:bg-white"
+        className="md:w-[50%] z-[20]"
       >
         <form
-          className="flex flex-col mt-[-2rem] lg:mt-[0] gap-1 w-[100%] p-4 bg-white rounded-t-3xl"
+          className="flex flex-col mt-[-2rem] md:mt-[0] gap-1 w-[100%] p-4 rounded-t-3xl"
         >
           <h2
             className="font-bold text-2xl text-heading mx-auto"
@@ -191,11 +195,11 @@ export default function Home() {
           </a>
         </form>
         <div
-          className="relative font-bold text-heading-invert w-[100%] px-4 py-8 bg-white text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-4em)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
+          className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-4em)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
         >
         </div>
         <div
-          className="flex flex-col flex-grow gap-4 w-[100%] bg-white py-8 items-center justify-center"
+          className="flex flex-col flex-grow gap-4 w-[100%] py-8 items-center justify-center"
         >
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"

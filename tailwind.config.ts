@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
   content: [
@@ -20,6 +21,14 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ( api: PluginAPI ) {
+      api.addUtilities({
+        ".clipPath-half-top": {
+          clipPath: "inset(0 0 50% 0 )",
+        },
+      })
+    }
+  ],
 };
 export default config;
