@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 
 // COMPONENTS
-import SignInForm from '@/app/SignUpForm';
+import SignInForm from '@/app/SignInForm';
 import SignUpForm from '@/app/SignUpForm';
 import WireStyle from '@/components/WireStyle';
 
@@ -21,7 +21,7 @@ import mainLogoIcon from "../../public/assets/taskly-logo.png";
 import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
 
 // API
-import handleGitHubLogin from '@/api/handleGitHubLogin';
+import handleOAuthSignIn from '@/api/handleOAuthSignIn';
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 
 // SUPABASE
@@ -35,6 +35,9 @@ export default function Home() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const loginParam = Number(searchParams.get('login'));
+  const signupParam = Number(searchParams.get('signup'));
+
   const queryClient = useQueryClient();
   const redirect = new Redirector(router);
 
@@ -43,8 +46,8 @@ export default function Home() {
     queryFn: checkAuthAndGetUser
   })
 
-  const handleGitHubMutation = useMutation({
-    mutationFn: handleGitHubLogin
+  const handleOAuthMutation = useMutation({
+    mutationFn: handleOAuthSignIn
   })
 
   useEffect(() => {
@@ -52,10 +55,14 @@ export default function Home() {
   }, [user])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { type } = e.currentTarget.dataset;
+    
+    const { type, provider } = e.currentTarget.dataset;
+
     switch (type) {
+      case 'signIn_google_button_is_clicked':
+      case 'signIn_facebook_button_is_clicked':
       case 'signIn_github_button_is_clicked':
-        handleGitHubMutation.mutate();
+        handleOAuthMutation.mutate(provider);
         break;
       default:
         console.error('Unknown type: ', type);
@@ -89,8 +96,10 @@ export default function Home() {
       <div
         className="md:flex md:flex-col md:max md:w-[50%] md:items-center z-[20]"
       >
-        {/* <SignInForm /> */}
-        <SignUpForm />
+        {loginParam 
+          ? <SignInForm />
+          : <SignUpForm />
+        }
         <div
           className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
         >
@@ -100,7 +109,8 @@ export default function Home() {
         >
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"
-            data-type="signIn_github_button_is_clicked"
+            data-type="signIn_google_button_is_clicked"
+            data-provider='google'
             onClick={handleClick}
           >
             <span>Sign in with Google</span>
@@ -111,7 +121,8 @@ export default function Home() {
           </button>
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"
-            data-type="signIn_github_button_is_clicked"
+            data-type="signIn_facebook_button_is_clicked"
+            data-provider='facebook'
             onClick={handleClick}
           >
             <span>Sign in with Facebook</span>
@@ -123,6 +134,7 @@ export default function Home() {
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"
             data-type="signIn_github_button_is_clicked"
+            data-provider='github'
             onClick={handleClick}
           >
             <span>Sign in with GitHub</span>
