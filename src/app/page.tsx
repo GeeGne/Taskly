@@ -2,10 +2,13 @@
 import Image from "next/image";
 import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+
 // COMPONENTS
+import SignInForm from '@/app/SignUpForm';
+import SignUpForm from '@/app/SignUpForm';
 import WireStyle from '@/components/WireStyle';
 
 // ASSETS
@@ -31,6 +34,7 @@ import Redirector from '@/utils/Redirector';
 export default function Home() {
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const redirect = new Redirector(router);
 
@@ -64,7 +68,7 @@ export default function Home() {
     >
       <WireStyle/>
       <div
-        className="flex flex-col md:flex-grow px-4 pt-4 pb-16 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"
+        className="flex flex-col md:flex-grow px-4 pt-4 pb-16 md:py-4 md:px-12 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"
       >
         <Image
           className="invert-[100%] h-[2rem] object-cover"
@@ -83,123 +87,16 @@ export default function Home() {
         </h2>
       </div>
       <div
-        className="md:w-[50%] z-[20]"
+        className="md:flex md:flex-col md:max md:w-[50%] md:items-center z-[20]"
       >
-        <form
-          className="flex flex-col mt-[-2rem] md:mt-[0] gap-1 w-[100%] p-4 rounded-t-3xl"
-        >
-          <h2
-            className="font-bold text-2xl text-heading mx-auto"
-          >
-            Create account
-          </h2>
-          <label 
-            htmlFor="username"
-            className="text-body font-semibold"
-          >
-            Username
-          </label>
-          <input 
-            className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-            // placeholder="Example@gmail.com" 
-            id="username"
-          /><br/>
-          <label 
-            className="text-body font-semibold"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input 
-            className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-            // placeholder="Example@gmail.com"
-            id="email"
-          /><br/>
-          <div
-            className="flex flex-row flex-grow gap-8"
-          >
-            <div
-              className="flex flex-col flex-grow"
-            >
-              <label 
-                htmlFor="password"
-                className="text-body font-semibold"
-              >
-                Password
-              </label>
-              <div
-                className="relative"
-              >
-                <input 
-                  className="w-[100%] p-2 bg-[hsl(0,0%,80%)] rounded-sm"
-                  // placeholder="Example@gmail.com" 
-                  id="password"
-                  type="password"
-                />
-                <Image
-                  className="absolute content-[''] top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]"
-                  src={eyeIcon}
-                  alt="Eye Icon"
-                />
-              </div>
-            </div>
-            <div
-              className="relative flex flex-col flex-grow"
-            >
-              <label 
-                htmlFor="confirm"
-                className="text-body font-semibold"
-              >
-                Confirm
-              </label>
-              <div
-                className="relative flex flex-col flex-grow"
-              >
-                <input 
-                  className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-                  // placeholder="Example@gmail.com" 
-                  id="confirm"
-                  type="password"
-                />
-                <Image
-                  className="absolute content-[''] top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]"
-                  src={eyeIcon}
-                  alt="Eye Icon"
-                />
-              </div>
-            </div>
-          </div><br/>
-          <button 
-            className="flex gap-2 items-center bg-primary cursor-pointer mx-auto text-heading-invert font-semibold px-8 py-2 rounded-lg transition-opacity duration-150 ease-in hover:opacity-70"
-            data-type="signIn_github_button_is_clicked"
-            onClick={handleClick}
-          >
-            Create account
-          </button><br/>
-          <a
-            className=""
-            id="login"
-            href="google.com"
-            target="_blank"
-          >
-            <span
-              className="text-primary underline"
-            >
-              Already have an Account?
-            </span>{' '}
-            <span
-              className="font-bold text-primary"
-            >
-              login
-            </span>  
-          </a>
-        </form>
+        {/* <SignInForm /> */}
+        <SignUpForm />
         <div
-          className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-4em)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
+          className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
         >
         </div>
         <div
-          className="flex flex-col flex-grow gap-4 w-[100%] py-8 items-center justify-center"
+          className="flex flex-col flex-grow gap-4 w-[100%] md:max-width-[600px] py-8 items-center justify-center"
         >
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"

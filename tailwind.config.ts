@@ -27,6 +27,9 @@ const config: Config = {
         ".clipPath-half-top": {
           clipPath: "inset(0 0 50% 0 )",
         },
+        ".WireStyle-drop-shadow": {
+          filter: "drop-shadow(0px 10px 4px black)"
+        }
       })
     }
   ],
