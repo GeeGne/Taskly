@@ -1,12 +1,30 @@
 import { supabase } from '@/lib/supabaseClient';
 
-const handleEmailSignUp = async (email: string, password: string) => {
+interface User {
+  email: string,
+  password: string,
+  username: string
+}
+
+const handleEmailSignUp = async ({email, password, username}: User) => {
   try {
+    // const { data, error } = await supabase.auth.signUp({ 
+      // email,
+      // password
+    // });
     const { data, error } = await supabase.auth.signUp({ 
-      email,
-      password
+      email :'bluewhalexweb@outlook.com',
+      password: 'qweqweqwe1'
     });
-    if (error) throw new Error ('Error while signup');
+    console.log('error:', error);
+    if (error) throw new Error (error.message);
+
+    const userId = data.user?.id;
+    const { error: profileError } = await supabase.from('profiles').insert({
+      id: userId,
+      username
+    })
+    if (profileError) throw new Error ('Error while adding a username to the profile');
 
     return data;
   } catch (err) {

@@ -74,7 +74,7 @@ export default function Home() {
       className="flex flex-col md:flex-row w-[100%] min-h-[100vh] bg-yellow "
     >
       <WireStyle/>
-      <div
+      <section
         className="flex flex-col md:flex-grow px-4 pt-4 pb-16 md:py-4 md:px-12 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"
       >
         <Image
@@ -92,8 +92,8 @@ export default function Home() {
         >
           Organize your tasks, track your progress, and achieve your goals with ease.
         </h2>
-      </div>
-      <div
+      </section>
+      <section
         className="md:flex md:flex-col md:max md:w-[50%] md:items-center z-[20]"
       >
         {loginParam 
@@ -104,7 +104,7 @@ export default function Home() {
           className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-white"
         >
         </div>
-        <div
+        <section
           className="flex flex-col flex-grow gap-4 w-[100%] md:max-width-[600px] py-8 items-center justify-center"
         >
           <button 
@@ -143,8 +143,8 @@ export default function Home() {
               alt="GitHub Logo"
             />
           </button>
-        </div>
-      </div>
+        </section>
+      </section>
     </div>
   );
 }

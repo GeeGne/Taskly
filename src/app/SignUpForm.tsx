@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import { useReducer } from 'react'
+import { useRef, useReducer } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useQuery, useMutation , useQueryClient } from '@tanstack/react-query';
 
@@ -19,13 +19,25 @@ import handleEmailSignUp from '@/api/handleEmailSignUp';
 // REDUCERS
 import signUpFormReducer from '@/reducers/signUpFormReducer';
 
+// UTILS
+import validate from '@/utils/validate';
+
 export default function SignUpForm () {
   
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname= usePathname();
+  const queryClient = useQueryClient();;
 
-  const [ formInputs, dispatch ] useReducer(signUpFormReducer, {
+  const passRef = useRef<HTMLInputElement>(null);
+  const cPassRef = useRef<HTMLInputElement>(null);
+
+  const usernameErrorRef = useRef<HTMLLabelElement>(null);
+  const emailErrorRef = useRef<HTMLLabelElement>(null);
+  const passErrorRef = useRef<HTMLLabelElement>(null);
+  const cPassErrorRef = useRef<HTMLLabelElement>(null);
+
+  const [ formInputs, dispatch ] = useReducer(signUpFormReducer, {
     username: '',
     email: '',
     password: '',
@@ -33,7 +45,10 @@ export default function SignUpForm () {
   })
 
   const handleEmailSignUpMutation = useMutation({
-    mutationFn: handleEmailSignUp
+    mutationFn: handleEmailSignUp,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    }
   })
 
   const addOrUpdateParam = () => {
@@ -43,21 +58,114 @@ export default function SignUpForm () {
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { type } = e.currentTarget.dataset;
+  const validateInputs = () => {
+    const { username, email, password, confirmPassword } = formInputs;
+    const { reg } = validate;
+
+    if (reg.username(username) !== true) 
+      return handleError('usernameInput', reg.username(username));
+    if (reg.email(email) !== true) 
+      return handleError('emailInput', reg.email(email));
+    if (reg.password(password) !== true) 
+      return handleError('passwordInput', reg.password(password));
+    if (reg.confirmPassword(password, confirmPassword) !== true) 
+      return handleError('cPasswordInput', reg.confirmPassword(password, confirmPassword));
+
+    return true;
+  }
+
+  const removeErrMsg = () => {
+    usernameErrorRef.current.style.display = 'none';  
+    emailErrorRef.current.style.display = 'none';  
+    passErrorRef.current.style.display = 'none';  
+    cPassErrorRef.current.style.display = 'none';  
+  }
+
+  const handleError = (type: string, message: string) => {
     switch (type) {
-      case 'signup_button_is_clicked':
-        addOrUpdateParam();
+      case 'usernameInput':
+        usernameErrorRef.current.style.display = 'initial';  
+        usernameErrorRef.current.innerText = message;  
+        break;
+      case 'emailInput':
+        emailErrorRef.current.style.display = 'initial';  
+        emailErrorRef.current.innerText = message;  
+        break;
+      case 'passwordInput':
+        passErrorRef.current.style.display = 'initial';  
+        passErrorRef.current.innerText = message;  
+        break;
+      case 'cPasswordInput':
+        cPassErrorRef.current.style.display = 'initial';  
+        cPassErrorRef.current.innerText = message;  
         break;
       default:
         console.error('Unknown type: ', type);
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    handleEmailSignUpMutation.mutate(email, password)
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    const { type, name } = e.currentTarget.dataset;
+    
+    switch (type) {
+      case 'signup_button_is_clicked':
+        addOrUpdateParam();
+        break;
+      case 'eyeIcon_button_is_clicked':
+        e.currentTarget.classList.toggle('toggle');
+        const isELContainToggle = e.currentTarget.classList.contains('toggle');
+        // if (isELContainToggle) e.currentTarget.src = `${eyeSlashIcon}`;
+        if (isELContainToggle) {
+          e.currentTarget.src = `/assets/eye.svg`;
+          name === 'password' 
+          ? passRef.current.type = 'text'
+          : cPassRef.current.type = 'text';
+        } else {
+          e.currentTarget.src = `/assets/eye-slash.svg`;
+          name === 'password' 
+          ? passRef.current.type = 'password'
+          : cPassRef.current.type = 'password';
+
+        }
+        break;
+      default:
+        console.error('Unknown type: ', type);
+    }
   }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    removeErrMsg();
+
+    const isInputsCorrect = validateInputs();
+    if (!isInputsCorrect) return;
+    
+    const { email, password, username } = formInputs;
+    handleEmailSignUpMutation.mutate({ email, password, username });
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'username':
+      case 'email':
+      case 'password':
+      case 'confirmPassword':
+        const trimmedValue = (name === 'username' || name === 'email') ? value.trim() : value;
+
+        dispatch({
+          type:'update_input',
+          name,
+          value: trimmedValue
+        })
+        break;
+      default:
+        console.error('Unknown name: ', name);
+    }
+  }
+
+  console.log('from inputs: ', formInputs);
 
   return (
     <form
@@ -69,28 +177,50 @@ export default function SignUpForm () {
       >
         Create account
       </h2>
-      <label 
-        htmlFor="username"
-        className="text-body font-semibold"
+      <div
+        className="relative flex flex-col"
       >
-        Username
-      </label>
-      <input 
-        className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-        // placeholder="Example@gmail.com" 
-        id="username"
-      /><br/>
-      <label 
-        className="text-body font-semibold"
-        htmlFor="email"
+        <label 
+          htmlFor="username"
+          className="text-body font-semibold"
+        >
+          Username
+        </label>
+        <input 
+          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+          name="username"
+          id="username"
+          // placeholder="Example@gmail.com" 
+          onChange={handleChange}
+        />
+        <label
+          className="absolute hidden top-[100%] left-2 text-sm text-red-500"
+          htmlFor="email"
+          ref={usernameErrorRef}
+        /> 
+      </div><br/>
+      <div
+        className="relative flex flex-col"
       >
-        Email
-      </label>
-      <input 
-        className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-        // placeholder="Example@gmail.com"
-        id="email"
-      /><br/>
+        <label 
+          className="text-body font-semibold"
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <input 
+          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+          name="email"
+          id="email"
+          // placeholder="Example@gmail.com"
+          onChange={handleChange}
+        />
+        <label
+          className="absolute hidden top-[100%] left-2 text-sm text-red-500"
+          htmlFor="email"
+          ref={emailErrorRef}
+        /> 
+      </div><br/>
       <div
         className="flex flex-row flex-grow gap-8"
       >
@@ -107,23 +237,34 @@ export default function SignUpForm () {
             className="relative"
           >
             <input 
-              className="w-[100%] p-2 bg-[hsl(0,0%,80%)] rounded-sm"
-              // placeholder="Example@gmail.com" 
+              className="w-[100%] p-2 bg-[hsl(0,0%,80%)] rounded-sm outline-primary"
+              name="password"
               id="password"
               type="password"
+              // placeholder="Example@gmail.com" 
+              onChange={handleChange}
+              ref={passRef}
             />
             <Image
-              className="absolute content-[''] top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]"
-              src={eyeIcon}
+              className="absolute top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]  hover:opacity-[0.8] cursor-pointer"
+              src={eyeSlashIcon}
               alt="Eye Icon"
+              data-type="eyeIcon_button_is_clicked"
+              data-name="password"
+              onClick={handleClick}
             />
+            <label
+              className="absolute hidden top-[100%] left-2 text-sm text-red-500"
+              htmlFor="password"
+              ref={passErrorRef}
+            /> 
           </div>
         </div>
         <div
-          className="relative flex flex-col flex-grow"
+          className="flex flex-col flex-grow"
         >
           <label 
-            htmlFor="confirm"
+            htmlFor="confirmPassword"
             className="text-body font-semibold"
           >
             Confirm
@@ -132,16 +273,27 @@ export default function SignUpForm () {
             className="relative flex flex-col flex-grow"
           >
             <input 
-              className="p-2 bg-[hsla(0,0%,80%)] rounded-sm"
-              // placeholder="Example@gmail.com" 
-              id="confirm"
+              className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+              name="confirmPassword"
+              id="confirmPassword"
               type="password"
+              // placeholder="Example@gmail.com" 
+              onChange={handleChange}
+              ref={cPassRef}
             />
             <Image
-              className="absolute content-[''] top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]"
-              src={eyeIcon}
+              className="absolute top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%] hover:opacity-[0.8] cursor-pointer"
+              src={eyeSlashIcon}
               alt="Eye Icon"
+              data-type="eyeIcon_button_is_clicked"
+              data-name="confirmPassword"
+              onClick={handleClick}
             />
+            <label
+              className="absolute hidden top-[100%] left-2 text-sm text-red-500"
+              htmlFor="confirmPassword"
+              ref={cPassErrorRef}
+            /> 
           </div>
         </div>
       </div><br/>
