@@ -1,3 +1,11 @@
+.delay--01s { animation-delay: 0.1s !important }
+.delay--015s { animation-delay: 0.15s !important }
+.delay--02s { animation-delay: 0.2s !important }
+.delay--03s { animation-delay: 0.3s !important }
+.delay--04s { animation-delay: 0.4s !important }
+.delay--05s { animation-delay: 0.5s !important }
+.delay--1s { animation-delay: 1s !important }
+
 @keyframes flirk {
   0% {
     opacity: 1
@@ -12,9 +20,53 @@
   }
 }
 
+@keyframes tripleBars-ani {
+  0% {
+    height: 0.3rem;
+  }
+
+  50% {
+    height: 1rem;
+  }
+
+  100% {
+    height: 0.3rem;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px)
+  }
+
+  50% {
+    transform: translateY(-5px)
+  }
+
+  100% {
+    transform: translateY(0px)
+  }
+}
+
 .--flirk {
   animation-name: flirk;
   animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.--tripleBars-ani {
+  animation-name: tripleBars-ani;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.--float-ani {
+  animation-name: float;
+  animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-out;
   animation-fill-mode: both;

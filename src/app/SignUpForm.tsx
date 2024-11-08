@@ -1,8 +1,11 @@
 "use client"
 import Image from "next/image";
-import { useRef, useReducer } from 'react'
+import { useState, useRef, useReducer } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useQuery, useMutation , useQueryClient } from '@tanstack/react-query';
+
+// COMPONENTS
+import TripleBarActivity from '@/components/TripleBarActivity';
 
 // ASSETS
 import googleIcon from "../../public/assets/google.svg";
@@ -23,11 +26,13 @@ import signUpFormReducer from '@/reducers/signUpFormReducer';
 import validate from '@/utils/validate';
 
 export default function SignUpForm () {
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname= usePathname();
   const queryClient = useQueryClient();;
+
+  const [ activity, setActivity ] = useState<boolean>(false);
 
   const passRef = useRef<HTMLInputElement>(null);
   const cPassRef = useRef<HTMLInputElement>(null);
@@ -46,6 +51,12 @@ export default function SignUpForm () {
 
   const handleEmailSignUpMutation = useMutation({
     mutationFn: handleEmailSignUp,
+    onMutate: () => {
+      setActivity(true);
+    },
+    onSettled: () => {
+      setActivity(false);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     }
@@ -187,7 +198,7 @@ export default function SignUpForm () {
           Username
         </label>
         <input 
-          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
           name="username"
           id="username"
           // placeholder="Example@gmail.com" 
@@ -209,7 +220,7 @@ export default function SignUpForm () {
           Email
         </label>
         <input 
-          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+          className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
           name="email"
           id="email"
           // placeholder="Example@gmail.com"
@@ -237,7 +248,7 @@ export default function SignUpForm () {
             className="relative"
           >
             <input 
-              className="w-[100%] p-2 bg-[hsl(0,0%,80%)] rounded-sm outline-primary"
+              className="w-[100%] p-2 bg-[hsl(0,0%,80%)] rounded-sm outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
               name="password"
               id="password"
               type="password"
@@ -273,7 +284,7 @@ export default function SignUpForm () {
             className="relative flex flex-col flex-grow"
           >
             <input 
-              className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary"
+              className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
               name="confirmPassword"
               id="confirmPassword"
               type="password"
@@ -298,10 +309,16 @@ export default function SignUpForm () {
         </div>
       </div><br/>
       <button 
-        className="flex gap-2 items-center bg-primary cursor-pointer mx-auto text-heading-invert font-semibold px-8 py-2 rounded-lg transition-opacity duration-150 ease-in hover:opacity-70"
+        className="relative flex gap-2 items-center bg-primary cursor-pointer mx-auto text-heading-invert hover:text-heading font-semibold px-8 py-2 rounded-lg transition-colors duration-150 ease-in hover:bg-secondary"
         type="submit"
       >
-        Create account
+        {activity 
+          ? <>
+              <span className="opacity-0">Create Account</span>
+              <TripleBarActivity />
+            </>
+          : <span>Create Account</span>
+        }
       </button><br/>
       <div
         className=""

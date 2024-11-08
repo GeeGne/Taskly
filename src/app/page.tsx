@@ -19,6 +19,11 @@ import eyeIcon from "../../public/assets/eye.svg";
 import eyeSlashIcon from "../../public/assets/eye-slash.svg";
 import mainLogoIcon from "../../public/assets/taskly-logo.png";
 import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
+import bookIcon from "../../public/assets/book.svg";
+import pencilIcon from "../..public/assets/design-education.svg";
+import lampIcon from "../../public/assets/lamp.svg";
+import achivementIcon from "../../public/assets/achivement.svg";
+import achivement2Icon from "../../public/assets/achivement-2.svg";
 
 // API
 import handleOAuthSignIn from '@/api/handleOAuthSignIn';
@@ -85,13 +90,62 @@ export default function Home() {
         <h1 
           className="text-2xl font-bold text-heading-invert"
         >
-          Stay Organized, Stay Focused!
+          <span className="text-secondary">S</span>tay Organized, Stay Focused!
         </h1>
         <h2 
-          className="text-lg font-semibold text-heading-invert"
+          className="md:hidden text-lg font-semibold text-heading-invert"
         >
           Organize your tasks, track your progress, and achieve your goals with ease.
         </h2>
+        <ul
+          className="flex flex-col justify-center gap-8 h-[100%] w-[100%]"
+        >
+          <li
+            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+          >
+            <Image 
+              className="--float-ani w-12"
+              alt="Icon"
+              src={lampIcon}
+            />
+            <span>Organize your tasks.</span>
+          </li>
+          <li
+            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+          >
+            <Image 
+              className="--float-ani delay--1s w-12"
+              alt="Icon"
+              src={bookIcon}
+            />
+            <span>track your progress.</span>
+          </li>
+          <li
+            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+          >
+            <Image 
+              className="--float-ani delay--05s w-12"
+              alt="Icon"
+              src={achivementIcon}
+            />
+            <span>achieve your goals with ease.</span>
+          </li>
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+          />
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+          />
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+          />
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+          />
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+          />
+        </ul>
       </section>
       <section
         className="md:flex md:flex-col md:max md:w-[50%] md:items-center z-[20]"
