@@ -1,9 +1,9 @@
 "use client"
 import Image from "next/image";
-import Link from 'next/link';
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+// import Link from 'next/link';
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 
 // COMPONENTS
@@ -15,22 +15,22 @@ import WireStyle from '@/components/WireStyle';
 import googleIcon from "../../public/assets/google.svg";
 import facebookIcon from "../../public/assets/facebook.svg";
 import githubIcon from "../../public/assets/github.svg";
-import eyeIcon from "../../public/assets/eye.svg";
-import eyeSlashIcon from "../../public/assets/eye-slash.svg";
-import mainLogoIcon from "../../public/assets/taskly-logo.png";
+// import eyeIcon from "../../public/assets/eye.svg";
+// import eyeSlashIcon from "../../public/assets/eye-slash.svg";
+// import mainLogoIcon from "../../public/assets/taskly-logo.png";
 import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
 import bookIcon from "../../public/assets/book.svg";
-import pencilIcon from "../..public/assets/design-education.svg";
+// import pencilIcon from "../..public/assets/design-education.svg";
 import lampIcon from "../../public/assets/lamp.svg";
 import achivementIcon from "../../public/assets/achivement.svg";
-import achivement2Icon from "../../public/assets/achivement-2.svg";
+// import achivement2Icon from "../../public/assets/achivement-2.svg";
 
 // API
 import handleOAuthSignIn from '@/api/handleOAuthSignIn';
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 
 // SUPABASE
-import { Session, User } from '@supabase/supabase-js';
+// import { Session, User } from '@supabase/supabase-js';
 
 // UTILS
 import Redirector from '@/utils/Redirector';
@@ -41,12 +41,12 @@ export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const loginParam = Number(searchParams.get('login'));
-  const signupParam = Number(searchParams.get('signup'));
+  // const signupParam = Number(searchParams.get('signup'));
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const redirect = new Redirector(router);
 
-  const { data: user, isLoading } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
   })
@@ -59,7 +59,7 @@ export default function Home() {
     redirect.home(user);
   }, [user])
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     
     const { type, provider } = e.currentTarget.dataset;
 
@@ -67,7 +67,7 @@ export default function Home() {
       case 'signIn_google_button_is_clicked':
       case 'signIn_facebook_button_is_clicked':
       case 'signIn_github_button_is_clicked':
-        handleOAuthMutation.mutate(provider);
+        if (provider) handleOAuthMutation.mutate(provider);
         break;
       default:
         console.error('Unknown type: ', type);
@@ -92,11 +92,6 @@ export default function Home() {
         >
           <span className="text-secondary">S</span>tay Organized, Stay Focused!
         </h1>
-        <h2 
-          className="md:hidden text-lg font-semibold text-heading-invert"
-        >
-          Organize your tasks, track your progress, and achieve your goals with ease.
-        </h2>
         <ul
           className="flex flex-col justify-center gap-8 h-[100%] w-[100%]"
         >
@@ -137,13 +132,13 @@ export default function Home() {
             className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="absloute hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
         </ul>
       </section>

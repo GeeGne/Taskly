@@ -1,20 +1,14 @@
-import { NextRouter } from 'next/router'; // Import if using Next.js, or adjust for your router
-
-interface User {
-  id: string;
-  name: string;
-}
 
 class Redirector {
-  router: NextRouter;
+  router: any;
   pathname: string;
 
-  constructor(router) {
+  constructor(router: any) {
     this.router = router;
     this.pathname = window.location.pathname;
   }
 
-  home (user: User | null) {
+  home (user: {} | null | undefined) {
     if (user && this.pathname === '/') {
       this.router.push('/myTasks');
       return;

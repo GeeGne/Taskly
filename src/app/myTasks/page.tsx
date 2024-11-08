@@ -10,10 +10,18 @@ import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
 
 export default function Tasks () {
+
   const imitateTasks = [1, 2, 3, 4, 5];
+
   const [ addActivityBtn, setAddActivityBtn ] = useState<boolean>(false);
-  const [ deleteActivityBtn, setDeleteActivityBtn ] = useState<any>({ activity: false, taskId: ''})
+
+  type DeleteActivityBtn = {
+    activity: boolean,
+    taskId?: string
+  }
+  const [ deleteActivityBtn, setDeleteActivityBtn ] = useState<DeleteActivityBtn>({ activity: false, taskId: ''})
   const [ newTask, setNewTask ] = useState('');
+
   const addTaskInpRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
@@ -36,7 +44,7 @@ export default function Tasks () {
       setAddActivityBtn(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
     }
   })
 
@@ -59,14 +67,14 @@ export default function Tasks () {
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { type, task, taskId } = e.currentTarget.dataset;
+    const { type, taskId } = e.currentTarget.dataset;
     switch (type) {
       case "add_button_is_clicked":
         if (newTask === '') return;
         addTaskMutation.mutate(newTask);
         break;
       case "delete_task_button_is_clicked":
-        deleteTaskMutation.mutate(taskId);
+        if (taskId) deleteTaskMutation.mutate(taskId);
         break;
       default:
         console.error('Unknown Type: ', type);
@@ -143,7 +151,8 @@ export default function Tasks () {
                 </button>
               </li>
             )
-            : tasks?.map((itm, i) => 
+            // : tasks?.map((itm: { id: string, title: string }, i: number) => 
+            : tasks?.map((itm: any, i) => 
               <li
                 className={`flex items-center text-body w-[100%] py-2 px-4 ${i % 2 === 0 ? 'bg-[hsl(0,0%,75%)]' : 'bg-secondary'}`}
                 key={i}

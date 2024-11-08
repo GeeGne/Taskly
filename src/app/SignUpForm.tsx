@@ -2,19 +2,19 @@
 import Image from "next/image";
 import { useState, useRef, useReducer } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useQuery, useMutation , useQueryClient } from '@tanstack/react-query';
+import { useMutation , useQueryClient } from '@tanstack/react-query';
 
 // COMPONENTS
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // ASSETS
-import googleIcon from "../../public/assets/google.svg";
-import facebookIcon from "../../public/assets/facebook.svg";
-import githubIcon from "../../public/assets/github.svg";
-import eyeIcon from "../../public/assets/eye.svg";
+// import googleIcon from "../../public/assets/google.svg";
+// import facebookIcon from "../../public/assets/facebook.svg";
+// import githubIcon from "../../public/assets/github.svg";
+// import eyeIcon from "../../public/assets/eye.svg";
 import eyeSlashIcon from "../../public/assets/eye-slash.svg";
-import mainLogoIcon from "../../public/assets/taskly-logo.png";
-import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
+// import mainLogoIcon from "../../public/assets/taskly-logo.png";
+// import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
 
 // API
 import handleEmailSignUp from '@/api/handleEmailSignUp';
@@ -34,13 +34,14 @@ export default function SignUpForm () {
 
   const [ activity, setActivity ] = useState<boolean>(false);
 
-  const passRef = useRef<HTMLInputElement>(null);
-  const cPassRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement | null>(null);
+  const cPassRef = useRef<HTMLInputElement | null>(null);
 
-  const usernameErrorRef = useRef<HTMLLabelElement>(null);
-  const emailErrorRef = useRef<HTMLLabelElement>(null);
-  const passErrorRef = useRef<HTMLLabelElement>(null);
+  const usernameErrorRef = useRef<HTMLLabelElement | null>(null);
+  const emailErrorRef = useRef<HTMLLabelElement | null>(null);
+  const passErrorRef = useRef<HTMLLabelElement | null>(null);
   const cPassErrorRef = useRef<HTMLLabelElement>(null);
+
 
   const [ formInputs, dispatch ] = useReducer(signUpFormReducer, {
     username: '',
@@ -86,36 +87,37 @@ export default function SignUpForm () {
   }
 
   const removeErrMsg = () => {
-    usernameErrorRef.current.style.display = 'none';  
-    emailErrorRef.current.style.display = 'none';  
-    passErrorRef.current.style.display = 'none';  
-    cPassErrorRef.current.style.display = 'none';  
+
+    if (usernameErrorRef.current) usernameErrorRef.current.style.display = 'none';  
+    if (emailErrorRef.current) emailErrorRef.current.style.display = 'none';  
+    if (passErrorRef.current) passErrorRef.current.style.display = 'none';  
+    if (cPassErrorRef.current) cPassErrorRef.current.style.display = 'none';  
   }
 
   const handleError = (type: string, message: string) => {
     switch (type) {
       case 'usernameInput':
-        usernameErrorRef.current.style.display = 'initial';  
-        usernameErrorRef.current.innerText = message;  
+        if (usernameErrorRef.current) usernameErrorRef.current.style.display = 'initial';  
+        if (usernameErrorRef.current) usernameErrorRef.current.innerText = message;  
         break;
       case 'emailInput':
-        emailErrorRef.current.style.display = 'initial';  
-        emailErrorRef.current.innerText = message;  
+        if (emailErrorRef.current) emailErrorRef.current.style.display = 'initial';  
+        if (emailErrorRef.current) emailErrorRef.current.innerText = message;  
         break;
       case 'passwordInput':
-        passErrorRef.current.style.display = 'initial';  
-        passErrorRef.current.innerText = message;  
+        if (passErrorRef.current) passErrorRef.current.style.display = 'initial';  
+        if (passErrorRef.current) passErrorRef.current.innerText = message;  
         break;
       case 'cPasswordInput':
-        cPassErrorRef.current.style.display = 'initial';  
-        cPassErrorRef.current.innerText = message;  
+        if (cPassErrorRef.current) cPassErrorRef.current.style.display = 'initial';  
+        if (cPassErrorRef.current) cPassErrorRef.current.innerText = message;  
         break;
       default:
         console.error('Unknown type: ', type);
     }
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (e: any) => {
     const { type, name } = e.currentTarget.dataset;
     
     switch (type) {
@@ -126,12 +128,12 @@ export default function SignUpForm () {
         e.currentTarget.classList.toggle('toggle');
         const isELContainToggle = e.currentTarget.classList.contains('toggle');
         // if (isELContainToggle) e.currentTarget.src = `${eyeSlashIcon}`;
-        if (isELContainToggle) {
+        if (isELContainToggle && passRef.current && cPassRef.current) {
           e.currentTarget.src = `/assets/eye.svg`;
           name === 'password' 
           ? passRef.current.type = 'text'
           : cPassRef.current.type = 'text';
-        } else {
+        } else if (passRef.current && cPassRef.current) {
           e.currentTarget.src = `/assets/eye-slash.svg`;
           name === 'password' 
           ? passRef.current.type = 'password'
@@ -144,7 +146,7 @@ export default function SignUpForm () {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     removeErrMsg();

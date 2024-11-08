@@ -1,19 +1,19 @@
 "use client"
 import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+// import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // ASSETS
-import googleIcon from "../../public/assets/google.svg";
-import facebookIcon from "../../public/assets/facebook.svg";
-import githubIcon from "../../public/assets/github.svg";
+// import googleIcon from "../../public/assets/google.svg";
+// import facebookIcon from "../../public/assets/facebook.svg";
+// import githubIcon from "../../public/assets/github.svg";
 import eyeIcon from "../../public/assets/eye.svg";
-import eyeSlashIcon from "../../public/assets/eye-slash.svg";
-import mainLogoIcon from "../../public/assets/taskly-logo.png";
-import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
+// import eyeSlashIcon from "../../public/assets/eye-slash.svg";
+// import mainLogoIcon from "../../public/assets/taskly-logo.png";
+// import main2LogoIcon from "../../public/assets/taskly-logo-2.svg";
 
 // api
-import handleEmailSignIn from '@/api/handleEmailSignIn';
+// import handleEmailSignIn from '@/api/handleEmailSignIn';
 
 
 export default function SignInForm () {
@@ -21,7 +21,7 @@ export default function SignInForm () {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
 
   // const handleEmailSignInMutation = useMutation({
@@ -35,7 +35,7 @@ export default function SignInForm () {
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLImageElement | HTMLDivElement>) => {
     const { type } = e.currentTarget.dataset;
     switch (type) {
       case 'forgot_password_button_is_clicked':
@@ -48,7 +48,7 @@ export default function SignInForm () {
     }
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('test: gi');
   }
@@ -103,7 +103,6 @@ export default function SignInForm () {
         className="flex gap-2 items-center bg-primary cursor-pointer mx-auto text-heading-invert font-semibold px-8 py-2 rounded-lg transition-opacity duration-150 ease-in hover:opacity-70"
         data-type="create_account_button_is_clicked"
         type="submit"
-        onSubmit={handleSubmit}
       >
         Continue
       </button><br/>

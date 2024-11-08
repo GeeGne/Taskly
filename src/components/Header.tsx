@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCurrentTabStore } from '@/store/index';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -24,7 +24,7 @@ export default function Header () {
   const aboutBtnRef = useRef<HTMLButtonElement>(null);
   const signOutBtnRef = useRef<HTMLButtonElement>(null);
 
-  const { data: user, isLoading } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
   })
@@ -39,7 +39,7 @@ export default function Header () {
 
   useEffect(() => {
     redirect.home(user);
-    headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
+    if (headerRef.current) headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
     console.log('user: ', user);
   }, [user])
 
@@ -47,16 +47,16 @@ export default function Header () {
     resetBtnTabStyles();
     switch (currentTab) {
       case 'myTasks':
-        myTasksBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        myTasksBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
+        if (myTasksBtnRef.current) myTasksBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
+        if (myTasksBtnRef.current) myTasksBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
         break;
       case 'users':
-        usersBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        usersBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
+        if (usersBtnRef.current) usersBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
+        if (usersBtnRef.current) usersBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
         break;
       case 'about':
-        aboutBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        aboutBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
+        if(aboutBtnRef.current) aboutBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
+        if(aboutBtnRef.current) aboutBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
         break;
       default:
         console.error('Unknown currentTab type: ', currentTab);
@@ -64,12 +64,12 @@ export default function Header () {
   }, [ currentTab ])
 
   const resetBtnTabStyles = () => {
-    myTasksBtnRef.current.removeAttribute('style');       
-    usersBtnRef.current.removeAttribute('style');       
-    aboutBtnRef.current.removeAttribute('style');       
+    if (myTasksBtnRef.current) myTasksBtnRef.current.removeAttribute('style');       
+    if (usersBtnRef.current) usersBtnRef.current.removeAttribute('style');       
+    if (aboutBtnRef.current) aboutBtnRef.current.removeAttribute('style');       
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLInputElement>) => {
     const { type, key } = e.currentTarget.dataset;
 
     switch (type) {
@@ -113,7 +113,6 @@ export default function Header () {
           data-key="users"
           onClick={handleClick}
           ref={usersBtnRef}
-
         >
           Users
         </button>
@@ -138,7 +137,6 @@ export default function Header () {
           Sign out
         </button>
       </nav>
-
     </header>
   )
 }

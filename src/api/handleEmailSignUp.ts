@@ -13,8 +13,8 @@ const handleEmailSignUp = async ({email, password, username}: User) => {
       // password
     // });
     const { data, error } = await supabase.auth.signUp({ 
-      email :'bluewhalexweb@outlook.com',
-      password: 'qweqweqwe1'
+      email,
+      password
     });
     console.log('error:', error);
     if (error) throw new Error (error.message);

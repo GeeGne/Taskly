@@ -1,6 +1,12 @@
-const validate = {
+interface Validate {
+  reg: any;
+  log: any;
+  placeOrder: any;
+}
+
+const validate: Validate = {
   reg: {
-    username (name) {
+    username (name: string) {
       const re= /^[a-zA-Z\u0600-\u06FF\s]+$/;
 
       switch (false) {
@@ -18,7 +24,7 @@ const validate = {
           return true
       }
     },
-    email (email) {
+    email (email: string) {
       const re= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       switch (false) {
@@ -32,10 +38,10 @@ const validate = {
           return true
       }
     },
-    password (password) {
-      const re= /^(?=.*[a-zA-Z])(?=.*[0-9])/;
-      const re1= /^[a-zA-Z]+$/;
-      const re2= /^[0-9]+$/;
+    password (password: string) {
+      // const re= /^(?=.*[a-zA-Z])(?=.*[0-9])/;
+      // const re1= /^[a-zA-Z]+$/;
+      // const re2= /^[0-9]+$/;
 
       switch (false) {
         case password !== '':
@@ -55,7 +61,7 @@ const validate = {
           return true;
       }
     },
-    confirmPassword (password, confirmedPassword) {
+    confirmPassword (password: string, confirmedPassword: string) {
       switch (false) {
         case password !== '':
           return 'can\'t be blank';
@@ -67,7 +73,7 @@ const validate = {
     },
   },
   log: {
-    email (email) {
+    email (email: string) {
       const re= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       switch (false) {
@@ -81,7 +87,7 @@ const validate = {
           return true;
       }
     },
-    password (password) {
+    password (password: string) {
       switch (false) {
         case password !== '':
           return 'can\'t be blank';
@@ -93,9 +99,9 @@ const validate = {
     }
   },
   placeOrder: {
-    phone (phone, en) {
-      const re= /^[0-9+]+$/;
-      const re1= /^\+963/;
+    phone (phone: string) {
+      // const re= /^[0-9+]+$/;
+      // const re1= /^\+963/;
       const re2= /^\+?\d{1,4}(\s\d{3}){2}\s\d{3}$/;;
 
       switch (false) {
@@ -109,7 +115,7 @@ const validate = {
           return true;
       }
     }, 
-    addressDetails (addressDetails, en) {
+    addressDetails (addressDetails: string) {
       switch (false) {
         case addressDetails !== '':
           return 'can\'t be blank';

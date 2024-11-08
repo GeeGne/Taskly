@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabaseClient';
 
+
 async function getTasks () {
   try {
     const { data: userData } = await supabase.auth.getUser();
@@ -13,7 +14,8 @@ async function getTasks () {
 
     return data;
   } catch (err) {
-    console.error('Unable to get Tasks: ', err.message);
+    const error = err as Error
+    console.error('Unable to get Tasks: ', error.message);
     throw err;
   }
 }

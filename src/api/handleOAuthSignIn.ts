@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
 
-type OAuthProvider = 'github' | 'google' | 'facebook';
+// type OAuthProvider = 'github' | 'google' | 'facebook';
 
-const handleOAuthSignIn = async (provider: OAuthProvider) => {
+const handleOAuthSignIn = async (provider: any) => {
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({ 
       provider,

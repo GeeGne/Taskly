@@ -1,18 +1,20 @@
 import { supabase } from '@/lib/supabaseClient';
 
-const handleGitHubLogin = async () => {
+const handleEmailSignIn = async (email: string, password: string) => {
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({ 
-      provider: 'github',
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
     });
     if (error) throw new Error ('Error while signing in to GitHub');
 
     return data;
   } catch (err) {
-    console.error('Auth error: ', err.message);
+    const error = err as Error;
+    console.error('Auth error: ', error.message);
     throw err;
   }
 }
 
-export default handleGitHubLogin;
+export default handleEmailSignIn;
 
