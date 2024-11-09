@@ -1,7 +1,3 @@
-Here's a cool markdown description for your Taskly GitHub repo:
-
----
-
 # 🌟 Taskly – Your Ultimate Task Management Solution 📝✨
 
 Taskly is the productivity app designed to help you organize, prioritize, and accomplish your daily tasks effortlessly. Whether you're managing work projects, personal to-dos, or planning events, Taskly has you covered with an intuitive interface and powerful features. 🚀
