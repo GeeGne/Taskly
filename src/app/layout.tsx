@@ -1,4 +1,5 @@
 'use client'
+
 // import { useEffect, useState, useRef } from 'react';
 // import { useRouter } from 'next/navigation';
 // import { useCurrentTabStore } from '@/store/index';
@@ -22,18 +23,18 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <ReactQueryProvider>
-        <Suspense>
-          <body>
-            <div className="app-layout">
-              <Header />
-              <main className="">
-                {children}
-              </main>
-            </div>
-          </body>
-        </Suspense>
-      </ReactQueryProvider>
+      <body>
+        <ReactQueryProvider>
+          <Suspense>
+              <div className="app-layout">
+                <Header />
+                <main className="">
+                  {children}
+                </main>
+              </div>
+          </Suspense>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

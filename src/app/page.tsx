@@ -44,7 +44,6 @@ export default function Home() {
   // const signupParam = Number(searchParams.get('signup'));
 
   // const queryClient = useQueryClient();
-  const redirect = new Redirector(router);
 
   const { data: user } = useQuery({
     queryKey: ['auth'],
@@ -56,6 +55,7 @@ export default function Home() {
   })
 
   useEffect(() => {
+    const redirect = new Redirector(router);
     redirect.home(user);
   }, [user])
 
@@ -138,7 +138,7 @@ export default function Home() {
             className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="absloute hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
           />
         </ul>
       </section>

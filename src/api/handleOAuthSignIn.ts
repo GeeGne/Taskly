@@ -4,8 +4,17 @@ import { supabase } from '@/lib/supabaseClient';
 
 const handleOAuthSignIn = async (provider: any) => {
   try {
+
+    const redirectTo = process.env.NEXT_PUBLIC_NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : process.env.NEXT_PUBLIC_DOMAIN_URI
+    ;
+
     const { data, error } = await supabase.auth.signInWithOAuth({ 
       provider,
+      options: {
+        redirectTo
+      }
     });
     if (error) throw new Error ('Error while signing in to GitHub');
 

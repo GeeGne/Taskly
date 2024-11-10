@@ -1,7 +1,8 @@
 "use client"
 // HOOKS
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 // API
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
@@ -9,8 +10,13 @@ import getTasks from '@/api/getTasks';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
 
+// UTILS
+import Redirector from '@/utils/Redirector';
+
 export default function Tasks () {
 
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const imitateTasks = [1, 2, 3, 4, 5];
 
   const [ addActivityBtn, setAddActivityBtn ] = useState<boolean>(false);
@@ -23,12 +29,16 @@ export default function Tasks () {
   const [ newTask, setNewTask ] = useState('');
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
   })
+
+  useEffect(() => {
+    const redirect = new Redirector(router)
+    redirect.home(user);
+  }, [user])
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],

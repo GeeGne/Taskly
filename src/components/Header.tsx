@@ -14,7 +14,6 @@ import Redirector from '@/utils/Redirector';
 export default function Header () {
 
   const router = useRouter();
-  const redirect = new Redirector(router);
   const queryClient = useQueryClient();
   const { currentTab, setCurrentTab } = useCurrentTabStore();
 
@@ -38,9 +37,9 @@ export default function Header () {
   })
 
   useEffect(() => {
+    const redirect = new Redirector(router);
     redirect.home(user);
     if (headerRef.current) headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
-    console.log('user: ', user);
   }, [user])
 
   useEffect(() => {
@@ -57,6 +56,8 @@ export default function Header () {
       case 'about':
         if(aboutBtnRef.current) aboutBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
         if(aboutBtnRef.current) aboutBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
+        break;
+      case 'home':
         break;
       default:
         console.error('Unknown currentTab type: ', currentTab);
@@ -140,4 +141,3 @@ export default function Header () {
     </header>
   )
 }
-

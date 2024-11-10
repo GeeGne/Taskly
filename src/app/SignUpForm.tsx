@@ -178,7 +178,7 @@ export default function SignUpForm () {
     }
   }
 
-  console.log('from inputs: ', formInputs);
+  // console.log('from inputs: ', formInputs);
 
   return (
     <form
