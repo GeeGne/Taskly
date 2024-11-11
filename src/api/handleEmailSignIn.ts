@@ -1,12 +1,18 @@
 import { supabase } from '@/lib/supabaseClient';
 
-const handleEmailSignIn = async (email: string, password: string) => {
+interface User {
+  email: string,
+  password: string,
+}
+
+
+const handleEmailSignIn = async ({ email, password }: User) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
-    if (error) throw new Error ('Error while signing in to GitHub');
+    if (error) throw new Error (error.message);
 
     return data;
   } catch (err) {

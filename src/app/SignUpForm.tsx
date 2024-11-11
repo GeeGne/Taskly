@@ -225,6 +225,7 @@ export default function SignUpForm () {
           className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
           name="email"
           id="email"
+          type="text"
           // placeholder="Example@gmail.com"
           onChange={handleChange}
         />
