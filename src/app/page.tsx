@@ -99,31 +99,40 @@ export default function Home() {
             className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
           >
             <Image 
-              className="--float-ani w-12"
+              className="--float-ani w-12 z-[10]"
               alt="Icon"
               src={lampIcon}
             />
             <span>Organize your tasks.</span>
+            <div 
+              className="--float-shadow-ani absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+            />
           </li>
           <li
             className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
           >
             <Image 
-              className="--float-ani delay--1s w-12"
+              className="--float-ani delay--1s w-12 z-[10]"
               alt="Icon"
               src={bookIcon}
             />
             <span>track your progress.</span>
+            <div 
+              className="--float-shadow-ani delay--1s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+            />
           </li>
           <li
             className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
           >
             <Image 
-              className="--float-ani delay--05s w-12"
+              className="--float-ani delay--05s w-12 z-[10]"
               alt="Icon"
               src={achivementIcon}
             />
             <span>achieve your goals with ease.</span>
+            <div 
+              className="--float-shadow-ani delay--05s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+            />
           </li>
           <li
             className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"

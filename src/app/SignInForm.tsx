@@ -38,7 +38,7 @@ export default function SignInForm () {
     email: '',
     password: '',
   })
-  console.log('fromInputs: ', formInputs);
+  // console.log('fromInputs: ', formInputs);
 
   const passRef = useRef<HTMLInputElement | null>(null);
   const emailErrorRef = useRef<HTMLLabelElement | null>(null);

@@ -20,6 +20,23 @@
   }
 }
 
+@keyframes float-shadow-ani {
+  0% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+
+  50% {
+    opacity: 0;
+    filter: blur(5px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+}
+
 @keyframes tripleBars-ani {
   0% {
     height: 0.3rem;
@@ -54,6 +71,15 @@
   animation-iteration-count: infinite;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
+}
+
+.--float-shadow-ani {
+  animation-name: float-shadow-ani;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+
 }
 
 .--tripleBars-ani {
