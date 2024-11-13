@@ -4,7 +4,7 @@
 
   --font-heading-color: hsl(0, 0%, 10%);
   --font-heading-invert-color: hsl(0, 0%, 90%);
-  --font-body-color: hsl(0, 0%, 20%);
+  --font-body-color: hsl(0, 0%, 30%);
   --font-body-invert-color: hsl(0, 0%, 80%);
   --font-light-color: hsl(0, 0%, 40%);
   --font-light-invert-color: hsl(0, 0%, 60%);
@@ -13,6 +13,7 @@
 
   --background-color: hsl(0, 0%, 100%);
   --background-light-color: hsl(0, 0%, 90%);
+  --background-light-invert-color: hsl(0, 0%, 10%);
   --background-deep-light-color: hsl(0, 0%, 80%);
   --background-deep-color: hsl(0, 0%, 70%);
   --background-light-dark-color: hsl(0, 0%, 60%);
@@ -31,7 +32,7 @@
 
   --font-heading-color: hsl(0, 0%, 90%);
   --font-heading-invert-color: hsl(0, 0%, 10%);
-  --font-body-color: hsl(0, 0%, 80%);
+  --font-body-color: hsl(0, 0%, 70%);
   --font-body-invert-color: hsl(0, 0%, 20%);
   --font-light-color: hsl(0, 0%, 60%);
   --font-light-invert-color: hsl(0, 0%, 40%);
@@ -40,6 +41,7 @@
 
   --background-color: hsl(0, 0%, 0%);
   --background-light-color: hsl(0, 0%, 10%);
+  --background-light-invert-color: hsl(0, 0%, 90%);
   --background-deep-light-color: hsl(0, 0%, 20%);
   --background-deep-light-color: hsl(0, 0%, 30%);
   --background-light-dark-color: hsl(0, 0%, 40%);

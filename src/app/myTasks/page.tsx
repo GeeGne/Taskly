@@ -13,6 +13,13 @@ import deleteTask from '@/api/deleteTask';
 // UTILS
 import Redirector from '@/utils/Redirector';
 
+// COMPONENTS
+import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
+import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
+import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
+import CheckLgSvg from '@/components/svgs/CheckLgSvg';
+import CheckSvg from '@/components/svgs/CheckSvg';
+
 export default function Tasks () {
 
   const queryClient = useQueryClient();
@@ -114,6 +121,127 @@ export default function Tasks () {
 
   return (
     <div
+      className="flex flex-col px-4 py-2 gap-4"
+    >
+      <nav
+        className="flex flex-row items-center gap-2"
+      >
+        <button>
+          <ArrowBarLeftSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" />
+        </button>
+        <h1
+          className="text-heading font-bold text-lg"
+        >
+          My Tasks
+        </h1>
+      </nav>
+      <section
+        className="flex flex-col border-solid border-[var(--background-deep-color)] border-2 p-2 rounded-2xl gap-2"
+      >
+        <input placeholder="What's on your mind?" />
+        <div
+          className="flex gap-4 ml-[auto]"
+        >
+          <button
+            className="text-sm text-body-invert font-bold bg-[var(--background-light-invert-color)] p-2 rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            className="text-sm text-body-invert font-bold bg-primary p-2 rounded-md"
+          >
+            Add Task
+          </button>
+        </div>
+      </section>
+      <section>
+        <ul
+          className="flex flex-col gap-4"
+        >
+          <li
+            className=""
+          >
+            <input 
+              id="task3"
+              type="checkbox"
+              className="opacity-0"
+            />
+            <label
+              htmlFor="task3"
+              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+            >
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              Wash the Dishes.
+            </label>
+            <hr
+              className="h-[1px] bg-[var(--background-light-color)]"
+            />
+          </li>
+          <li
+            className=""
+          >
+            <input 
+              id="task3"
+              type="checkbox"
+              className="opacity-0"
+            />
+            <label
+              htmlFor="task3"
+              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+            >
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              Wash the Dishes.
+            </label>
+            <hr
+              className="h-[1px] bg-[var(--background-light-color)]"
+            />
+          </li>
+          <li
+            className=""
+          >
+            <input 
+              id="task3"
+              type="checkbox"
+              className="opacity-0"
+            />
+            <label
+              htmlFor="task3"
+              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+            >
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              Wash the Dishes.
+            </label>
+            <hr
+              className="h-[1px] bg-[var(--background-light-color)]"
+            />
+          </li>
+          <li
+            className=""
+          >
+            <input 
+              id="task3"
+              type="checkbox"
+              className="opacity-0"
+            />
+            <label
+              htmlFor="task3"
+              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+            >
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              Wash the Dishes.
+            </label>
+            <hr
+              className="h-[1px] bg-[var(--background-light-color)]"
+            />
+          </li>
+
+        </ul>
+      </section>
+    </div>
+  )
+}
+
+/* <div
       className="px-4"
     >
       <h1
@@ -186,6 +314,4 @@ export default function Tasks () {
           }
         </ul>
       </div>
-    </div>
-  )
-}
+    </div> */

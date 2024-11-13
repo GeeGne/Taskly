@@ -20,6 +20,7 @@ import ListTaskSvg from '@/components/svgs/ListTaskSvg';
 import CalendarSvg from '@/components/svgs/CalendarSvg';
 import InboxSvg from '@/components/svgs/InboxSvg';
 import PlusSvg from '@/components/svgs/PlusSvg';
+import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 
 export default function Header () {
 
@@ -178,7 +179,7 @@ export default function Header () {
             </span>
           </li>
           <li
-            className="flex items-center justify-center gap-2 text-body-light text-sm text-left px-2 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className="flex items-center justify-center text-body-light text-sm text-left px-2 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="myTasks_button_is_clicked"
             data-key="myTasks"
@@ -191,29 +192,29 @@ export default function Header () {
             </span>
           </li>
         </ul>
-        <th className="h-[1px] bg-[var(--background-light-color)] mt-[auto] mb-2" />
+        <hr className="h-[1px] bg-[var(--background-light-color)] mt-[auto] mb-2" />
         <ul
           className="flex flex-row justify-between items-center"
         >
           <li 
-            className="bg-[var(--background-deep-color)] rounded-[100%] p-2 cursor-pointer"
+            className="bg-[var(--background-light-color)] rounded-[100%] p-2 cursor-pointer"
           >
             <PersonFillSvg color="var(--font-body-color)" width="2rem" height="2rem" />
           </li>
           <li
-            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+            className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
           >
             <GearWideConnectedSvg color="var(--font-body-color)" />
           </li>
           <li
-            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
-          >
-            <SunFillSvg color="var(--font-body-color)" />
-          </li>
-          <li
-            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+            className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
           >
             <InfoCircleSvg color="var(--font-body-color)" />
+          </li>
+          <li
+            className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+          >
+            <BoxArrowRightSvg color="var(--font-body-color)" />
           </li>
         </ul>
       </nav>
