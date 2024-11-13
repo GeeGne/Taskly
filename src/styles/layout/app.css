@@ -1,9 +1,9 @@
 .app-layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto;
   /* max-width: 1400px; */
-  height: auto;
+  min-height: 100vh;
   margin-inline: auto;
   margin-block: auto;
 
@@ -15,3 +15,4 @@
     /* padding-bottom: 1rem; */
   }
 }
+

@@ -113,7 +113,9 @@ export default function Tasks () {
   // console.log('user: ', user);
 
   return (
-    <>
+    <div
+      className="px-4"
+    >
       <h1
         className="flex font-bold text-3xl text-primary width-[100%] justify-center py-8 drop-shadow-md"
       >
@@ -184,6 +186,6 @@ export default function Tasks () {
           }
         </ul>
       </div>
-    </>
+    </div>
   )
 }

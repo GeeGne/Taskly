@@ -11,6 +11,16 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 // UTILS
 import Redirector from '@/utils/Redirector';
 
+// COMPONENTS
+import PersonFillSvg from '@/components/svgs/PersonFillSvg';
+import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
+import InfoCircleSvg from '@/components/svgs/InfoCircleSvg';
+import SunFillSvg from '@/components/svgs/SunFillSvg';
+import ListTaskSvg from '@/components/svgs/ListTaskSvg';
+import CalendarSvg from '@/components/svgs/CalendarSvg';
+import InboxSvg from '@/components/svgs/InboxSvg';
+import PlusSvg from '@/components/svgs/PlusSvg';
+
 export default function Header () {
 
   const router = useRouter();
@@ -70,7 +80,7 @@ export default function Header () {
     if (aboutBtnRef.current) aboutBtnRef.current.removeAttribute('style');       
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLInputElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLInputElement | HTMLLIElement>) => {
     const { type, key } = e.currentTarget.dataset;
 
     switch (type) {
@@ -91,52 +101,121 @@ export default function Header () {
   
   return (
     <header
-      className="drop-shadow-md"
+      className="relative w-[200px] p-4 bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]"
       ref={headerRef}
     >
       <nav
-        className="flex p-4 bg-secondary justify-around"
+        className="flex flex-col h-[100%]"
       >
-        <button
-          className="font-bold text-heading text-xl hover:bg-primary hover:text-heading-invert transition-colors duration-200 ease-out px-4 py-2 rounded-md"
-          data-type="myTasks_button_is_clicked"
-          data-key="myTasks"
-          onClick={handleClick}
-          ref={myTasksBtnRef}
-
+        <ul
+          className="flex flex-col gap-1"
         >
-          My Tasks
-        </button>
-        <span className="w-[1px] bg-body py-4" />
-        <button
-          className="font-bold text-heading text-xl hover:bg-primary hover:text-heading-invert transition-colors duration-200 ease-out px-4 py-2 rounded-md"
-          data-type="users_button_is_clicked"
-          data-key="users"
-          onClick={handleClick}
-          ref={usersBtnRef}
+          <li
+            className="flex items-center gap-2 text-primary text-sm text-left font-bold px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            role="button"
+            data-type="myTasks_button_is_clicked"
+            data-key="myTasks"
+            onClick={handleClick}
+            // ref={myTasksBtnRef}
+          >
+            <ListTaskSvg color="var(--primary-color)" />
+            <span>
+              My Tasks
+            </span>
+          </li>
+          <li
+            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            role="button"
+            data-type="myTasks_button_is_clicked"
+            data-key="myTasks"
+            onClick={handleClick}
+            // ref={usersBtnRef}
+          >
+            <CalendarSvg color="var(--font-light-color)" />
+            <span>
+              today
+            </span>
+          </li>
+          <li
+            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            role="button"
+            data-type="myTasks_button_is_clicked"
+            data-key="myTasks"
+            onClick={handleClick}
+            // ref={myTasksBtnRef}
+          >
+            <InboxSvg color="var(--font-light-color)" />
+            <span>
+              inbox
+            </span>
+          </li>
+        </ul>
+        <h2
+          className="relative z-[5] py-2 text-body text-sm font-bold before:absolute before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[100%] before:h-[0.1px] before:bg-body-light before:z-[-1]"
         >
-          Users
-        </button>
-        <span className="w-[1px] bg-body py-4" />
-        <button
-          className="font-bold text-heading text-xl hover:bg-primary hover:text-heading-invert transition-colors duration-200 ease-out px-4 py-2 rounded-md"
-          data-type="about_button_is_clicked"
-          data-key="about"
-          onClick={handleClick}
-          ref={aboutBtnRef}
-
+          <span
+            className="px-1 ml-4 bg-[var(--background-color)] text-body-light"
+          >
+            Buckets
+          </span>
+        </h2>
+        <ul
+          className="flex flex-col gap-1"
         >
-          About
-        </button>
-        <span className="w-[1px] bg-body py-4" />
-        <button
-          className="font-bold text-heading text-xl bg-red-400 hover:bg-red-600 hover:text-heading-invert transition-colors duration-200 ease-out px-4 py-2 rounded-md"
-          data-type="signOut_button_is_clicked"
-          onClick={handleClick}
-          ref={signOutBtnRef}
+          <li
+            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            role="button"
+            data-type="myTasks_button_is_clicked"
+            data-key="myTasks"
+            onClick={handleClick}
+            // ref={usersBtnRef}
+          >
+            <span>
+              &#128221;
+            </span>
+            <span>
+              Study
+            </span>
+          </li>
+          <li
+            className="flex items-center justify-center gap-2 text-body-light text-sm text-left px-2 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
+            role="button"
+            data-type="myTasks_button_is_clicked"
+            data-key="myTasks"
+            onClick={handleClick}
+            // ref={myTasksBtnRef}
+          >
+            <PlusSvg color="var(--font-light-color)" />
+            <span className="font-bold">
+              Add
+            </span>
+          </li>
+        </ul>
+        <th className="h-[1px] bg-[var(--background-light-color)] mt-[auto] mb-2" />
+        <ul
+          className="flex flex-row justify-between items-center"
         >
-          Sign out
-        </button>
+          <li 
+            className="bg-[var(--background-deep-color)] rounded-[100%] p-2 cursor-pointer"
+          >
+            <PersonFillSvg color="var(--font-body-color)" width="2rem" height="2rem" />
+          </li>
+          <li
+            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+          >
+            <GearWideConnectedSvg color="var(--font-body-color)" />
+          </li>
+          <li
+            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+          >
+            <SunFillSvg color="var(--font-body-color)" />
+          </li>
+          <li
+            className="p-2 hover:bg-[var(--background-deep-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+          >
+            <InfoCircleSvg color="var(--font-body-color)" />
+          </li>
+        </ul>
       </nav>
     </header>
   )
