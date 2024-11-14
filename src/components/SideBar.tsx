@@ -24,7 +24,7 @@ import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 // STORES
 import { useSideBarStore, useCurrentTabStore } from '@/store/index.js';
 
-export default function Header () {
+export default function SideBar () {
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -108,9 +108,8 @@ export default function Header () {
     <header
       className={`
         relative w-[200px] p-4 transition-all duraion-300 ease-in bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
-        ${toggle ? 'visble opacity-100' : 'invisible w-0 opacity-0'}
+        ${toggle ? 'visble opacity-100' : 'invisible w-[0] p-[0] opacity-0'}
         ${user ? 'initial' : 'hidden'}
-        
       `}
       ref={headerRef}
     >

@@ -61,7 +61,7 @@ export default function Tasks () {
     queryKey: ['tasks'],
     queryFn: getTasks
   })
-  let isTasksLoadingTest = false;
+
   const addTaskMutation = useMutation({
     mutationFn: addTask,
     onMutate: () => {
@@ -228,7 +228,7 @@ export default function Tasks () {
         <ul
           className="flex flex-col gap-4"
         >
-          {isTasksLoadingTest
+          {isTasksLoading
             ? imitateTasks.map((itm ,i) => 
                 <li
                   className="--flirk relative flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"

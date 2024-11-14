@@ -10,8 +10,8 @@ import "@/app/globals.css";
 // COMPONENTS
 import ReactQueryProvider from '@/components/ReactQueryProvider';
 import dynamic from 'next/dynamic';
-const Header = dynamic(
-  () => import('@/components/Header'),
+const SideBar = dynamic(
+  () => import('@/components/SideBar'),
   { ssr: false }
 ) 
 
@@ -36,7 +36,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <Suspense>
               <div className="app-layout">
-                <Header />
+                <SideBar />
                 <main className="">
                   {children}
                 </main>
