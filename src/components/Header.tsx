@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCurrentTabStore } from '@/store/index';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API
@@ -22,11 +21,16 @@ import InboxSvg from '@/components/svgs/InboxSvg';
 import PlusSvg from '@/components/svgs/PlusSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 
+// STORES
+import { useSideBarStore, useCurrentTabStore } from '@/store/index.js';
+
 export default function Header () {
 
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const { currentTab, setCurrentTab } = useCurrentTabStore();
+  const toggle = useSideBarStore(status => status.toggle);
 
   const headerRef = useRef<HTMLButtonElement>(null);
   const myTasksBtnRef = useRef<HTMLButtonElement>(null);
@@ -50,7 +54,7 @@ export default function Header () {
   useEffect(() => {
     const redirect = new Redirector(router);
     redirect.home(user);
-    if (headerRef.current) headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
+    // if (headerRef.current) headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
   }, [user])
 
   useEffect(() => {
@@ -102,7 +106,12 @@ export default function Header () {
   
   return (
     <header
-      className="relative w-[200px] p-4 bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]"
+      className={`
+        relative w-[200px] p-4 transition-all duraion-300 ease-in bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
+        ${toggle ? 'visble opacity-100' : 'invisible w-0 opacity-0'}
+        ${user ? 'initial' : 'hidden'}
+        
+      `}
       ref={headerRef}
     >
       <nav

@@ -22,6 +22,10 @@ import CheckSvg from '@/components/svgs/CheckSvg';
 import ArrowUpSvg from '@/components/svgs/ArrowUpSvg';
 import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
+import TripleBarActivity from '@/components/TripleBarActivity';
+
+// STORES
+import { useSideBarStore } from '@/store/index.js';
 
 export default function Tasks () {
 
@@ -29,14 +33,17 @@ export default function Tasks () {
   const router = useRouter();
   const imitateTasks = [1, 2, 3, 4, 5];
 
-  const [ addActivityBtn, setAddActivityBtn ] = useState<boolean>(false);
-
+  
   type DeleteActivityBtn = {
     activity: boolean,
     taskId?: string
   }
   const [ deleteActivityBtn, setDeleteActivityBtn ] = useState<DeleteActivityBtn>({ activity: false, taskId: ''})
   const [ newTask, setNewTask ] = useState('');
+  const [ isFocus, setIsFocus ] = useState(false);
+  const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
+
+  const { toggle, setToggle } = useSideBarStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
 
@@ -58,10 +65,12 @@ export default function Tasks () {
   const addTaskMutation = useMutation({
     mutationFn: addTask,
     onMutate: () => {
-      setAddActivityBtn(true);
+      setAddTaskActivityBtn(true);
     },
     onSettled: () => {
-      setAddActivityBtn(false);
+      setAddTaskActivityBtn(false);
+      setIsFocus(false);
+      if (addTaskInpRef.current) addTaskInpRef.current.value = ''
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -90,11 +99,15 @@ export default function Tasks () {
     const { type, taskId } = e.currentTarget.dataset;
     switch (type) {
       case "add_button_is_clicked":
+        setIsFocus(true);
         if (newTask === '') return;
         addTaskMutation.mutate(newTask);
         break;
       case "delete_task_button_is_clicked":
         if (taskId) deleteTaskMutation.mutate(taskId);
+        break;
+      case 'toggle_sideBar_button_is_clicked':
+        setToggle(!toggle)
         break;
       default:
         console.error('Unknown Type: ', type);
@@ -109,15 +122,46 @@ export default function Tasks () {
   }
 
   const handleAddBtn = (text: string) => {
-    if (addActivityBtn) return 'ADDING...';
+    if (addTaskActivityBtn) return (
+       <>
+         <span className="opacity-0">{text}</span>
+         <TripleBarActivity />
+       </>
+    ); 
 
-    return text;
+    return <span>{text}</span>;
   }
 
   const handleDeleteBtn = (text: string, taskId: string) => {
     if (deleteActivityBtn.activity && deleteActivityBtn.taskId === taskId) return '...';
 
     return text;
+  }
+
+  const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.currentTarget;
+
+    switch (name) {
+      case 'addTask':
+        console.log('focus');
+        setIsFocus(true);
+        break;
+      default:
+        console.error('Unknown Name: ', name);
+    }
+  }
+  const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.currentTarget;
+    console.log('element: ', e);
+    switch (name) {
+      case 'addTask':
+        console.log('blur')
+        setIsFocus(false);
+
+        break;
+      default:
+        console.error('Unknown Name: ', name);
+    }
   }
 
   // console.log('user: ', user);
@@ -129,8 +173,14 @@ export default function Tasks () {
       <nav
         className="flex flex-row items-center gap-2"
       >
-        <button>
-          <ArrowBarLeftSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" />
+        <button
+          data-type="toggle_sideBar_button_is_clicked"
+          onClick={handleClick}
+        >
+          {toggle 
+            ? <ArrowBarLeftSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" /> 
+            : <ArrowBarRightSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" />
+          }
         </button>
         <h1
           className="text-heading font-bold text-lg"
@@ -139,14 +189,26 @@ export default function Tasks () {
         </h1>
       </nav>
       <section
-        className="flex flex-col border-solid border-[var(--background-deep-color)] border-2 p-2 rounded-2xl gap-2"
+        className={`
+          flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
+          ${isFocus ? `border-[var(--background-deep-light-color)]` : `border-[var(--background-color)]`}
+        `}
       >
         <input 
+          className="peer task-input text-body outline-none bg-[var(--background-color)]"
           placeholder="What's on your mind?" 
-          className="text-body outline-none bg-[var(--background-color)]"
+          name="addTask"
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          ref={addTaskInpRef}
         />
+        <hr/>
         <div
-          className="flex gap-4 ml-[auto]"
+          className={`
+            flex gap-4 ml-[auto] opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
+            ${isFocus ? `opacity-100` : `opacity-0`}
+          `}
         >
           <button
             className="text-sm text-body-invert font-bold bg-[var(--background-light-invert-color)] p-2 rounded-md"
@@ -154,9 +216,11 @@ export default function Tasks () {
             Cancel
           </button>
           <button
-            className="text-sm text-body-invert font-bold bg-primary p-2 rounded-md"
+            className="btn-a px-4"
+            data-type="add_button_is_clicked"
+            onClick={handleClick}
           >
-            Add Task
+            {handleAddBtn('Add Task')}
           </button>
         </div>
       </section>
@@ -164,93 +228,6 @@ export default function Tasks () {
         <ul
           className="flex flex-col gap-4"
         >
-          <li
-            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-          >
-            <input 
-              id="task3"
-              type="checkbox"
-              className="opacity-0"
-            />
-            <label
-              htmlFor="task3"
-              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
-            >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-              Wash the Dishes.
-            </label>
-            <nav
-              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
-            >
-              <ArrowUpSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />                  
-              <ArrowDownSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-              <XSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-            </nav>
-          </li>
-          <li
-            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-          >
-            <input 
-              id="task3"
-              type="checkbox"
-              className="opacity-0"
-            />
-            <label
-              htmlFor="task3"
-              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
-            >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-              Wash the Dishes.
-            </label>
-            <nav
-              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
-            >
-              <ArrowUpSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />                  
-              <ArrowDownSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-              <XSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-            </nav>
-          </li>
-          <li
-            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-          >
-            <input 
-              id="task3"
-              type="checkbox"
-              className="opacity-0"
-            />
-            <label
-              htmlFor="task3"
-              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
-            >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-              Wash the Dishes.
-            </label>
-            <nav
-              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
-            >
-              <ArrowUpSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />                  
-              <ArrowDownSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-              <XSvg 
-                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-              />            
-            </nav>
-          </li>
           {isTasksLoadingTest
             ? imitateTasks.map((itm ,i) => 
                 <li

@@ -1,7 +1,8 @@
 type Props = {
-  color?: string,
-  width?: string,
-  height?: string,
+  color?: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 export default function ArrowBarLeftSvg ({color = "black", width = "1rem", height = "1rem"}: Props) {

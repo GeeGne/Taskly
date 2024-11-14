@@ -1,8 +1,8 @@
 type Props = {
-  color?: string,
-  width?: string,
-  height?: string,
-  className?: string
+  color?: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 export default function ArrowUpSvg ({ color = "black", width = "1rem", height = "1rem", className = '' }: Props) {

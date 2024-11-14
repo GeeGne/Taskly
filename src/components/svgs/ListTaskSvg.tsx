@@ -1,9 +1,9 @@
 type Props = {
-  color?: string,
-  width?: string,
-  height?: string,
+  color?: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
-
 export default function ListTaskSvg ({color = "black", width = "1rem", height = "1rem"}: Props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill={color} className="bi bi-list-task" viewBox="0 0 16 16">
