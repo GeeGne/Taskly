@@ -19,6 +19,9 @@ import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
 import CheckLgSvg from '@/components/svgs/CheckLgSvg';
 import CheckSvg from '@/components/svgs/CheckSvg';
+import ArrowUpSvg from '@/components/svgs/ArrowUpSvg';
+import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
+import XSvg from '@/components/svgs/XSvg';
 
 export default function Tasks () {
 
@@ -51,7 +54,7 @@ export default function Tasks () {
     queryKey: ['tasks'],
     queryFn: getTasks
   })
-
+  let isTasksLoadingTest = false;
   const addTaskMutation = useMutation({
     mutationFn: addTask,
     onMutate: () => {
@@ -121,7 +124,7 @@ export default function Tasks () {
 
   return (
     <div
-      className="flex flex-col px-4 py-2 gap-4"
+      className="flex flex-col h-[100%] px-4 py-2 gap-4 bg-[var(--background-color)]"
     >
       <nav
         className="flex flex-row items-center gap-2"
@@ -138,7 +141,10 @@ export default function Tasks () {
       <section
         className="flex flex-col border-solid border-[var(--background-deep-color)] border-2 p-2 rounded-2xl gap-2"
       >
-        <input placeholder="What's on your mind?" />
+        <input 
+          placeholder="What's on your mind?" 
+          className="text-body outline-none bg-[var(--background-color)]"
+        />
         <div
           className="flex gap-4 ml-[auto]"
         >
@@ -159,7 +165,7 @@ export default function Tasks () {
           className="flex flex-col gap-4"
         >
           <li
-            className=""
+            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
           >
             <input 
               id="task3"
@@ -168,17 +174,27 @@ export default function Tasks () {
             />
             <label
               htmlFor="task3"
-              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
             >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
               Wash the Dishes.
             </label>
-            <hr
-              className="h-[1px] bg-[var(--background-light-color)]"
-            />
+            <nav
+              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
+            >
+              <ArrowUpSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />                  
+              <ArrowDownSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+              <XSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+            </nav>
           </li>
           <li
-            className=""
+            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
           >
             <input 
               id="task3"
@@ -187,17 +203,27 @@ export default function Tasks () {
             />
             <label
               htmlFor="task3"
-              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
             >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
               Wash the Dishes.
             </label>
-            <hr
-              className="h-[1px] bg-[var(--background-light-color)]"
-            />
+            <nav
+              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
+            >
+              <ArrowUpSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />                  
+              <ArrowDownSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+              <XSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+            </nav>
           </li>
           <li
-            className=""
+            className="relative group flex flex-row before:content-[''] before:absolute before:top-[100%] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
           >
             <input 
               id="task3"
@@ -206,35 +232,103 @@ export default function Tasks () {
             />
             <label
               htmlFor="task3"
-              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+              className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
             >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
               Wash the Dishes.
             </label>
-            <hr
-              className="h-[1px] bg-[var(--background-light-color)]"
-            />
-          </li>
-          <li
-            className=""
-          >
-            <input 
-              id="task3"
-              type="checkbox"
-              className="opacity-0"
-            />
-            <label
-              htmlFor="task3"
-              className="relative group px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+            <nav
+              className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
             >
-              <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-              Wash the Dishes.
-            </label>
-            <hr
-              className="h-[1px] bg-[var(--background-light-color)]"
-            />
+              <ArrowUpSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />                  
+              <ArrowDownSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+              <XSvg 
+                className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+              />            
+            </nav>
           </li>
-
+          {isTasksLoadingTest
+            ? imitateTasks.map((itm ,i) => 
+                <li
+                  className="--flirk relative flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
+                  key={i}
+                >
+                  <input 
+                    id="task3"
+                    type="checkbox"
+                    className="opacity-0"
+                  />
+                  <label
+                    htmlFor="task3"
+                    className="relative group/check px-2 text-md text-body bg-[var(--background-deep-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
+                  >
+                    <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+                    <span className="opacity-0">
+                      Wash the Dishes And hangout with friends.
+                    </span>
+                  </label>
+                  <nav
+                    className="flex ml-auto gap-2 ease-out transition-all duration-150"
+                  >
+                    <ArrowUpSvg 
+                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
+                    />                  
+                    <ArrowDownSvg 
+                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
+                    />            
+                    <XSvg 
+                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
+                    />            
+                  </nav>
+                </li>
+              )
+            : tasks?.map((itm:any, i) => 
+                <li
+                  className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
+                  key={i}
+                >
+                  <input 
+                    id="task3"
+                    type="checkbox"
+                    className="opacity-0"
+                  />
+                  <label
+                    htmlFor="task3"
+                    className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
+                  >
+                    <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+                    <span>
+                      {itm.title}
+                    </span>
+                  </label>
+                  <nav
+                    className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
+                  >
+                    <ArrowUpSvg 
+                      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+                    />                  
+                    <ArrowDownSvg 
+                      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
+                    />
+                    <button
+                      role="button"
+                      data-type="delete_task_button_is_clicked"
+                      data-task={itm.title}
+                      data-task-id={itm.id}
+                      onClick={handleClick}  
+                    >
+                      <XSvg 
+                        className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
+                      />            
+                    </button>            
+                  </nav>
+                </li>
+              )
+          }
         </ul>
       </section>
     </div>

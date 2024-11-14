@@ -32,7 +32,7 @@ export default function Header () {
   const myTasksBtnRef = useRef<HTMLButtonElement>(null);
   const usersBtnRef = useRef<HTMLButtonElement>(null);
   const aboutBtnRef = useRef<HTMLButtonElement>(null);
-  const signOutBtnRef = useRef<HTMLButtonElement>(null);
+  const signOutBtnRef = useRef<HTMLLIElement>(null);
 
   const { data: user } = useQuery({
     queryKey: ['auth'],
@@ -213,6 +213,10 @@ export default function Header () {
           </li>
           <li
             className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+            role="button"
+            data-type="signOut_button_is_clicked"
+            onClick={handleClick}
+            ref={signOutBtnRef}
           >
             <BoxArrowRightSvg color="var(--font-body-color)" />
           </li>

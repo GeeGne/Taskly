@@ -155,10 +155,9 @@ export default function SignInForm () {
     handleEmailSignInMutation.mutate({ email, password });
   }
 
-
   return (
     <form
-      className="flex flex-col bg-white md:bg-[transparent] mt-[-2rem] md:mt-[0] gap-1 w-[100%] md:max-w-[600px] p-4 md:py-4 md:px-12 rounded-3xl"
+      className="flex flex-col bg-[var(--background-color)] md:bg-[transparent] mt-[-2rem] md:mt-[0] gap-1 w-[100%] md:max-w-[600px] p-4 md:py-4 md:px-12 rounded-3xl"
       onSubmit={handleSubmit}
     >
       <h2
