@@ -21,7 +21,7 @@ Contribute to the code or report issues on [GitHub](https://github.com/your-user
 ---
 
 ## 📸 Sneak Peek:
-![Taskly Screenshot](path/to/your/screenshot.png)
+![Taskly Screenshot](public/assets/signin-layout.png)
 
 ---
 
