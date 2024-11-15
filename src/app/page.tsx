@@ -3,13 +3,14 @@ import Image from "next/image";
 // import Link from 'next/link';
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 
 // COMPONENTS
 import SignInForm from '@/app/SignInForm';
 import SignUpForm from '@/app/SignUpForm';
 import WireStyle from '@/components/WireStyle';
+import LoadingScreen from '@/components/LoadingScreen';
 
 // ASSETS
 import googleIcon from "../../public/assets/google.svg";
@@ -44,20 +45,24 @@ export default function Home() {
   // const signupParam = Number(searchParams.get('signup'));
 
   // const queryClient = useQueryClient();
+  const [ loadingScreen, setLoadingScreen ] = useState<boolean>(true);
 
-  const { data: user } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
-    queryFn: checkAuthAndGetUser
+    queryFn: checkAuthAndGetUser,
   })
 
   const handleOAuthMutation = useMutation({
     mutationFn: handleOAuthSignIn
   })
 
-  useEffect(() => {
-    const redirect = new Redirector(router);
-    redirect.home(user);
-  }, [user])
+    useEffect(() => {
+      if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
+      if (isLoading && !user) return;
+ 
+      const redirect = new Redirector(router);
+      redirect.home(user);
+    }, [user])
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     
@@ -78,6 +83,8 @@ export default function Home() {
     <div 
       className="flex flex-col md:flex-row w-[100%] min-h-[100vh] bg-[var(--background-color)]"
     >
+      {/* {loadingScreen && <LoadingScreen className={`${loadingScreen ? 'visible opacity-100' : 'invisible opacity-0'}`} />} */}
+      <LoadingScreen className={`${loadingScreen ? 'visible opacity-100' : 'invisible opacity-0'}`} />
       <WireStyle/>
       <section
         className="flex flex-col md:flex-grow px-4 pt-4 pb-16 md:py-4 md:px-12 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"

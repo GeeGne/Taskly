@@ -20,6 +20,7 @@ import CalendarSvg from '@/components/svgs/CalendarSvg';
 import InboxSvg from '@/components/svgs/InboxSvg';
 import PlusSvg from '@/components/svgs/PlusSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
+import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 
 // STORES
 import { useSideBarStore, useCurrentTabStore } from '@/store/index.js';
@@ -31,6 +32,7 @@ export default function SideBar () {
 
   const { currentTab, setCurrentTab } = useCurrentTabStore();
   const toggle = useSideBarStore(status => status.toggle);
+  const setToggle = useSideBarStore(status => status.setToggle);
 
   const headerRef = useRef<HTMLButtonElement>(null);
   const myTasksBtnRef = useRef<HTMLButtonElement>(null);
@@ -50,12 +52,6 @@ export default function SideBar () {
       queryClient.invalidateQueries({ queryKey: ['auth']})
     }
   })
-
-  useEffect(() => {
-    const redirect = new Redirector(router);
-    redirect.home(user);
-    // if (headerRef.current) headerRef.current.style.display = `${user ? 'initial' : 'none'}`;
-  }, [user])
 
   useEffect(() => {
     resetBtnTabStyles();
@@ -99,6 +95,9 @@ export default function SideBar () {
       case 'signOut_button_is_clicked':
         signOutMutation.mutate();
         break;
+      case 'toggle_sidebar_button_is_clicked':
+        setToggle(!toggle);
+        break;
       default:
         console.error('Unkown type: ', type);
     }
@@ -107,14 +106,26 @@ export default function SideBar () {
   return (
     <header
       className={`
-        relative w-[200px] p-4 transition-all duraion-300 ease-in bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
-        ${toggle ? 'visble opacity-100' : 'invisible w-[0] p-[0] opacity-0'}
+        fixed md:relative top-[0] right-[calc(100%-200px)] w-[200px] h-[100%] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
+        before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
+        md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
+        ${toggle ? 'md:visble md:opacity-100 after:visible' : 'right-[calc(100%)] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
         ${user ? 'initial' : 'hidden'}
       `}
       ref={headerRef}
     >
+      <button
+        className={`
+          initial md:hidden absolute top-4 left-[calc(100%+1rem)] hover:left-[calc(100%+1rem-5px)] z-[100] p-2 bg-[var(--background-color)] hover:bg-[var(--background-light-color)] rounded-md transition-all duraion-200 ease-out
+          ${toggle ? 'initial' : 'hidden'}
+        `}
+        data-type="toggle_sidebar_button_is_clicked"
+        onClick={handleClick}
+      >
+        <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
+      </button>
       <nav
-        className="flex flex-col h-[100%]"
+        className="flex flex-col h-[100%] bg-white p-4" 
       >
         <ul
           className="flex flex-col gap-1"
@@ -160,7 +171,7 @@ export default function SideBar () {
           </li>
         </ul>
         <h2
-          className="relative z-[5] py-2 text-body text-sm font-bold before:absolute before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[100%] before:h-[0.1px] before:bg-body-light before:z-[-1]"
+          className="relative z-[5] py-2 text-body text-sm font-bold before:absolute before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[100%] before:h-[1px] before:bg-body-light before:z-[-1]"
         >
           <span
             className="px-1 ml-4 bg-[var(--background-color)] text-body-light"
@@ -233,3 +244,5 @@ export default function SideBar () {
     </header>
   )
 }
+
+// relative w-[200px] p-4 transition-all duraion-300 ease-in bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]

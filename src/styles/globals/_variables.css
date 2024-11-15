@@ -18,6 +18,7 @@
   --background-deep-color: hsl(0, 0%, 70%);
   --background-light-dark-color: hsl(0, 0%, 60%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
+  --shade-color: hsla(0, 0%, 0%, 0.3);
 
   --foreground: hsl(0, 0%, 0%);
   --background-1-url: url(/assets/background-1.jpg);

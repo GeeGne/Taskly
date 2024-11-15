@@ -5,10 +5,10 @@ import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
 // STORES
 import { useSideBarStore, useCurrentTabStore } from '@/store/index';
 
-export default function Header () {
+export default function Header ({ tab }: { tab?: string; }) {
 
   const { toggle, setToggle } = useSideBarStore();
-  const { currentTab } = useSideBarStore();
+  const { currentTab } = useCurrentTabStore();
 
   const handleCurrentTab = () => {
     switch (currentTab) {
@@ -48,7 +48,7 @@ export default function Header () {
       <h1
         className="text-heading font-bold text-lg"
       >
-        { handleCurrentTab() }
+        { tab }
       </h1>
     </nav>
   )

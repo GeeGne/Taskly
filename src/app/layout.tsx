@@ -35,7 +35,7 @@ export default function RootLayout({
       <body ref={bodyRef}>
         <ReactQueryProvider>
           <Suspense>
-              <div className="app-layout">
+              <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
                 <SideBar />
                 <main className="">
                   {children}

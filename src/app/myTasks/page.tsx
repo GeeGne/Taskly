@@ -1,6 +1,6 @@
 "use client"
 // HOOKS
-import { useState, useEffect, useRef } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -14,6 +14,9 @@ import deleteTask from '@/api/deleteTask';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
+import Header from '@/components/Header';
+import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
+import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
@@ -38,10 +41,10 @@ export default function Tasks () {
     activity: boolean,
     taskId?: string
   }
-  const [ deleteActivityBtn, setDeleteActivityBtn ] = useState<DeleteActivityBtn>({ activity: false, taskId: ''})
   const [ newTask, setNewTask ] = useState('');
   const [ isFocus, setIsFocus ] = useState(false);
   const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
+  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
 
   const { toggle, setToggle } = useSideBarStore();
 
@@ -53,6 +56,8 @@ export default function Tasks () {
   })
 
   useEffect(() => {
+    if (isLoading && !user) return;
+
     const redirect = new Redirector(router)
     redirect.home(user);
   }, [user])
@@ -80,10 +85,10 @@ export default function Tasks () {
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
     onMutate: (taskId) => {
-      setDeleteActivityBtn({ activity: true, taskId });
+      setDeleteTaskActivityBtn({ activity: true, taskId });
     },
     onSettled: () => {
-      setDeleteActivityBtn({ activity: false });
+      setDeleteTaskActivityBtn({ activity: false });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['tasks']})
@@ -113,6 +118,7 @@ export default function Tasks () {
         console.error('Unknown Type: ', type);
     }
   }
+
   const handleWelcomeTag = (text: string) => {
     if (isLoading) {
       return 'Loading...';
@@ -132,10 +138,16 @@ export default function Tasks () {
     return <span>{text}</span>;
   }
 
-  const handleDeleteBtn = (text: string, taskId: string) => {
-    if (deleteActivityBtn.activity && deleteActivityBtn.taskId === taskId) return '...';
+  const handleDeleteBtn = (taskId: string) => {
+    if (deleteTaskActivityBtn.activity && (deleteTaskActivityBtn.taskId === taskId)) 
+      return <SpinnersRingsMultipleSvg
+        className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
+      />
+    ;
 
-    return text;
+    return <XSvg 
+      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
+    />;
   }
 
   const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +164,7 @@ export default function Tasks () {
   }
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
-    console.log('element: ', e);
+
     switch (name) {
       case 'addTask':
         console.log('blur')
@@ -170,24 +182,7 @@ export default function Tasks () {
     <div
       className="flex flex-col h-[100%] px-4 py-2 gap-4 bg-[var(--background-color)]"
     >
-      <nav
-        className="flex flex-row items-center gap-2"
-      >
-        <button
-          data-type="toggle_sideBar_button_is_clicked"
-          onClick={handleClick}
-        >
-          {toggle 
-            ? <ArrowBarLeftSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" /> 
-            : <ArrowBarRightSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" />
-          }
-        </button>
-        <h1
-          className="text-heading font-bold text-lg"
-        >
-          My Tasks
-        </h1>
-      </nav>
+      <Header tab='My Tasks' />
       <section
         className={`
           flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
@@ -211,12 +206,12 @@ export default function Tasks () {
           `}
         >
           <button
-            className="text-sm text-body-invert font-bold bg-[var(--background-light-invert-color)] p-2 rounded-md"
+            className="text-sm text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] p-2 rounded-md"
           >
             Cancel
           </button>
           <button
-            className="btn-a px-4"
+            className="btn-a px-2 py-2 text-sm"
             data-type="add_button_is_clicked"
             onClick={handleClick}
           >
@@ -298,9 +293,7 @@ export default function Tasks () {
                       data-task-id={itm.id}
                       onClick={handleClick}  
                     >
-                      <XSvg 
-                        className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
-                      />            
+                      {handleDeleteBtn(String(itm.id))}
                     </button>            
                   </nav>
                 </li>
