@@ -58,8 +58,7 @@ export default function Home() {
   })
 
     useEffect(() => {
-      setMount(true);
-      if (mount) return;
+      if (!mount) return setMount(true);
       if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
       if (isLoading && !user) return;
  
