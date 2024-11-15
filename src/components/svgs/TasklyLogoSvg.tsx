@@ -5,7 +5,7 @@ type Props = {
   className?: string;
 };
 
-export default function ArrowBarLeftSvg({
+export default function TasklyLogoSvg({
   color = "black",
   width = "1rem",
   height = "1rem",
@@ -13,7 +13,7 @@ export default function ArrowBarLeftSvg({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xml:space="preserve"
+      xmlSpace="preserve"
       width="2000"
       height="89"
       data-id="lg_Vr9GL8unHV6KXDKKbE"

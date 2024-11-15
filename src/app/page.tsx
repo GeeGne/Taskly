@@ -46,6 +46,7 @@ export default function Home() {
 
   // const queryClient = useQueryClient();
   const [ loadingScreen, setLoadingScreen ] = useState<boolean>(true);
+  const [ mount, setMount ] = useState<boolean>(false);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -57,12 +58,14 @@ export default function Home() {
   })
 
     useEffect(() => {
+      setMount(true);
+      if (mount) return;
       if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
       if (isLoading && !user) return;
  
       const redirect = new Redirector(router);
       redirect.home(user);
-    }, [user])
+    }, [user, isLoading])
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     
