@@ -106,10 +106,10 @@ export default function SideBar () {
   return (
     <header
       className={`
-        fixed md:relative top-[0] right-[calc(100%-200px)] w-[200px] h-[100%] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
-        before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
+        fixed md:relative top-0 w-[200px] h-[100%] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
+        before:content[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
         md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
-        ${toggle ? 'md:visble md:opacity-100 after:visible' : 'right-[calc(100%)] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
+        ${toggle ? 'left-0 md:visble md:opacity-100 after:visible' : 'left-[-200px] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
         ${user ? 'initial' : 'hidden'}
       `}
       ref={headerRef}
