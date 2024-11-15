@@ -55,16 +55,16 @@ export default function Home() {
 
   const handleOAuthMutation = useMutation({
     mutationFn: handleOAuthSignIn
-  })
+  });
 
-    useEffect(() => {
-      if (!mount) return setMount(true);
-      if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
-      if (isLoading && !user) return;
- 
-      const redirect = new Redirector(router);
-      redirect.home(user);
-    }, [user, isLoading])
+  useEffect(() => {
+    // if (!mount) return setMount(true);
+    if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
+    if (isLoading && !user) return;
+
+    const redirect = new Redirector(router);
+    redirect.home(user);
+  }, [user, isLoading]);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     
