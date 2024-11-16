@@ -15,6 +15,7 @@ import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
 import Header from '@/components/Header';
+import DisplayTasks from '@/components/DisplayTasks';
 import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
 import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
@@ -219,7 +220,8 @@ export default function Tasks () {
           </button>
         </div>
       </section>
-      <section>
+      <DisplayTasks tasks={tasks} isTasksLoading={isTasksLoading} />
+      {/* <section>
         <ul
           className="flex flex-col gap-4"
         >
@@ -300,7 +302,7 @@ export default function Tasks () {
               )
           }
         </ul>
-      </section>
+      </section> */}
     </div>
   )
 }
