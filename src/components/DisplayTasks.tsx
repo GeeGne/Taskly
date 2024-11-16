@@ -34,18 +34,16 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
   const router = useRouter();
   const imitateTasks = [1, 2, 3, 4, 5];
 
-
   type DeleteActivityBtn = {
     activity: boolean,
     taskId?: string
   }
-  const [ newTask, setNewTask ] = useState('');
-  const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
 
   const { toggle, setToggle } = useSideBarStore();
+  const tasksLiRefs = useRef<HTMLElement[]>([]);
+  console.log('tasksLiRefs:', tasksLiRefs)
 
-  const addTaskInpRef = useRef<HTMLInputElement>(null);
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
@@ -72,6 +70,25 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
         break;
       default:
         console.error('Unknown Type: ', type);
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.currentTarget;
+    const { taskId } = e.currentTarget.dataset;
+
+    const getRef = (taskId?: string) => tasksLiRefs.current.find((el) => el.dataset.taskId === taskId);    
+
+    switch (name) {
+      case 'task':
+        if (e.currentTarget.checked) {
+          getRef(taskId)?.classList.add('task-completed');
+        } else {
+          getRef(taskId)?.classList.remove('task-completed');
+        }
+        break;
+      default:
+        console.error('Unknown name: ', name);
     }
   }
 
@@ -131,14 +148,19 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
               <li
                 className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
                 key={i}
+                data-task-id={itm.id}
+                ref={(el: any) => tasksLiRefs.current[i] = el}
               >
                 <input 
-                  id="task3"
-                  type="checkbox"
                   className="opacity-0"
+                  id={itm.id}
+                  type="checkbox"
+                  name="task"
+                  data-task-id={itm.id}
+                  onChange={handleChange}
                 />
                 <label
-                  htmlFor="task3"
+                  htmlFor={itm.id}
                   className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
                 >
                   <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />

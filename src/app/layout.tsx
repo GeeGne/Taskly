@@ -9,6 +9,8 @@ import "@/app/globals.css";
 
 // COMPONENTS
 import ReactQueryProvider from '@/components/ReactQueryProvider';
+import ErrorAlert from '@/components/ErrorAlert';
+import NotificationToast from '@/components/NotificationToast';
 import dynamic from 'next/dynamic';
 const SideBar = dynamic(
   () => import('@/components/SideBar'),
@@ -35,6 +37,8 @@ export default function RootLayout({
       <body ref={bodyRef}>
         <ReactQueryProvider>
           <Suspense>
+            <ErrorAlert />                
+            <NotificationToast />                          
               <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
                 <SideBar />
                 <main className="">

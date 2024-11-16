@@ -25,13 +25,17 @@ import signUpFormReducer from '@/reducers/signUpFormReducer';
 // UTILS
 import validate from '@/utils/validate';
 
+// STORES
+import { useErrorAlertStore } from '@/store/index';
+
 export default function SignUpForm () {
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname= usePathname();
-  const queryClient = useQueryClient();;
+  const queryClient = useQueryClient();
 
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const [ activity, setActivity ] = useState<boolean>(false);
 
   const passRef = useRef<HTMLInputElement | null>(null);
@@ -41,7 +45,6 @@ export default function SignUpForm () {
   const emailErrorRef = useRef<HTMLLabelElement | null>(null);
   const passErrorRef = useRef<HTMLLabelElement | null>(null);
   const cPassErrorRef = useRef<HTMLLabelElement>(null);
-
 
   const [ formInputs, dispatch ] = useReducer(signUpFormReducer, {
     username: '',
@@ -57,6 +60,10 @@ export default function SignUpForm () {
     },
     onSettled: () => {
       setActivity(false);
+    },
+    onError: (error) => {
+      setErrorAlert(Date.now());
+      setErrorText('Auth error: ' + error.message);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });

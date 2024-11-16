@@ -36,6 +36,8 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 // UTILS
 import Redirector from '@/utils/Redirector';
 
+// STORES
+import { useErrorAlertStore } from '@/store/index';
 
 export default function Home() {
 
@@ -47,6 +49,7 @@ export default function Home() {
   // const queryClient = useQueryClient();
   const [ loadingScreen, setLoadingScreen ] = useState<boolean>(true);
   const [ mount, setMount ] = useState<boolean>(false);
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -54,7 +57,11 @@ export default function Home() {
   })
 
   const handleOAuthMutation = useMutation({
-    mutationFn: handleOAuthSignIn
+    mutationFn: handleOAuthSignIn,
+    onError: (error) => {
+      setErrorAlert(Date.now());
+      setErrorText('Auth error: ' + error.message)
+    }
   });
 
   useEffect(() => {

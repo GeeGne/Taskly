@@ -29,14 +29,12 @@ import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
-import { useSideBarStore } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore } from '@/store/index.js';
 
 export default function Tasks () {
 
   const queryClient = useQueryClient();
   const router = useRouter();
-  const imitateTasks = [1, 2, 3, 4, 5];
-
   
   type DeleteActivityBtn = {
     activity: boolean,
@@ -48,6 +46,7 @@ export default function Tasks () {
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
 
   const { toggle, setToggle } = useSideBarStore();
+  const { notificationToast, setNotificationToast, setNotificationText } = useNotificationToastStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
 
@@ -108,9 +107,8 @@ export default function Tasks () {
         setIsFocus(true);
         if (newTask === '') return;
         addTaskMutation.mutate(newTask);
-        break;
-      case "delete_task_button_is_clicked":
-        if (taskId) deleteTaskMutation.mutate(taskId);
+        setNotificationText('New Task is Added');
+        setNotificationToast(Date.now());
         break;
       case 'toggle_sideBar_button_is_clicked':
         setToggle(!toggle)
@@ -177,8 +175,6 @@ export default function Tasks () {
     }
   }
 
-  // console.log('user: ', user);
-
   return (
     <div
       className="flex flex-col h-[100%] px-4 py-2 gap-4 bg-[var(--background-color)]"
@@ -221,163 +217,6 @@ export default function Tasks () {
         </div>
       </section>
       <DisplayTasks tasks={tasks} isTasksLoading={isTasksLoading} />
-      {/* <section>
-        <ul
-          className="flex flex-col gap-4"
-        >
-          {isTasksLoading
-            ? imitateTasks.map((itm ,i) => 
-                <li
-                  className="--flirk relative flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-                  key={i}
-                >
-                  <input 
-                    id="task3"
-                    type="checkbox"
-                    className="opacity-0"
-                  />
-                  <label
-                    htmlFor="task3"
-                    className="relative group/check px-2 text-md text-body bg-[var(--background-deep-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
-                  >
-                    <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-                    <span className="opacity-0">
-                      Wash the Dishes And hangout with friends.
-                    </span>
-                  </label>
-                  <nav
-                    className="flex ml-auto gap-2 ease-out transition-all duration-150"
-                  >
-                    <ArrowUpSvg 
-                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                    />                  
-                    <ArrowDownSvg 
-                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                    />            
-                    <XSvg 
-                      className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                    />            
-                  </nav>
-                </li>
-              )
-            : tasks?.map((itm:any, i) => 
-                <li
-                  className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-                  key={i}
-                >
-                  <input 
-                    id="task3"
-                    type="checkbox"
-                    className="opacity-0"
-                  />
-                  <label
-                    htmlFor="task3"
-                    className="relative group/check px-2 text-md text-body z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]"
-                  >
-                    <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-                    <span>
-                      {itm.title}
-                    </span>
-                  </label>
-                  <nav
-                    className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
-                  >
-                    <ArrowUpSvg 
-                      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-                    />                  
-                    <ArrowDownSvg 
-                      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-                    />
-                    <button
-                      role="button"
-                      data-type="delete_task_button_is_clicked"
-                      data-task={itm.title}
-                      data-task-id={itm.id}
-                      onClick={handleClick}  
-                    >
-                      {handleDeleteBtn(String(itm.id))}
-                    </button>            
-                  </nav>
-                </li>
-              )
-          }
-        </ul>
-      </section> */}
     </div>
   )
 }
-
-/* <div
-      className="px-4"
-    >
-      <h1
-        className="flex font-bold text-3xl text-primary width-[100%] justify-center py-8 drop-shadow-md"
-      >
-        {handleWelcomeTag(`Welcome ${user?.user_metadata.full_name} ✨`)}
-      </h1>
-      <div
-        className="flex flex-col w-[calc(100%-2rem)] md:w-[750px] my-auto mx-auto bg-secondary items-center rounded-lg pb-4 mx-4 md:mx-auto drop-shadow-md"
-      >
-        <h2
-          className="font-bold text-heading text-3xl py-8"
-        >
-          Your Tasks 📒
-        </h2>
-        <input 
-          className="py-2 px-4 rounded-md w-[calc(100%-2rem)]"
-          placeholder="What's on your mind?.."
-          onChange={handleChange}
-          ref={addTaskInpRef}
-        />
-        <button
-          className="py-2 my-4 bg-primary w-[calc(100%-2rem)] rounded-md text-heading-invert font-semibold text-lg hover:opacity-70"
-          onClick={handleClick}
-          data-type="add_button_is_clicked"
-        >
-          {handleAddBtn('ADD')}
-        </button>
-        <ul
-          className="w-[100%] flex flex-col"
-        >
-          {isTasksLoading
-            ? imitateTasks.map((itm, i) =>
-              <li
-              className={`--flirk flex items-center text-body w-[100%] py-2 px-4 ${i % 2 === 0 ? 'bg-[hsl(0,0%,75%)]' : 'bg-[hsl(0,0%,95%)]'}`}
-              key={i}
-              >
-                <span
-                  className="bg-[hsl(0,0%,55%)] rounded-md text-[hsla(0,0%,0%,0)]"
-                >
-                  this is a long text pretending to be a task.
-                </span>
-                <button 
-                  className="ml-auto bg-[hsl(0,0%,55%)] text-[hsla(0,0%,0%,0)] p-2 font-bold drop-shadow-xl rounded-md hover:opacity-70"
-                >
-                  X
-                </button>
-              </li>
-            )
-            // : tasks?.map((itm: { id: string, title: string }, i: number) => 
-            : tasks?.map((itm: any, i) => 
-              <li
-                className={`flex items-center text-body w-[100%] py-2 px-4 ${i % 2 === 0 ? 'bg-[hsl(0,0%,75%)]' : 'bg-secondary'}`}
-                key={i}
-              >
-                <span>
-                  {itm.title}
-                </span>
-                <button 
-                  className="ml-auto bg-primary p-2 text-heading-invert font-bold drop-shadow-xl rounded-md hover:opacity-70"
-                  data-type="delete_task_button_is_clicked"
-                  data-task={itm.title}
-                  data-task-id={itm.id}
-                  onClick={handleClick}
-                >
-                  {handleDeleteBtn('X', String(itm.id))}
-                </button>
-              </li>
-            )
-          }
-        </ul>
-      </div>
-    </div> */

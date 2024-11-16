@@ -25,6 +25,9 @@ import signInFormReducer from '@/reducers/signInFormReducer';
 // UTILS
 import validate from '@/utils/validate';
 
+// STORES
+import { useErrorAlertStore } from '@/store/index';
+
 export default function SignInForm () {
 
   const router = useRouter();
@@ -33,6 +36,7 @@ export default function SignInForm () {
   const queryClient = useQueryClient();
 
   const [ activity, setActivity ] = useState<boolean>(false);
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
 
   const [ formInputs, dispatch ] = useReducer(signInFormReducer, {
     email: '',
@@ -51,6 +55,10 @@ export default function SignInForm () {
     },
     onSettled: () => {
       setActivity(false);
+    },
+    onError: (error) => {
+      setErrorAlert(Date.now());
+      setErrorText('Auth error: ' + error.message);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });

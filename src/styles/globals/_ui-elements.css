@@ -1,3 +1,14 @@
 .btn-a {
   @apply relative flex gap-2 items-center bg-primary cursor-pointer mx-auto text-heading-invert hover:text-heading font-semibold px-8 py-2 rounded-lg transition-colors duration-150 ease-in hover:bg-secondary
 }
+
+.task-completed {
+
+  & label {
+    @apply line-through text-body-light
+  }
+
+  & svg {
+    @apply opacity-100
+  }
+}

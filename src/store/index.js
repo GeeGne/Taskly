@@ -1,6 +1,20 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+const useErrorAlertStore = create((set) => ({
+  errorAlert: 0,
+  setErrorAlert: (errorAlert) => set({ errorAlert }),
+  errorText: 'test',
+  setErrorText: (errorText) => set({ errorText })
+}))
+
+const useNotificationToastStore = create((set) => ({
+  notificationToast: 0,
+  setNotificationToast: (notificationToast) => set({ notificationToast }),
+  notificationText: 'test',
+  setNotificationText: (notificationText) => set({ notificationText }),
+}))
+
 const useThemeStore = create(
   persist(
     (set) => ({
@@ -39,4 +53,4 @@ const useCurrentTabStore = create(
   )
 )
 
-export { useThemeStore, useSideBarStore, useCurrentTabStore };
+export { useThemeStore, useSideBarStore, useCurrentTabStore, useNotificationToastStore, useErrorAlertStore };

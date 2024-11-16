@@ -12,10 +12,13 @@
   --grey-color: hsl(0, 0%, 30%);
 
   --background-color: hsl(0, 0%, 100%);
+  --background-invert-color: hsl(0, 0%, 0%);
   --background-light-color: hsl(0, 0%, 90%);
   --background-light-invert-color: hsl(0, 0%, 10%);
   --background-deep-light-color: hsl(0, 0%, 80%);
+  --background-deep-light-invert-color: hsl(0, 0%, 20%);
   --background-deep-color: hsl(0, 0%, 70%);
+  --background-deep-invert-color: hsl(0, 0%, 30%);
   --background-light-dark-color: hsl(0, 0%, 60%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
   --shade-color: hsla(0, 0%, 0%, 0.3);
@@ -44,7 +47,8 @@
   --background-light-color: hsl(0, 0%, 10%);
   --background-light-invert-color: hsl(0, 0%, 90%);
   --background-deep-light-color: hsl(0, 0%, 20%);
-  --background-deep-light-color: hsl(0, 0%, 30%);
+  --background-deep-color: hsl(0, 0%, 30%);
+  --background-deep-invert-color: hsl(0, 0%, 70%);
   --background-light-dark-color: hsl(0, 0%, 40%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
 
