@@ -8,6 +8,8 @@
   --font-body-invert-color: hsl(0, 0%, 80%);
   --font-light-color: hsl(0, 0%, 40%);
   --font-light-invert-color: hsl(0, 0%, 60%);
+  --font-extra-light-color: hsl(0, 0%, 60%);
+  --font-extra-light-invert-color: hsl(0, 0%, 40%);
 
   --grey-color: hsl(0, 0%, 30%);
 
@@ -22,6 +24,8 @@
   --background-light-dark-color: hsl(0, 0%, 60%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
   --shade-color: hsla(0, 0%, 0%, 0.3);
+
+  --bounce-bezier: cubic-bezier(0.68,-0.55,0.27,1.55);
 
   --foreground: hsl(0, 0%, 0%);
   --background-1-url: url(/assets/background-1.jpg);
@@ -40,6 +44,8 @@
   --font-body-invert-color: hsl(0, 0%, 20%);
   --font-light-color: hsl(0, 0%, 60%);
   --font-light-invert-color: hsl(0, 0%, 40%);
+  --font-extra-light-color: hsl(0, 0%, 40%);
+  --font-extra-light-color: hsl(0, 0%, 60%);
 
   --grey-color: hsl(0, 0%, 70%);
 
@@ -51,6 +57,7 @@
   --background-deep-invert-color: hsl(0, 0%, 70%);
   --background-light-dark-color: hsl(0, 0%, 40%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
+  --shade-color: hsla(0, 0%, 100%, 0.3);
 
   --foreground: hsl(0, 0%, 100%);
   --background-1-url: url(/assets/background-1.jpg);

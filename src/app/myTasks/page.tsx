@@ -14,6 +14,7 @@ import deleteTask from '@/api/deleteTask';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
+import MainWrapper from '@/components/MainWrapper';
 import Header from '@/components/Header';
 import DisplayTasks from '@/components/DisplayTasks';
 import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
@@ -31,7 +32,7 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 // STORES
 import { useSideBarStore, useNotificationToastStore } from '@/store/index.js';
 
-export default function Tasks () {
+export default function MyTasks () {
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -176,9 +177,7 @@ export default function Tasks () {
   }
 
   return (
-    <div
-      className="flex flex-col h-[100%] px-4 py-2 gap-4 bg-[var(--background-color)]"
-    >
+    <MainWrapper>
       <Header tab='My Tasks' />
       <section
         className={`
@@ -217,6 +216,6 @@ export default function Tasks () {
         </div>
       </section>
       <DisplayTasks tasks={tasks} isTasksLoading={isTasksLoading} />
-    </div>
+    </MainWrapper>
   )
 }

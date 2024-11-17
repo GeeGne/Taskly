@@ -28,13 +28,14 @@ export default function RootLayout({
   const theme = useThemeStore((status) => status.theme)
   const bodyRef = useRef<HTMLBodyElement>(null);
 
-  useEffect(() => {
-    if (bodyRef.current) bodyRef.current.classList.add(theme);
-  }, [theme])
-
   return (
     <html lang="en">
-      <body ref={bodyRef}>
+      <body 
+        className={`
+          ${theme} transition-colors duration-300 ease-out
+        `}
+        ref={bodyRef}
+      >
         <ReactQueryProvider>
           <Suspense>
             <ErrorAlert />                

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 
 // COMPONENTS
+import MainWrapper from '@/components/MainWrapper';
 import SignInForm from '@/app/SignInForm';
 import SignUpForm from '@/app/SignUpForm';
 import WireStyle from '@/components/WireStyle';
@@ -89,7 +90,7 @@ export default function Home() {
   }
 
   return (
-    <div 
+    <div
       className="flex flex-col md:flex-row w-[100%] min-h-[100vh] bg-[var(--background-color)]"
     >
       {/* {loadingScreen && <LoadingScreen className={`${loadingScreen ? 'visible opacity-100' : 'invisible opacity-0'}`} />} */}

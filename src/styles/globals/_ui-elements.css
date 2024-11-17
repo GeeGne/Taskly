@@ -5,7 +5,7 @@
 .task-completed {
 
   & label {
-    @apply line-through text-body-light
+    @apply line-through text-body-extra-light
   }
 
   & svg {

@@ -11,6 +11,7 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
+import SettingsPopup from '@/components/SettingsPopup';
 import PersonFillSvg from '@/components/svgs/PersonFillSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
 import InfoCircleSvg from '@/components/svgs/InfoCircleSvg';
@@ -23,7 +24,7 @@ import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 
 // STORES
-import { useSideBarStore, useCurrentTabStore } from '@/store/index.js';
+import { useSideBarStore, useCurrentTabStore, useSettingsPopupStore } from '@/store/index.js';
 
 export default function SideBar () {
 
@@ -31,9 +32,10 @@ export default function SideBar () {
   const queryClient = useQueryClient();
 
   const { currentTab, setCurrentTab } = useCurrentTabStore();
+  const { settingsPopup, setSettingsPopup } = useSettingsPopupStore();
+
   const toggle = useSideBarStore(status => status.toggle);
   const setToggle = useSideBarStore(status => status.setToggle);
-
   const headerRef = useRef<HTMLButtonElement>(null);
   const myTasksBtnRef = useRef<HTMLButtonElement>(null);
   const usersBtnRef = useRef<HTMLButtonElement>(null);
@@ -98,6 +100,9 @@ export default function SideBar () {
       case 'toggle_sidebar_button_is_clicked':
         setToggle(!toggle);
         break;
+      case 'settings_button_is_clicked':
+        setSettingsPopup(true);
+        break;
       default:
         console.error('Unkown type: ', type);
     }
@@ -106,7 +111,7 @@ export default function SideBar () {
   return (
     <header
       className={`
-        fixed md:relative top-0 w-[200px] h-[100%] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
+        fixed md:sticky top-0 w-[200px] h-[100vh] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
         before:content[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
         md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
         ${toggle ? 'left-0 md:visble md:opacity-100 after:visible' : 'left-[-200px] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
@@ -114,6 +119,7 @@ export default function SideBar () {
       `}
       ref={headerRef}
     >
+      <SettingsPopup />
       <button
         className={`
           initial md:hidden absolute top-4 left-[calc(100%+1rem)] hover:left-[calc(100%+1rem-5px)] z-[100] p-2 bg-[var(--background-color)] hover:bg-[var(--background-light-color)] rounded-md transition-all duraion-200 ease-out
@@ -125,7 +131,7 @@ export default function SideBar () {
         <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
       </button>
       <nav
-        className="flex flex-col h-[100%] bg-white p-4" 
+        className="flex flex-col h-[100%] bg-[--background-color] p-4" 
       >
         <ul
           className="flex flex-col gap-1"
@@ -222,13 +228,23 @@ export default function SideBar () {
           </li>
           <li
             className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+            role="button"
+            data-type="settings_button_is_clicked"
+            onClick={handleClick}
           >
             <GearWideConnectedSvg color="var(--font-body-color)" />
           </li>
           <li
-            className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
+            className={`
+              p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]
+              ${currentTab === 'about' ? 'bg-secondary' : 'bg-[transparent]'}
+            `}
+            role="button"
+            data-key="about"
+            data-type="about_button_is_clicked"
+            onClick={handleClick}
           >
-            <InfoCircleSvg color="var(--font-body-color)" />
+            <InfoCircleSvg color={`${currentTab === 'about' ? "var(--font-header-color)" : "var(--font-body-color)"}`} />
           </li>
           <li
             className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"
@@ -245,4 +261,3 @@ export default function SideBar () {
   )
 }
 
-// relative w-[200px] p-4 transition-all duraion-300 ease-in bg-[var(--background-color)] before:content-[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
