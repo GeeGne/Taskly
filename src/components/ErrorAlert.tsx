@@ -41,7 +41,7 @@ export default function ErrorAlert () {
         {errorText}
       </span>
       <XSvg 
-        className="p2 bg-[var(--background-deep-light-invert-color)] rounded-[100%]"
+        className="shrink-0 p2 bg-[var(--background-deep-light-invert-color)] rounded-[100%]"
         color="var(--font-heading-invert-color)" 
       />
     </button>

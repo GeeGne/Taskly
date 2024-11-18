@@ -26,7 +26,7 @@ export default function LoadingScreen ({ className = '' }: { className?: string 
         <div
           className="absolute z-[-1] center top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]"
         >
-          <SpinnersBlocksSvg width="15rem" height="15rem" color='var(--primary-color)' />
+          <SpinnersBlocksSvg width="15rem" height="15rem" color='#16432C' />
         </div>
       </div>
     </div>

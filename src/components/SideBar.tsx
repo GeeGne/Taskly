@@ -42,7 +42,7 @@ export default function SideBar () {
   const aboutBtnRef = useRef<HTMLButtonElement>(null);
   const signOutBtnRef = useRef<HTMLLIElement>(null);
 
-  const { data: user } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
   })
@@ -56,26 +56,12 @@ export default function SideBar () {
   })
 
   useEffect(() => {
-    resetBtnTabStyles();
-    switch (currentTab) {
-      case 'myTasks':
-        if (myTasksBtnRef.current) myTasksBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        if (myTasksBtnRef.current) myTasksBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
-        break;
-      case 'users':
-        if (usersBtnRef.current) usersBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        if (usersBtnRef.current) usersBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
-        break;
-      case 'about':
-        if(aboutBtnRef.current) aboutBtnRef.current.style.backgroundColor = 'var(--primary-color)' ;
-        if(aboutBtnRef.current) aboutBtnRef.current.style.color = 'var(--font-heading-invert-color)' ;
-        break;
-      case 'home':
-        break;
-      default:
-        console.error('Unknown currentTab type: ', currentTab);
-    }
-  }, [ currentTab ])
+    if (isLoading && !user) return;
+
+    const redirect = new Redirector(router)
+    redirect.home(user);
+  }, [user])
+
 
   const resetBtnTabStyles = () => {
     if (myTasksBtnRef.current) myTasksBtnRef.current.removeAttribute('style');       
@@ -137,40 +123,49 @@ export default function SideBar () {
           className="flex flex-col gap-1"
         >
           <li
-            className="flex items-center gap-2 text-primary text-sm text-left font-bold px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className={`
+              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              ${currentTab === 'myTasks' ? 'text-primary font-bold' : 'text-body-light font-normal'}
+            `}
             role="button"
             data-type="myTasks_button_is_clicked"
             data-key="myTasks"
             onClick={handleClick}
             // ref={myTasksBtnRef}
           >
-            <ListTaskSvg color="var(--primary-color)" />
+            <ListTaskSvg color={`${currentTab === 'myTasks' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
               My Tasks
             </span>
           </li>
           <li
-            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className={`
+              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              ${currentTab === 'today' ? 'text-primary font-bold' : 'text-body-light font-normal'}
+            `}
             role="button"
             data-type="myTasks_button_is_clicked"
-            data-key="myTasks"
+            data-key="today"
             onClick={handleClick}
             // ref={usersBtnRef}
           >
-            <CalendarSvg color="var(--font-light-color)" />
+            <CalendarSvg color={`${currentTab === 'today' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
               today
             </span>
           </li>
           <li
-            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className={`
+              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              ${currentTab === 'inbox' ? 'text-primary font-bold' : 'text-body-light font-normal'}
+            `}
             role="button"
             data-type="myTasks_button_is_clicked"
-            data-key="myTasks"
+            data-key="inbox"
             onClick={handleClick}
             // ref={myTasksBtnRef}
           >
-            <InboxSvg color="var(--font-light-color)" />
+            <InboxSvg color={`${currentTab === 'inbox' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
               inbox
             </span>
