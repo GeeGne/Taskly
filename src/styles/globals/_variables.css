@@ -35,8 +35,8 @@
 }
 
 .dark {
-  --primary-color: #48e292;
-  --secondary-color: #6A9C89;
+  --primary-color: #43d188;
+  --secondary-color: #30473e;
 
   --font-heading-color: hsl(0, 0%, 90%);
   --font-heading-invert-color: hsl(0, 0%, 10%);

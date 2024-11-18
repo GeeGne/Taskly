@@ -22,13 +22,13 @@ export default function SunLoopSvg({
       <g
         fill="none"
         stroke={color}
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
       >
         <path
           strokeDasharray="2"
-          stroke-dashoffset="2"
+          strokeDashoffset="2"
           d="M12 19v1M19 12h1M12 5v-1M5 12h-1"
         >
           <animate
@@ -48,7 +48,7 @@ export default function SunLoopSvg({
         </path>
         <path
           strokeDasharray="2"
-          stroke-dashoffset="2"
+          strokeDashoffset="2"
           d="M17 17l0.5 0.5M17 7l0.5 -0.5M7 7l-0.5 -0.5M7 17l-0.5 0.5"
         >
           <animate
@@ -96,9 +96,9 @@ export default function SunLoopSvg({
       <path
         fill="currentColor"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         d="M7 6 C7 12.08 11.92 17 18 17 C18.53 17 19.05 16.96 19.56 16.89 C17.95 19.36 15.17 21 12 21 C7.03 21 3 16.97 3 12 C3 8.83 4.64 6.05 7.11 4.44 C7.04 4.95 7 5.47 7 6 Z"
       >
         <set fill="freeze" attributeName="opacity" begin="0.6s" to="0" />

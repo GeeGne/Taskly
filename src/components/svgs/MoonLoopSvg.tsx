@@ -23,7 +23,7 @@ export default function MoonLoopSvg({
         fill="none"
         stroke={color}
         strokeDasharray="4"
-        stroke-dashoffset="4"
+        strokeDashoffset="4"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
@@ -158,7 +158,7 @@ export default function MoonLoopSvg({
         <g>
           <path
             strokeDasharray="2"
-            stroke-dashoffset="4"
+            strokeDashoffset="4"
             d="M12 21v1M21 12h1M12 3v-1M3 12h-1"
           >
             <animate
@@ -170,7 +170,7 @@ export default function MoonLoopSvg({
           </path>
           <path
             strokeDasharray="2"
-            stroke-dashoffset="4"
+            strokeDashoffset="4"
             d="M18.5 18.5l0.5 0.5M18.5 5.5l0.5 -0.5M5.5 5.5l-0.5 -0.5M5.5 18.5l-0.5 0.5"
           >
             <animate

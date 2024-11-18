@@ -244,7 +244,8 @@ export default function SideBar () {
             data-type="about_button_is_clicked"
             onClick={handleClick}
           >
-            <InfoCircleSvg color={`${currentTab === 'about' ? "var(--font-header-color)" : "var(--font-body-color)"}`} />
+            <InfoCircleSvg 
+              color={`${currentTab === 'about' ? "var(--font-heading-color)" : "var(--font-body-color)"}`} />
           </li>
           <li
             className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"

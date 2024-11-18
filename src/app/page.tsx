@@ -12,6 +12,10 @@ import SignInForm from '@/app/SignInForm';
 import SignUpForm from '@/app/SignUpForm';
 import WireStyle from '@/components/WireStyle';
 import LoadingScreen from '@/components/LoadingScreen';
+import GoogleSvg from '@/components/svgs/GoogleSvg';
+import FacebookSvg from '@/components/svgs/FacebookSvg';
+import GithubSvg from '@/components/svgs/GithubSvg';
+import MoonSlashSunSvg from '@/components/svgs/MoonSlashSunSvg';
 
 // ASSETS
 import googleIcon from "../../public/assets/google.svg";
@@ -38,7 +42,7 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import Redirector from '@/utils/Redirector';
 
 // STORES
-import { useErrorAlertStore } from '@/store/index';
+import { useErrorAlertStore, useThemeStore } from '@/store/index';
 
 export default function Home() {
 
@@ -51,6 +55,7 @@ export default function Home() {
   const [ loadingScreen, setLoadingScreen ] = useState<boolean>(true);
   const [ mount, setMount ] = useState<boolean>(false);
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
+  const { theme, setTheme } = useThemeStore();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -84,6 +89,10 @@ export default function Home() {
       case 'signIn_github_button_is_clicked':
         if (provider) handleOAuthMutation.mutate(provider);
         break;
+      case 'theme_button_is_clicked':
+        const isThemeLight = theme === 'light'
+        setTheme(isThemeLight ? 'dark' : 'light');
+        break;
       default:
         console.error('Unknown type: ', type);
     }
@@ -97,7 +106,7 @@ export default function Home() {
       <LoadingScreen className={`${loadingScreen ? 'visible opacity-100' : 'invisible opacity-0'}`} />
       <WireStyle/>
       <section
-        className="flex flex-col md:flex-grow px-4 pt-4 pb-16 md:py-4 md:px-12 gap-4 bg-primary md:w-[50%] md:min-h-[100%] items-center"
+        className="flex flex-col md:flex-grow px-4 pt-4 pb-16 md:py-4 md:px-12 gap-4 bg-primary dark:bg-[#16432C] md:w-[50%] md:min-h-[100%] items-center"
       >
         <Image
           className="invert-[100%] h-[2rem] object-cover"
@@ -105,15 +114,15 @@ export default function Home() {
           alt="Main Logo"
         />
         <h1 
-          className="text-2xl font-bold text-heading-invert"
+          className="text-2xl font-bold text-heading-invert dark:text-heading"
         >
-          <span className="text-secondary">S</span>tay Organized, Stay Focused!
+          <span className="text-secondary dark:text-[#6A9C89]">S</span>tay Organized, Stay Focused!
         </h1>
         <ul
           className="flex flex-col justify-center gap-8 h-[100%] w-[100%]"
         >
           <li
-            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+            className="relative flex flex-row items-end gap-2 text-heading-invert dark:text-heading text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:before:bg-[#6A9C89] before:blur-[1px]"
           >
             <Image 
               className="--float-ani w-12 z-[10]"
@@ -126,7 +135,7 @@ export default function Home() {
             />
           </li>
           <li
-            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+            className="relative flex flex-row items-end gap-2 text-heading-invert dark:text-heading text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:before:bg-[#6A9C89] before:blur-[1px]"
           >
             <Image 
               className="--float-ani delay--1s w-12 z-[10]"
@@ -139,7 +148,7 @@ export default function Home() {
             />
           </li>
           <li
-            className="relative flex flex-row items-end gap-2 text-heading-invert text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px]"
+            className="relative flex flex-row items-end gap-2 text-heading-invert dark:text-heading text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:before:bg-[#6A9C89] before:blur-[1px]"
           >
             <Image 
               className="--float-ani delay--05s w-12 z-[10]"
@@ -152,19 +161,42 @@ export default function Home() {
             />
           </li>
           <li
-            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative flex flex-row items-end gap-2 text-heading-invert dark:text-heading text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:before:bg-[#6A9C89] before:blur-[1px]"
+          >
+            <div
+              className="p-1 hover:bg-[hsla(0,0%,20%,0.7)] rounded-[100%] transition-colors duration-200 ease-out"
+              data-type="theme_button_is_clicked"
+              onClick={handleClick}
+            >
+              <MoonSlashSunSvg 
+                className="--float-ani delay--1s w-12 cursor-pointer z-[10]"
+                width="3rem" height="3rem" color="hsl(0, 0%, 90%)"
+              />
+            </div>
+            <span>Pick your style in a</span>{' '}
+            <span 
+              className="text-[#6A9C89] font-bold underline cursor-pointer"
+              data-type="theme_button_is_clicked"
+              onClick={handleClick}
+            >click</span>{'.'}
+            <div 
+              className="--float-shadow-ani delay--1s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+            />
+          </li>
+          <li
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:dark:before:bg-[#6A9C89] before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:dark:before:bg-[#6A9C89] before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:dark:before:bg-[#6A9C89] before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:dark:before:bg-[#6A9C89] before:blur-[1px] after:content-['.'] after:opacity-0"
           />
           <li
-            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary before:blur-[1px] after:content-['.'] after:opacity-0"
+            className="relative hidden md:flex flex-row gap-2 text-heading-invert text-2xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:dark:before:bg-[#6A9C89] before:blur-[1px] after:content-['.'] after:opacity-0"
           />
         </ul>
       </section>
@@ -189,10 +221,7 @@ export default function Home() {
             onClick={handleClick}
           >
             <span>Sign in with Google</span>
-            <Image
-              src={googleIcon}
-              alt="Google Logo"
-            />
+            <GoogleSvg color="var(--font-heading-color)"/>
           </button>
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"
@@ -201,10 +230,7 @@ export default function Home() {
             onClick={handleClick}
           >
             <span>Sign in with Facebook</span>
-            <Image
-              src={facebookIcon}
-              alt="Facebook Logo"
-            />
+            <FacebookSvg color="var(--font-heading-color)"/>
           </button>
           <button 
             className="flex gap-2 items-center border-solid border-[2px] border-[hsl(0,0%,40%)] cursor-pointer text-heading font-semibold p-2 rounded-[5rem] transition-opacity duration-150 ease-in hover:opacity-70"
@@ -213,10 +239,7 @@ export default function Home() {
             onClick={handleClick}
           >
             <span>Sign in with GitHub</span>
-            <Image
-              src={githubIcon}
-              alt="GitHub Logo"
-            />
+            <GithubSvg color="var(--font-heading-color)"/>
           </button>
         </section>
       </section>
