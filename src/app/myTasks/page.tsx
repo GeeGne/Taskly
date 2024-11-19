@@ -17,6 +17,7 @@ import Redirector from '@/utils/Redirector';
 import MainWrapper from '@/components/MainWrapper';
 import Header from '@/components/Header';
 import DisplayTasks from '@/components/DisplayTasks';
+import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
 import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
 import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
@@ -30,7 +31,7 @@ import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useCurrentTabStore } from '@/store/index.js';
 
 export default function MyTasks () {
 
@@ -40,12 +41,14 @@ export default function MyTasks () {
   type DeleteActivityBtn = {
     activity: boolean,
     taskId?: string
-  }
+  };
+
   const [ newTask, setNewTask ] = useState('');
   const [ isFocus, setIsFocus ] = useState(false);
   const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
-
+  
+  const { setCurrentTab } = useCurrentTabStore();
   const { toggle, setToggle } = useSideBarStore();
   const { notificationToast, setNotificationToast, setNotificationText } = useNotificationToastStore();
 
@@ -54,19 +57,21 @@ export default function MyTasks () {
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
-  })
+  });
 
   useEffect(() => {
     if (isLoading && !user) return;
 
     const redirect = new Redirector(router)
     redirect.home(user);
-  }, [user])
+  }, [user]);
+
+  useEffect(() => setCurrentTab('myTasks'), []);
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks
-  })
+  });
 
   const addTaskMutation = useMutation({
     mutationFn: addTask,
@@ -80,8 +85,10 @@ export default function MyTasks () {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      setNotificationText('New Task is Added');
+      setNotificationToast(Date.now());
     }
-  })
+  });
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
@@ -94,12 +101,12 @@ export default function MyTasks () {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['tasks']})
     }
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setNewTask(value);
-  }
+  };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type, taskId } = e.currentTarget.dataset;
@@ -108,8 +115,6 @@ export default function MyTasks () {
         setIsFocus(true);
         if (newTask === '') return;
         addTaskMutation.mutate(newTask);
-        setNotificationText('New Task is Added');
-        setNotificationToast(Date.now());
         break;
       case 'toggle_sideBar_button_is_clicked':
         setToggle(!toggle)
@@ -117,7 +122,7 @@ export default function MyTasks () {
       default:
         console.error('Unknown Type: ', type);
     }
-  }
+  };
 
   const handleWelcomeTag = (text: string) => {
     if (isLoading) {
@@ -125,7 +130,7 @@ export default function MyTasks () {
     }
 
     return text;
-  }
+  };
 
   const handleAddBtn = (text: string) => {
     if (addTaskActivityBtn) return (
@@ -136,7 +141,7 @@ export default function MyTasks () {
     ); 
 
     return <span>{text}</span>;
-  }
+  };
 
   const handleDeleteBtn = (taskId: string) => {
     if (deleteTaskActivityBtn.activity && (deleteTaskActivityBtn.taskId === taskId)) 
@@ -148,7 +153,7 @@ export default function MyTasks () {
     return <XSvg 
       className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
     />;
-  }
+  };
 
   const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
@@ -161,7 +166,8 @@ export default function MyTasks () {
       default:
         console.error('Unknown Name: ', name);
     }
-  }
+  };
+
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
 
@@ -174,7 +180,7 @@ export default function MyTasks () {
       default:
         console.error('Unknown Name: ', name);
     }
-  }
+  };
 
   return (
     <MainWrapper>
@@ -216,6 +222,7 @@ export default function MyTasks () {
         </div>
       </section>
       <DisplayTasks tasks={tasks} isTasksLoading={isTasksLoading} />
+      <DisplayCompletedTasks tasks={tasks} isTasksLoading={isTasksLoading} />
     </MainWrapper>
   )
 }

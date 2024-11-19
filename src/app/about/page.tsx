@@ -1,10 +1,20 @@
 "use client"
 
+// HOOKS
+import { useEffect } from 'react';
+
 // COMPONENTS
 import MainWrapper from '@/components/MainWrapper';
 import Header from '@/components/Header';
 
+// STORES
+import { useCurrentTabStore} from '@/store/index.js';
+
 export default function About() {
+  
+  const { setCurrentTab } = useCurrentTabStore();
+  useEffect(() => setCurrentTab('about'), []);
+
   return (
     <MainWrapper>
       <Header tab="About" />

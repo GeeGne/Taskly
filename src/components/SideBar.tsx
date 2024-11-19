@@ -76,7 +76,6 @@ export default function SideBar () {
       case 'myTasks_button_is_clicked':
       case 'users_button_is_clicked':
       case 'about_button_is_clicked':
-        setCurrentTab(key!);
         router.push(`/${key}`);
         window.scrollTo(0, 0);
         break;
@@ -97,7 +96,8 @@ export default function SideBar () {
   return (
     <header
       className={`
-        fixed md:sticky top-0 w-[200px] h-[100vh] z-[100] transition-all duraion-300 ease-in bg-[var(--background-color)]
+        fixed md:sticky top-0 w-[200px] h-[100vh] bg-[var(--background-color)] z-[100] 
+        transition-all duraion-300 ease-in 
         before:content[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
         md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
         ${toggle ? 'left-0 md:visble md:opacity-100 after:visible' : 'left-[-200px] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
@@ -117,14 +117,14 @@ export default function SideBar () {
         <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
       </button>
       <nav
-        className="flex flex-col h-[100%] bg-[--background-color] p-4" 
+        className="flex flex-col h-[100%] bg-[--background-color] py-2 px-2" 
       >
         <ul
-          className="flex flex-col gap-1"
+          className="flex flex-col"
         >
           <li
             className={`
-              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              flex items-center gap-2 text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
               ${currentTab === 'myTasks' ? 'text-primary font-bold' : 'text-body-light font-normal'}
             `}
             role="button"
@@ -140,7 +140,7 @@ export default function SideBar () {
           </li>
           <li
             className={`
-              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              flex items-center gap-2 text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
               ${currentTab === 'today' ? 'text-primary font-bold' : 'text-body-light font-normal'}
             `}
             role="button"
@@ -156,7 +156,7 @@ export default function SideBar () {
           </li>
           <li
             className={`
-              flex items-center gap-2 text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
+              flex items-center gap-2 text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md
               ${currentTab === 'inbox' ? 'text-primary font-bold' : 'text-body-light font-normal'}
             `}
             role="button"
@@ -184,7 +184,7 @@ export default function SideBar () {
           className="flex flex-col gap-1"
         >
           <li
-            className="flex items-center gap-2 text-body-light text-sm text-left px-2 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className="flex items-center gap-2 text-body-light text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="myTasks_button_is_clicked"
             data-key="myTasks"
@@ -199,7 +199,7 @@ export default function SideBar () {
             </span>
           </li>
           <li
-            className="flex items-center justify-center text-body-light text-sm text-left px-2 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className="flex items-center justify-center text-body-light text-sm text-left p-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="myTasks_button_is_clicked"
             data-key="myTasks"

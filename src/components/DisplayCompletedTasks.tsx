@@ -14,8 +14,8 @@ import deleteTask from '@/api/deleteTask';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
-import CheckSvg from '@/components/svgs/CheckSvg';
 import IcRoundArrowRightSvg from '@/components/svgs/IcRoundArrowRightSvg';
+import CheckSvg from '@/components/svgs/CheckSvg';
 import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
 import ArrowUpSvg from '@/components/svgs/ArrowUpSvg';
 import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
@@ -29,7 +29,8 @@ type Tasks = {
   isTasksLoading?: boolean
 }
 
-export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: Tasks) {
+export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = true }: Tasks) {
+  // isTasksLoading = true;
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -39,8 +40,8 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
     activity: boolean,
     taskId?: string
   }
-  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
 
+  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
 
@@ -131,7 +132,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
             ${isTasksLoading ? '--flirk text-transparent bg-[var(--background-light-color)] rounded-lg' : ''}
           `}
         >
-          To Do
+          Completed
         </h2>
       </div>
       <ul
@@ -197,9 +198,11 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                     before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]
                   "
                 >
-                  <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />             
+                  <CheckSvg 
+                    className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" 
+                  />
                   <span
-                    className="text-sm text-body"
+                    className="text-sm text-body-extra-light line-through"
                   >
                     {itm.title}
                   </span>

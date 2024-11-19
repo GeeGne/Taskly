@@ -33,16 +33,17 @@ export default function SettingsPopup () {
     >
       <div
         className={`
-          flex flex-col items-center w-[300px] bg-[--background-color] rounded-xl overflow-hidden shaddow-2xl
+          flex flex-col items-center bg-[--background-color] rounded-xl overflow-hidden shaddow-2xl
           transition-all duration-[0.5s] ease-[var(--bounce-bezier)]
-          ${settingsPopup ? 'scale-[100%]' : 'scale-[70%]'}
+          ${settingsPopup ? 'scale-[100%] w-[250px]' : 'scale-[70%] w-[200px]'}
         `}
       >
         <h2
           className="py-1 font-bold text-md text-body"
         >
           General Settings
-        </h2><hr className="w-[100%] h-[1px] bg-[var(--background-deep-color)]"/>
+        </h2>
+        <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <div
           className="flex justify-between items-center w-[100%] py-2 px-4"
         >
@@ -52,11 +53,12 @@ export default function SettingsPopup () {
             Current Theme
           </span>
           <ThemeSwitch />
-        </div><hr className="w-[100%] h-[1px] bg-[var(--background-deep-color)]"/>
+        </div>
+        <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <div
           className="
             relative flex flex-grow w-[100%] justify-around
-            before:content[''] before:absolute before:top-[50%] before:left-[50%] before:translate-y-[-50%] before:translate-x-[-50%] before:h-[80%] before:w-[1px] before:bg-[var(--background-deep-light-color)]
+            before:content[''] before:absolute before:top-[50%] before:left-[50%] before:translate-y-[-50%] before:translate-x-[-50%] before:h-[80%] before:w-[1px] before:bg-[var(--background-deep-color)]
           "
         >
           <button
@@ -74,6 +76,8 @@ export default function SettingsPopup () {
               flex-grow w-[50%] py-1 text-sm text-body font-bold 
               hover:bg-secondary
             "
+            data-type="cancel_button_is_clicked"
+            onClick={handleClick}
           >
             save
           </button>

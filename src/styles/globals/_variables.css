@@ -50,6 +50,7 @@
   --grey-color: hsl(0, 0%, 70%);
 
   --background-color: hsl(0, 0%, 0%);
+  --background-invert-color: hsl(0, 0%, 100%);
   --background-light-color: hsl(0, 0%, 10%);
   --background-light-invert-color: hsl(0, 0%, 90%);
   --background-deep-light-color: hsl(0, 0%, 20%);
