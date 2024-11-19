@@ -9,6 +9,7 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import getTasks from '@/api/getTasks';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
+import updateIsCompletedFromTasks from '@/api/updateIsCompletedFromTasks';
 
 // UTILS
 import Redirector from '@/utils/Redirector';
@@ -22,7 +23,7 @@ import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore  } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
 
 type Tasks = {
   tasks?: any[] | null;
@@ -39,25 +40,45 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
     activity: boolean,
     taskId?: string
   }
-  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
 
-  const [ toggle, setToggle ] = useState<boolean>(true);
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
+  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
+  const [ toggle, setToggle ] = useState<boolean>(true);
+  
 
   const tasksLiRefs = useRef<HTMLElement[]>([]);
   console.log('tasksLiRefs:', tasksLiRefs)
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
-    onMutate: (taskId) => {
+    onMutate: taskId => {
       setDeleteTaskActivityBtn({ activity: true, taskId });
     },
     onSettled: () => {
       setDeleteTaskActivityBtn({ activity: false });
     },
+    onError: error => {
+      setErrorText('Error while updating task: ' + error.message);
+      setErrorAlert(Date.now());
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['tasks']});
-      setNotificationText('Task deleted successfully');
+      setNotificationText('task deleted');
+      setNotificationToast(Date.now());
+    }
+  });
+
+  const updateIsCompletedTaskMutation = useMutation({
+    mutationFn: updateIsCompletedFromTasks,
+    onError: error => {
+      setErrorText('Error while updating task: ' + error.message);
+      setErrorAlert(Date.now());
+    },
+    onSuccess: () => {
+      tasksLiRefs.current.forEach(el => el?.classList.remove('task-completed'));
+      queryClient.invalidateQueries({queryKey: ['tasks']});
+      setNotificationText('task completed');
       setNotificationToast(Date.now());
     }
   })
@@ -86,7 +107,9 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
     switch (name) {
       case 'task':
         if (e.currentTarget.checked) {
+          const boolNum = 1;
           getRef(taskId)?.classList.add('task-completed');
+          updateIsCompletedTaskMutation.mutate({ boolNum, taskId: Number(taskId)})
         } else {
           getRef(taskId)?.classList.remove('task-completed');
         }
@@ -153,7 +176,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                 />
                 <label
                   htmlFor="task3"
-                  className="relative group/check px-2 text-md text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
+                  className="relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
                 >
                   <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
                   <span className="opacity-0">
@@ -175,7 +198,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                 </nav>
               </li>
             )
-          : tasks?.map((itm:any, i: number) => 
+          : tasks?.filter((itm) => !itm.is_completed).map((itm:any, i: number) => 
               <li
                 className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
                 key={i}

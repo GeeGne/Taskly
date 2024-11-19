@@ -30,7 +30,7 @@ export default function ErrorAlert () {
         fixed invisible flex items-center gap-2
         top-[5rem] left-[50%] translate-x-[-50%]
         p-2 bg-red-500 rounded-xl cursor-pointer
-        font-bold text-heading-invert text-sm z-[200]
+        font-bold text-[hsl(0,0%,90%)] text-sm z-[200]
         transition-all duraiton-300 ease-out
         hover:bg-red-600
       "
@@ -41,8 +41,8 @@ export default function ErrorAlert () {
         {errorText}
       </span>
       <XSvg 
-        className="shrink-0 p2 bg-[var(--background-deep-light-invert-color)] rounded-[100%]"
-        color="var(--font-heading-invert-color)" 
+        className="shrink-0 p2 bg-[hsl(0,0,20%)] rounded-[100%]"
+        color="var(jsl(0,0,90%))" 
       />
     </button>
   )

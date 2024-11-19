@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 // API
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
+import updateIsCompletedFromTasks from '@/api/updateIsCompletedFromTasks';
 import getTasks from '@/api/getTasks';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
@@ -22,7 +23,7 @@ import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore  } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
 
 type Tasks = {
   tasks?: any[] | null;
@@ -41,9 +42,10 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
     taskId?: string
   }
 
+  const { setNotificationToast, setNotificationText } = useNotificationToastStore();
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
-  const { setNotificationToast, setNotificationText } = useNotificationToastStore();
 
   const tasksLiRefs = useRef<HTMLElement[]>([]);
   console.log('tasksLiRefs:', tasksLiRefs)
@@ -59,6 +61,20 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['tasks']});
       setNotificationText('Task deleted successfully');
+      setNotificationToast(Date.now());
+    }
+  })
+
+  const updateIsCompletedTaskMutation = useMutation({
+    mutationFn: updateIsCompletedFromTasks,
+    onError: error => {
+      setErrorText('Error while updating task: ' + error.message);
+      setErrorAlert(Date.now());
+    },
+    onSuccess: () => {
+      tasksLiRefs.current.forEach(el => el?.classList.add('task-completed'));
+      queryClient.invalidateQueries({queryKey: ['tasks']});
+      setNotificationText('task is back to list');
       setNotificationToast(Date.now());
     }
   })
@@ -87,7 +103,9 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
     switch (name) {
       case 'task':
         if (e.currentTarget.checked) {
-          getRef(taskId)?.classList.add('task-completed');
+          const boolNum = 0
+          getRef(taskId)?.classList.remove('task-completed');
+          updateIsCompletedTaskMutation.mutate({ boolNum, taskId: Number(taskId)})
         } else {
           getRef(taskId)?.classList.remove('task-completed');
         }
@@ -145,6 +163,7 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
           ? imitateTasks.map((itm ,i) => 
               <li
                 className="--flirk relative flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
+
                 key={i}
               >
                 <input 
@@ -154,9 +173,12 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 />
                 <label
                   htmlFor="task3"
-                  className="relative group/check px-2 text-md text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
+                  className="relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
+
                 >
+                  {/* <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" /> */}
                   <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+
                   <span className="opacity-0">
                     Wash the Dishes And hangout with friends.
                   </span>
@@ -176,9 +198,12 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 </nav>
               </li>
             )
-          : tasks?.map((itm:any, i: number) => 
+          : tasks?.filter(itm => itm.is_completed).map((itm:any, i: number) => 
               <li
-                className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
+                className="
+                  relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]
+                  task-completed
+                "
                 key={i}
                 data-task-id={itm.id}
                 ref={(el: any) => tasksLiRefs.current[i] = el}
@@ -199,10 +224,10 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                   "
                 >
                   <CheckSvg 
-                    className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" 
+                    className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" 
                   />
                   <span
-                    className="text-sm text-body-extra-light line-through"
+                    className="text-sm text-body"
                   >
                     {itm.title}
                   </span>
