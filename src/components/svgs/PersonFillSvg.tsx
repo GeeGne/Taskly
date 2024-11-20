@@ -1,7 +1,7 @@
 type Props = {
-  color?: string,
-  width?: string,
-  height?: string,
+  color?: string;
+  width?: string;
+  height?: string;
 }
 
 export default function PersonFillSvg ({color = "black", width = "1rem", height = "1rem"}: Props) {

@@ -152,6 +152,14 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
         >
           Completed
         </h2>
+        <span
+          className={`
+            font-bold text-sm text-body-extra-light px-2
+          `}
+        
+        >
+          {tasks?.filter(itm => itm.is_completed).length}
+        </span>
       </div>
       <ul
         className={`

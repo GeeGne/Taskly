@@ -4,6 +4,7 @@ type Props = {
   height?: string;
   className?: string;
 }
+
 export default function BoxArrowRightSvg ({color = "black", width = "1rem", height = "1rem"}: Props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill={color} className="bi bi-box-arrow-right" viewBox="0 0 16 16">
