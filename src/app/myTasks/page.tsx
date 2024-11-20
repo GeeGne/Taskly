@@ -192,7 +192,7 @@ export default function MyTasks () {
         `}
       >
         <input 
-          className="peer task-input text-body outline-none bg-[var(--background-color)]"
+          className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
           placeholder="What's on your mind?" 
           name="addTask"
           onChange={handleChange}
@@ -208,12 +208,12 @@ export default function MyTasks () {
           `}
         >
           <button
-            className="text-sm text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] p-2 rounded-md"
+            className="text-xs text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] p-2 rounded-md"
           >
             Cancel
           </button>
           <button
-            className="btn-a px-2 py-2 text-sm"
+            className="btn-a px-2 py-2 text-xs"
             data-type="add_button_is_clicked"
             onClick={handleClick}
           >

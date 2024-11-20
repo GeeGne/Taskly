@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 // API
 import signOut from '@/api/signOut';
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
+import getTasks from '@/api/getTasks';
 
 // UTILS
 import Redirector from '@/utils/Redirector';
@@ -45,7 +46,12 @@ export default function SideBar () {
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
-  })
+  });
+
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: getTasks
+  }) 
 
   const signOutMutation = useMutation({
     mutationFn: signOut,
@@ -137,6 +143,13 @@ export default function SideBar () {
             <span>
               My Tasks
             </span>
+            <span
+              className={`
+                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+              `}
+            >
+              {tasks?.filter((itm: any) => !itm.is_completed).length}
+            </span>
           </li>
           <li
             className={`
@@ -153,6 +166,13 @@ export default function SideBar () {
             <span>
               today
             </span>
+            <span
+              className={`
+                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+              `}
+            >
+              0
+            </span>
           </li>
           <li
             className={`
@@ -168,6 +188,13 @@ export default function SideBar () {
             <InboxSvg color={`${currentTab === 'inbox' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
               inbox
+            </span>
+            <span
+              className={`
+                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+              `}
+            >
+              0
             </span>
           </li>
         </ul>
@@ -196,6 +223,13 @@ export default function SideBar () {
             </span>
             <span>
               Study
+            </span>
+            <span
+              className={`
+                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+              `}
+            >
+              0
             </span>
           </li>
           <li

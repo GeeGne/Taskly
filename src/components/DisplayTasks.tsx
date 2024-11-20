@@ -162,7 +162,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
           `}
         
         >
-          {tasks?.length}
+          {tasks?.filter(itm => !itm.is_completed).length}
         </span>
       </div>
       <ul
