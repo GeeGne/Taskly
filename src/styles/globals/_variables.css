@@ -27,6 +27,11 @@
 
   --bounce-bezier: cubic-bezier(0.68,-0.55,0.27,1.55);
 
+  --important-priority-color: hsl(48, 100%, 50%);
+  --none-priority-color: hsl(0, 0%, 60%);
+  --normal-priority-color: hsl(240, 100%, 60%);
+  --critical-priority-color: hsl(0, 100%, 60%);
+
   --foreground: hsl(0, 0%, 0%);
   --background-1-url: url(/assets/background-1.jpg);
   --background-2-url: url(/assets/background-2.jpg);
@@ -60,6 +65,11 @@
   --background-light-dark-color: hsl(0, 0%, 40%);
   --background-deep-dark-color: hsl(0, 0%, 50%);
   --shade-color: hsla(0, 0%, 100%, 0.3);
+
+  --none-priority-color: hsl(0, 0%, 60%);
+  --normal-priority-color: hsl(240, 100%, 60%);
+  --important-priority-color: hsl(48, 100%, 40%);
+  --critical-priority-color: hsl(0, 100%, 60%);
 
   --foreground: hsl(0, 0%, 100%);
   --background-1-url: url(/assets/background-1.jpg);

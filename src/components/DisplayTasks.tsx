@@ -47,7 +47,6 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
   
-
   const tasksLiRefs = useRef<HTMLElement[]>([]);
   console.log('tasksLiRefs:', tasksLiRefs)
 
@@ -83,6 +82,23 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
       setNotificationToast(Date.now());
     }
   })
+
+  const getPriorityColor = (key: string) => {
+    
+    console.log('key: ', key);
+    switch (key) {
+      case 'none':
+        return 'var(--none-priority-color)';
+      case 'normal':
+        return 'var(--normal-priority-color)';
+      case 'important':
+        return 'var(--important-priority-color)';
+      case 'critical':
+        return 'var(--critical-priority-color)';
+      default:
+        console.error('Unknown Key: ', key);
+    }
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
     const { type, taskId } = e.currentTarget.dataset;
@@ -161,7 +177,6 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
           className={`
             font-bold text-sm text-body-extra-light px-2
           `}
-        
         >
           {tasks?.length}
         </span>
@@ -209,8 +224,11 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
             )
           : tasks?.map((itm:any, i: number) => 
               <li
-                className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-                key={i}
+                className="
+                  relative group flex flex-row 
+                  before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]
+                "
+                key={itm.id}
                 data-task-id={itm.id}
                 ref={(el: any) => tasksLiRefs.current[i] = el}
               >
@@ -237,19 +255,22 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                   >
                     {itm.title}
                   </span>
-                  <div
-                    className="
-                      absolute content-[''] top-[50%] translate-y-[-50%] left-[0] w-[100%] h-2
-                      flex bg-red-200 z-[-1] blur-[2px] overflow-hidden
-                    "
-                  >
                     <div
-                      className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
-                    />                      
-                    <div
-                      className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
-                    />                        
-                  </div>
+                      className={`
+                        absolute content-[''] top-[50%] translate-y-[-50%] left-[0] w-[100%] h-2
+                        flex z-[1] blur-[0px] overflow-hidden opacity-30
+                        ${itm.priority !== 'normal' || 'bg-[var(--normal-priority-color)]'}                                                      
+                        ${itm.priority !== 'important' || 'bg-[var(--important-priority-color)]'}                                                      
+                        ${itm.priority !== 'critical' || 'bg-[var(--critical-priority-color)]'}                                                    
+                      `}
+                    >
+                      <div
+                        className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
+                      />                      
+                      <div
+                        className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
+                      />                        
+                    </div>
                 </label>
                 <nav
                   className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
@@ -263,7 +284,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                       " 
                       width="1.5rem" 
                       height="1.5rem"
-                      color="hsl(0, 100%, 70%)" 
+                      color={getPriorityColor(itm.priority)}
                     />
                     <div
                       className="
@@ -271,7 +292,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                         bg-[var(--background-light-invert-color)] text-sm text-heading-invert font-bold p-1 rounded-md
                       "
                     >
-                      citircal
+                      {itm.priority}
                     </div>
                   </div>
                   <ArrowUpSvg 

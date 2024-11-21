@@ -1,6 +1,22 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+const useTaskInputStore = create(
+  (set) => ({
+    focus: false,
+    setFocus: focus => set({ focus }),
+  })
+);
+
+const usePriorityPopupStore = create(
+  (set) => ({
+    priorityPopup: false,
+    setPriorityPopup: priorityPopup => set({ priorityPopup }),
+    priorityKey: null,
+    setPriorityKey: priorityKey => set({ priorityKey })    
+  })
+);
+
 const useSettingsPopupStore = create(
   persist(
     (set) => ({
@@ -69,5 +85,7 @@ const useCurrentTabStore = create(
 
 export { 
   useThemeStore, useSideBarStore, useCurrentTabStore, 
-  useNotificationToastStore, useErrorAlertStore, useSettingsPopupStore 
+  useNotificationToastStore, useErrorAlertStore, 
+  useSettingsPopupStore, usePriorityPopupStore,
+  useTaskInputStore
 };

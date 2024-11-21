@@ -106,11 +106,6 @@ export default function MyTasks () {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type, taskId } = e.currentTarget.dataset;
     switch (type) {
-      case "add_button_is_clicked":
-        setIsFocus(true);
-        if (newTask === '') return;
-        addTaskMutation.mutate(newTask);
-        break;
       case 'toggle_sideBar_button_is_clicked':
         setToggle(!toggle)
         break;
@@ -181,42 +176,6 @@ export default function MyTasks () {
     <MainWrapper>
       <Header tab='My Tasks' />
       <TaskInput />
-      {/* <section
-        className={`
-          flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
-          ${isFocus ? `border-[var(--background-deep-light-color)]` : `border-[var(--background-color)]`}
-        `}
-      >
-        <input 
-          className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
-          placeholder="What's on your mind?" 
-          name="addTask"
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          ref={addTaskInpRef}
-        />
-        <hr/>
-        <div
-          className={`
-            flex gap-4 ml-[auto] opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
-            ${isFocus ? `opacity-100` : `opacity-0`}
-          `}
-        >
-          <button
-            className="text-xs text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] p-2 rounded-md"
-          >
-            Cancel
-          </button>
-          <button
-            className="btn-a px-2 py-2 text-xs"
-            data-type="add_button_is_clicked"
-            onClick={handleClick}
-          >
-            {handleAddBtn('Add Task')}
-          </button>
-        </div>
-      </section> */}
       <DisplayTasks tasks={tasks?.filter((itm: any) => !itm.is_completed)} isTasksLoading={isTasksLoading} />
       <DisplayCompletedTasks tasks={tasks?.filter((itm: any) => itm.is_completed)} isTasksLoading={isTasksLoading} />
     </MainWrapper>
