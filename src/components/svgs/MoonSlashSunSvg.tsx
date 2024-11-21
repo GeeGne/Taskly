@@ -48,7 +48,7 @@ export default function MoonSlashSunSvg({
                 values="9;15"
               />
             </circle>
-            <g fill-opacity="0">
+            <g fillOpacity="0">
               <use href="#lineMdLightDarkLoop2" transform="rotate(-75 12 15)" />
               <use href="#lineMdLightDarkLoop2" transform="rotate(-25 12 15)" />
               <use href="#lineMdLightDarkLoop2" transform="rotate(25 12 15)" />

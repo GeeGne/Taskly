@@ -16,6 +16,7 @@ import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
 import CheckSvg from '@/components/svgs/CheckSvg';
+import PriorityHighRoundedSvg from '@/components/svgs/PriorityHighRoundedSvg';
 import IcRoundArrowRightSvg from '@/components/svgs/IcRoundArrowRightSvg';
 import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
 import ArrowUpSvg from '@/components/svgs/ArrowUpSvg';
@@ -162,7 +163,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
           `}
         
         >
-          {tasks?.filter(itm => !itm.is_completed).length}
+          {tasks?.length}
         </span>
       </div>
       <ul
@@ -206,7 +207,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                 </nav>
               </li>
             )
-          : tasks?.filter((itm) => !itm.is_completed).map((itm:any, i: number) => 
+          : tasks?.map((itm:any, i: number) => 
               <li
                 className="relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
                 key={i}
@@ -236,10 +237,43 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                   >
                     {itm.title}
                   </span>
+                  <div
+                    className="
+                      absolute content-[''] top-[50%] translate-y-[-50%] left-[0] w-[100%] h-2
+                      flex bg-red-200 z-[-1] blur-[2px] overflow-hidden
+                    "
+                  >
+                    <div
+                      className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
+                    />                      
+                    <div
+                      className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
+                    />                        
+                  </div>
                 </label>
                 <nav
                   className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
                 >
+                  <div
+                    className="group relative overflow-hidden hover:overflow-visible"
+                  >
+                    <PriorityHighRoundedSvg 
+                      className="
+                        p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer
+                      " 
+                      width="1.5rem" 
+                      height="1.5rem"
+                      color="hsl(0, 100%, 70%)" 
+                    />
+                    <div
+                      className="
+                        absolute bottom-[calc(100%+0.5rem)] left-[50%] translate-x-[-50%] 
+                        bg-[var(--background-light-invert-color)] text-sm text-heading-invert font-bold p-1 rounded-md
+                      "
+                    >
+                      citircal
+                    </div>
+                  </div>
                   <ArrowUpSvg 
                     className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
                   />                  

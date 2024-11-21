@@ -23,7 +23,7 @@ import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
+import { useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
 
 type Tasks = {
   tasks?: any[] | null;
@@ -158,7 +158,7 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
           `}
         
         >
-          {tasks?.filter(itm => itm.is_completed).length}
+          {tasks?.length}
         </span>
       </div>
       <ul
@@ -194,19 +194,13 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 <nav
                   className="flex ml-auto gap-2 ease-out transition-all duration-150"
                 >
-                  <ArrowUpSvg 
-                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                  />                  
-                  <ArrowDownSvg 
-                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                  />            
                   <XSvg 
                     className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
                   />            
                 </nav>
               </li>
             )
-          : tasks?.filter(itm => itm.is_completed).map((itm:any, i: number) => 
+          : tasks?.map((itm:any, i: number) => 
               <li
                 className="
                   relative group flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]
@@ -243,12 +237,6 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 <nav
                   className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
                 >
-                  <ArrowUpSvg 
-                    className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-                  />                  
-                  <ArrowDownSvg 
-                    className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"  
-                  />
                   <button
                     role="button"
                     data-type="delete_task_button_is_clicked"

@@ -16,7 +16,6 @@ import Redirector from '@/utils/Redirector';
 // COMPONENTS
 import MainWrapper from '@/components/MainWrapper';
 import Header from '@/components/Header';
-import TaskInput from '@/components/TaskInput';
 import DisplayTasks from '@/components/DisplayTasks';
 import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
 import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
@@ -34,24 +33,16 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 // STORES
 import { useSideBarStore, useNotificationToastStore, useCurrentTabStore } from '@/store/index.js';
 
-export default function MyTasks () {
+export default function TaskInput () {
 
   const queryClient = useQueryClient();
-  const router = useRouter();
-  
-  type DeleteActivityBtn = {
-    activity: boolean,
-    taskId?: string
-  };
 
   const [ newTask, setNewTask ] = useState('');
   const [ isFocus, setIsFocus ] = useState(false);
   const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
-  const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   
-  const { setCurrentTab } = useCurrentTabStore();
   const { toggle, setToggle } = useSideBarStore();
-  const { notificationToast, setNotificationToast, setNotificationText } = useNotificationToastStore();
+  const { setNotificationToast, setNotificationText } = useNotificationToastStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
 
@@ -60,14 +51,11 @@ export default function MyTasks () {
     queryFn: checkAuthAndGetUser
   });
 
-  useEffect(() => setCurrentTab('myTasks'), []);
-
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks
   });
 
-  
   const addTaskMutation = useMutation({
     mutationFn: addTask,
     onMutate: () => {
@@ -82,19 +70,6 @@ export default function MyTasks () {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       setNotificationText('New Task is Added');
       setNotificationToast(Date.now());
-    }
-  });
-
-  const deleteTaskMutation = useMutation({
-    mutationFn: deleteTask,
-    onMutate: (taskId) => {
-      setDeleteTaskActivityBtn({ activity: true, taskId });
-    },
-    onSettled: () => {
-      setDeleteTaskActivityBtn({ activity: false });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['tasks']})
     }
   });
 
@@ -119,14 +94,6 @@ export default function MyTasks () {
     }
   };
 
-  const handleWelcomeTag = (text: string) => {
-    if (isLoading) {
-      return 'Loading...';
-    }
-
-    return text;
-  };
-
   const handleAddBtn = (text: string) => {
     if (addTaskActivityBtn) return (
        <>
@@ -138,24 +105,11 @@ export default function MyTasks () {
     return <span>{text}</span>;
   };
 
-  const handleDeleteBtn = (taskId: string) => {
-    if (deleteTaskActivityBtn.activity && (deleteTaskActivityBtn.taskId === taskId)) 
-      return <SpinnersRingsMultipleSvg
-        className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
-      />
-    ;
-
-    return <XSvg 
-      className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
-    />;
-  };
-
   const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
 
     switch (name) {
       case 'addTask':
-        console.log('focus');
         setIsFocus(true);
         break;
       default:
@@ -168,9 +122,7 @@ export default function MyTasks () {
 
     switch (name) {
       case 'addTask':
-        console.log('blur')
         setIsFocus(false);
-
         break;
       default:
         console.error('Unknown Name: ', name);
@@ -178,47 +130,48 @@ export default function MyTasks () {
   };
 
   return (
-    <MainWrapper>
-      <Header tab='My Tasks' />
-      <TaskInput />
-      {/* <section
+    <label
+      className={`
+        flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
+        ${isFocus ? `border-[var(--background-deep-light-color)]` : `border-[var(--background-color)]`}
+      `}
+      htmlFor="addTask"
+    >
+      <input 
+        className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
+        placeholder="What's on your mind?" 
+        id="addTask"
+        name="addTask"
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        ref={addTaskInpRef}
+      />
+      <hr/>
+      <div
         className={`
-          flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
-          ${isFocus ? `border-[var(--background-deep-light-color)]` : `border-[var(--background-color)]`}
+          flex gap-4 opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
+          ${isFocus ? `opacity-100` : `opacity-0`}
         `}
       >
-        <input 
-          className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
-          placeholder="What's on your mind?" 
-          name="addTask"
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          ref={addTaskInpRef}
-        />
-        <hr/>
-        <div
-          className={`
-            flex gap-4 ml-[auto] opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
-            ${isFocus ? `opacity-100` : `opacity-0`}
-          `}
+        <button
+          className="button-55 grow-0 mr-[auto]"
         >
-          <button
-            className="text-xs text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] p-2 rounded-md"
-          >
-            Cancel
-          </button>
-          <button
-            className="btn-a px-2 py-2 text-xs"
-            data-type="add_button_is_clicked"
-            onClick={handleClick}
-          >
-            {handleAddBtn('Add Task')}
-          </button>
-        </div>
-      </section> */}
-      <DisplayTasks tasks={tasks?.filter((itm: any) => !itm.is_completed)} isTasksLoading={isTasksLoading} />
-      <DisplayCompletedTasks tasks={tasks?.filter((itm: any) => itm.is_completed)} isTasksLoading={isTasksLoading} />
-    </MainWrapper>
+          Priority
+        </button>
+        <button
+          className="text-xs text-body-invert font-bold px-2 py-2 bg-[var(--background-light-invert-color)] rounded-md"
+        >
+          Cancel
+        </button>
+        <button
+          className="btn-a grow-0 px-2 py-2 text-xs"
+          data-type="add_button_is_clicked"
+          onClick={handleClick}
+        >
+          {handleAddBtn('Add Task')}
+        </button>
+      </div>
+    </label>
   )
 }
