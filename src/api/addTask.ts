@@ -15,7 +15,7 @@ async function addTask ({ newTask, priorityKey = 'none' }: AddTask) {
       .insert([{
         title: newTask,
         user_id: userData.user.id, 
-        priority: priorityKey 
+        priority: priorityKey || 'none' 
       }]);
     if (error) throw new Error (`An issue has accured while saving task data`)
 
