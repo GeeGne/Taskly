@@ -51,7 +51,7 @@ export default function TaskInput () {
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
   const { focus, setFocus } = useTaskInputStore();
 
-  const addTaskInpRef = useRef<HTMLTextAreaElement>(null);
+  const addTaskInpRef = useRef<HTMLInputElement>(null);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -168,7 +168,7 @@ export default function TaskInput () {
         `}
         htmlFor="addTask"
       >
-        <textarea 
+        <input 
           className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
           placeholder="What's on your mind?" 
           id="addTask"
@@ -187,14 +187,21 @@ export default function TaskInput () {
         >
           <button
             className="
-              text-xs text-body-light hover:text-heading font-bold 
+              flex items-center text-xs text-body-light hover:text-heading font-bold 
               px-2 rounded-md cursor-pointer
               border-solid border-body-light hover:border-heading border-[1px]
             "
             data-type="priority_button_is_clicked"
             onClick={handleClick}
           >
-            Priority
+            <PriorityHighRoundedSvg color="var(--font-body-color)" />
+            <span>
+              Priority
+            </span>
+            <XSvg className="
+              border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] ml-2
+            " 
+            color="var(--font-body-color)" />
           </button>
           { priorityKey &&
             <button

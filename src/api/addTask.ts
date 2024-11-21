@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabaseClient';
 
 type AddTask = {
   newTask: string,
-  priorityKey: 'none' | 'normal' | 'important' | 'critical'
+  priorityKey: 'none' | 'normal' | 'important' | 'critical' | null
 }
 
 async function addTask ({ newTask, priorityKey = 'none' }: AddTask) {
