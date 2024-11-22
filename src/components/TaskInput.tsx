@@ -173,6 +173,9 @@ export default function TaskInput () {
           placeholder="What's on your mind?" 
           id="addTask"
           name="addTask"
+          spellCheck="false"
+          autoCapitalize="off"
+          autoComplete="off"
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -220,13 +223,13 @@ export default function TaskInput () {
               <XSvg className="border-solid border-body-extra-light group-hover:border-heading border-[1px] rounded-sm ml-2" color="var(--font-body-color)" />
             </button>
           }
-          <button
+          {/* <button
             className="text-xs text-body-invert font-bold ml-auto px-2 py-2 bg-[var(--background-light-invert-color)] rounded-md"
           >
             Cancel
-          </button>
+          </button> */}
           <button
-            className="btn-a m-0 grow-0 px-2 py-2 text-xs"
+            className="ml-auto btn-a m-0 grow-0 px-2 py-2 text-xs"
             data-type="add_button_is_clicked"
             onClick={handleClick}
           >

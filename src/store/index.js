@@ -1,6 +1,13 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+const useAddBucketPopupStore = create(
+  (set) => ({
+    addBucket: false,
+    setAddBucket: addBucket => set({ addBucket }),
+  })
+);
+
 const useTaskInputStore = create(
   (set) => ({
     focus: false,
@@ -87,5 +94,5 @@ export {
   useThemeStore, useSideBarStore, useCurrentTabStore, 
   useNotificationToastStore, useErrorAlertStore, 
   useSettingsPopupStore, usePriorityPopupStore,
-  useTaskInputStore
+  useTaskInputStore, useAddBucketPopupStore
 };

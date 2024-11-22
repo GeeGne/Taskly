@@ -13,6 +13,7 @@ import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
 import SettingsPopup from '@/components/SettingsPopup';
+import AddBucketPopup from '@/components/AddBucketPopup';
 import PersonFillSvg from '@/components/svgs/PersonFillSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
 import InfoCircleSvg from '@/components/svgs/InfoCircleSvg';
@@ -111,6 +112,7 @@ export default function SideBar () {
       `}
       ref={headerRef}
     >
+      <AddBucketPopup />
       <SettingsPopup />
       <button
         className={`
@@ -145,7 +147,8 @@ export default function SideBar () {
             </span>
             <span
               className={`
-                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ml-auto text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${currentTab === 'myTasks' ? 'text-primary' : 'text-body-extra-light'}
               `}
             >
               {tasks?.filter((itm: any) => !itm.is_completed).length}
@@ -168,7 +171,8 @@ export default function SideBar () {
             </span>
             <span
               className={`
-                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${currentTab === 'today' ? 'text-primary' : 'text-body-extra-light'}
               `}
             >
               0
@@ -191,7 +195,8 @@ export default function SideBar () {
             </span>
             <span
               className={`
-                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${currentTab === 'inbox' ? 'text-primary' : 'text-body-extra-light'}
               `}
             >
               0
