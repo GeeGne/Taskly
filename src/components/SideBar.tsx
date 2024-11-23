@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import signOut from '@/api/signOut';
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import getTasks from '@/api/getTasks';
+import getBuckets from '@/api/getBuckets';
 
 // UTILS
 import Redirector from '@/utils/Redirector';
@@ -14,6 +15,7 @@ import Redirector from '@/utils/Redirector';
 // COMPONENTS
 import SettingsPopup from '@/components/SettingsPopup';
 import AddBucketPopup from '@/components/AddBucketPopup';
+import DisplayBuckets from '@/components/DisplayBuckets';;
 import PersonFillSvg from '@/components/svgs/PersonFillSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
 import InfoCircleSvg from '@/components/svgs/InfoCircleSvg';
@@ -64,6 +66,11 @@ export default function SideBar () {
       setCurrentTab('home');
       queryClient.invalidateQueries({ queryKey: ['auth']})
     }
+  })
+
+  const { data: buckets, isLoading: isBucketsLoading } = useQuery({
+    queryKey: ['buckets'],
+    queryFn: getBuckets,
   })
 
   useEffect(() => {
@@ -219,43 +226,18 @@ export default function SideBar () {
             Buckets
           </span>
         </h2>
-        <ul
-          className="flex flex-col gap-1"
-        >
-          <li
-            className="flex items-center gap-2 text-body-light text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
-            role="button"
-            data-type="myTasks_button_is_clicked"
-            data-key="myTasks"
-            onClick={handleClick}
-            // ref={usersBtnRef}
-          >
-            <span>
-              &#128221;
-            </span>
-            <span>
-              Study
-            </span>
-            <span
-              className={`
-                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
-              `}
-            >
-              0
-            </span>
-          </li>
-          <li
-            className="flex items-center justify-center text-body-light text-sm text-left p-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
+        <DisplayBuckets buckets={buckets} />
+        <button
+            className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="addBucket_button_is_clicked"
             onClick={handleClick}
-          >
-            <PlusSvg color="var(--font-light-color)" />
-            <span className="font-bold">
-              Add
-            </span>
-          </li>
-        </ul>
+        >
+          <PlusSvg color="var(--font-light-color)" />
+          <span className="font-bold">
+            Add
+          </span>
+        </button>
         <hr className="h-[1px] bg-[var(--background-light-color)] mt-[auto] mb-2" />
         <ul
           className="flex flex-row justify-between items-center"

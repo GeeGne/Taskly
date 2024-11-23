@@ -1,5 +1,6 @@
 // HOOKS
 import { useState, useRef } from 'react';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 // COMPONENTS
 import ThemeSwitch from '@/components/ThemeSwitch';
@@ -10,41 +11,73 @@ import IcRoundArrowRightSvg from '@/components/svgs/IcRoundArrowRightSvg';
 import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
 
 // STORE
-import { useAddBucketPopupStore, useThemeStore } from '@/store/index';
+import { 
+  useAddBucketPopupStore, useThemeStore,
+  useNotificationToastStore, useErrorAlertStore
+} from '@/store/index';
+
+// API
+import addBucketApi from '@/api/addBucket';
 
 export default function AddBucketPopup () {
-  
+
+  const queryClient = useQueryClient();
+
   const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket);
   const addBucket = useAddBucketPopupStore(status => status.addBucket);
   const theme = useThemeStore(status => status.theme);
+  const { setNotificationToast, setNotificationText } = useNotificationToastStore();
+  const { setErrorAlert, setErrorText } = useErrorAlertStore();
 
   const [ pickerToggle, setPickerToggle ] = useState<boolean>(false);
   const [ emoji, setEmoji ] = useState<string>('📃');
+  const [ name, setName ] = useState<string>('')
   const [ createBtnActivity, setCreateBtnActivity ] = useState<boolean>(false);
+  console.log('name', name);
   const emojiInputRef = useRef<HTMLInputElement>(null);
+
+  const addBucketMutation = useMutation({
+    mutationFn: addBucketApi,
+    onSettled: () => {
+      setCreateBtnActivity(false);
+    },
+    onMutate: () => {
+      setCreateBtnActivity(true);
+    },
+    onError: (error) => {
+      setErrorText('Error while creating bucket: ' + error.message);
+      setErrorAlert(Date.now());
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['buckets'] });
+      setNotificationText('bucket added');
+      setNotificationToast(Date.now());  
+      setAddBucket(false);
+    }
+  })
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type } = e.currentTarget.dataset;
+
     switch (type) {
       case 'cancel_button_is_clicked':
         setAddBucket(false)
         break;
-      case 'x_button':
-        setPickerToggle(bol => !bol);
+      case 'create_button_is_clicked':
+        addBucketMutation.mutate({ emoji, name })
         break;
       default:
         console.error('Unknown type: ', type);
     }
   }
 
-  const handleEmojiClick = (emojiData: any, e: React.MouseEvent) => {
+  const handleEmojiClick = (emojiData: any, e: React.MouseEvent<HTMLElement>) => {
     const { emoji } = emojiData;
     setEmoji(emoji);
     setPickerToggle(false)
   }
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    console.log('focus');
     const { name } = e.currentTarget;
 
     switch (name) {
@@ -58,7 +91,6 @@ export default function AddBucketPopup () {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.currentTarget;
-    console.log('blur');
 
     switch (name) {
       case 'emoji':
@@ -66,6 +98,18 @@ export default function AddBucketPopup () {
       break;
       default:
         console.error('Unknown name: ', name);
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      default:
+        console.error('Unknown name: ', name);''
     }
   }
 
@@ -132,7 +176,8 @@ export default function AddBucketPopup () {
           <input
             className="bg-transparent border-none outline-none p-1 text-md text-heading"
             placeholder="Bucket name"
-            
+            name="name"
+            onChange={handleChange}
           />
         </div>
         <br />
@@ -158,7 +203,7 @@ export default function AddBucketPopup () {
               flex flex-grow justify-center items-center text-center w-[50%] py-1 text-sm text-body font-bold 
               hover:bg-secondary
             "
-            data-type="cancel_button_is_clicked"
+            data-type="create_button_is_clicked"
             onClick={handleClick}
           >
             {createBtnActivity 

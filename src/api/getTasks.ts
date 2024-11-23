@@ -10,7 +10,7 @@ async function getTasks () {
       .from('tasks')
       .select('*')
       .eq('user_id', userData.user.id);
-    if (error) throw new Error('Couldn\'t retrieve Tasks data');
+    if (error) throw new Error(error.message);
 
     return data;
   } catch (err) {
