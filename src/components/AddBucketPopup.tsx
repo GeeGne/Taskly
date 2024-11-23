@@ -71,7 +71,7 @@ export default function AddBucketPopup () {
     }
   }
 
-  const handleEmojiClick = (emojiData: any, e: React.MouseEvent<HTMLElement>) => {
+  const handleEmojiClick = (emojiData: any, e: any) => {
     const { emoji } = emojiData;
     setEmoji(emoji);
     setPickerToggle(false)
@@ -130,7 +130,6 @@ export default function AddBucketPopup () {
         "
         open={pickerToggle} 
         theme={theme} 
-        emojiStyle="facebook" 
         onEmojiClick={handleEmojiClick} 
       />
       <div
