@@ -26,7 +26,10 @@ import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 
 // STORES
-import { useSideBarStore, useCurrentTabStore, useSettingsPopupStore } from '@/store/index.js';
+import { 
+  useSideBarStore, useCurrentTabStore,
+  useSettingsPopupStore, useAddBucketPopupStore 
+} from '@/store/index.js';
 
 export default function SideBar () {
 
@@ -35,6 +38,7 @@ export default function SideBar () {
 
   const { currentTab, setCurrentTab } = useCurrentTabStore();
   const { settingsPopup, setSettingsPopup } = useSettingsPopupStore();
+  const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket)
 
   const toggle = useSideBarStore(status => status.toggle);
   const setToggle = useSideBarStore(status => status.setToggle);
@@ -94,6 +98,9 @@ export default function SideBar () {
         break;
       case 'settings_button_is_clicked':
         setSettingsPopup(true);
+        break;
+      case 'addBucket_button_is_clicked':
+        setAddBucket(true);
         break;
       default:
         console.error('Unkown type: ', type);
@@ -240,10 +247,8 @@ export default function SideBar () {
           <li
             className="flex items-center justify-center text-body-light text-sm text-left p-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
-            data-type="myTasks_button_is_clicked"
-            data-key="myTasks"
+            data-type="addBucket_button_is_clicked"
             onClick={handleClick}
-            // ref={myTasksBtnRef}
           >
             <PlusSvg color="var(--font-light-color)" />
             <span className="font-bold">

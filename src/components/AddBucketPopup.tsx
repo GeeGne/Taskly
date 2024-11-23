@@ -1,24 +1,71 @@
+// HOOKS
+import { useState, useRef } from 'react';
+
 // COMPONENTS
 import ThemeSwitch from '@/components/ThemeSwitch';
 import EmojiPicker from 'emoji-picker-react';
 import Theme from 'emoji-picker-react';
+import AddowDownSvg from '@/components/svgs/ArrowDownSvg'
+import IcRoundArrowRightSvg from '@/components/svgs/IcRoundArrowRightSvg';
+import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
 
 // STORE
-import { useAddBucketPopupStore } from '@/store/index';
+import { useAddBucketPopupStore, useThemeStore } from '@/store/index';
 
 export default function AddBucketPopup () {
   
-  const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket)
-  const addBucket = useAddBucketPopupStore(status => status.addBucket)
+  const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket);
+  const addBucket = useAddBucketPopupStore(status => status.addBucket);
+  const theme = useThemeStore(status => status.theme);
 
-  const  handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const [ pickerToggle, setPickerToggle ] = useState<boolean>(false);
+  const [ emoji, setEmoji ] = useState<string>('📃');
+  const [ createBtnActivity, setCreateBtnActivity ] = useState<boolean>(false);
+  const emojiInputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type } = e.currentTarget.dataset;
     switch (type) {
       case 'cancel_button_is_clicked':
         setAddBucket(false)
         break;
+      case 'x_button':
+        setPickerToggle(bol => !bol);
+        break;
       default:
         console.error('Unknown type: ', type);
+    }
+  }
+
+  const handleEmojiClick = (emojiData: any, e: React.MouseEvent) => {
+    const { emoji } = emojiData;
+    setEmoji(emoji);
+    setPickerToggle(false)
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    console.log('focus');
+    const { name } = e.currentTarget;
+
+    switch (name) {
+      case 'emoji':
+        setPickerToggle(true); 
+      break;
+      default:
+        console.error('Unknown name: ', name);
+    }
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.currentTarget;
+    console.log('blur');
+
+    switch (name) {
+      case 'emoji':
+        // setPickerToggle(false);
+      break;
+      default:
+        console.error('Unknown name: ', name);
     }
   }
 
@@ -26,17 +73,28 @@ export default function AddBucketPopup () {
     <div
       className={`
         fixed top-0 left-0 w-[100vw] h-[100vh]
-        flex items-center 
+        items-center 
         justify-center bg-[--shade-color] backdrop-blur-[2px] z-[200]
         transition-all duraiton-300 ease-in
         ${addBucket ? 'visible opacity-100 backdrop-blur-[2px]' : 'invisible opacity-0 backdrop-blur-[0]'}
       `}
     >
+      <EmojiPicker 
+        className="
+          absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]
+          z-[10]
+        "
+        open={pickerToggle} 
+        theme={theme} 
+        emojiStyle="facebook" 
+        onEmojiClick={handleEmojiClick} 
+      />
       <div
         className={`
+          absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]
           flex flex-col items-center bg-[--background-color] rounded-xl overflow-hidden shaddow-2xl
           transition-all duration-[0.5s] ease-[var(--bounce-bezier)]
-          ${addBucket ? 'scale-[100%] w-[450px]' : 'scale-[70%] w-[200px]'}
+          ${addBucket ? 'scale-[100%] w-[300px]' : 'scale-[70%] w-[200px]'}
         `}
       >
         <h2
@@ -45,16 +103,39 @@ export default function AddBucketPopup () {
           Add a Bucket
         </h2>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
+        <br/>
         <div
-          className="flex justify-between items-center w-[100%] py-2 px-4"
-        >
-          {/* <EmojiPicker Theme="dark" open={true} autoFocusSearch={true} emojiStyle="apple" onEmojiClick={handleClick} /> */}
-          <span
-            className="text-sm text-heading"
+          className="flex gap-1 items-center bg-[var(--background-light-color)] rounded-md"
+        > 
+          <label
+            className="
+              relative flex items-center
+              before:content-[''] before:absolute before:top-0 before:right-0 before:h-[100%] before:w-[1px] before:bg-[var(--background-deep-color)]
+            "
+            htmlFor="emoji"
           >
-            Current Theme
-          </span>
+            <input
+              className="bg-transparent w-6 py-1 pl-1 border-none outline-none"
+              id="emoji"
+              name='emoji'
+              value={emoji}
+              readOnly
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              ref={emojiInputRef}
+            />
+            <IcRoundArrowRightSvg 
+              className="rotate-90"
+              color="var(--font-body-color)"
+            />
+          </label>
+          <input
+            className="bg-transparent border-none outline-none p-1 text-md text-heading"
+            placeholder="Bucket name"
+            
+          />
         </div>
+        <br />
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <div
           className="
@@ -74,13 +155,16 @@ export default function AddBucketPopup () {
           </button>
           <button
             className="
-              flex-grow w-[50%] py-1 text-sm text-body font-bold 
+              flex flex-grow justify-center items-center text-center w-[50%] py-1 text-sm text-body font-bold 
               hover:bg-secondary
             "
             data-type="cancel_button_is_clicked"
             onClick={handleClick}
           >
-            create
+            {createBtnActivity 
+              ? <SpinnersRingSvg color="var(--font-body-color)"/> 
+              : 'create'
+            }
           </button>
         </div>
       </div>
