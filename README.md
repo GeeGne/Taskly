@@ -25,6 +25,8 @@ Contribute to the code or report issues on [GitHub](https://github.com/your-user
 ![Taskly Screenshot](public/assets/intro-2.png)
 ![Taskly Screenshot](public/assets/intro-3.png)
 ![Taskly Screenshot](public/assets/intro-4.png)
+![Taskly Screenshot](public/assets/intro-5.png)
+![Taskly Screenshot](public/assets/intro-6.png)
 ![Taskly Screenshot](public/assets/signin-layout.png)
 ![Taskly Screenshot](public/assets/user-layout.png)
 
