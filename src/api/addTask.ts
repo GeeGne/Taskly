@@ -3,9 +3,10 @@ import { supabase } from '@/lib/supabaseClient';
 type AddTask = {
   newTask: string,
   priorityKey: 'none' | 'normal' | 'important' | 'critical' | null
+  bucket_id: number | null;
 }
 
-async function addTask ({ newTask, priorityKey = 'none' }: AddTask) {
+async function addTask ({ newTask, priorityKey = 'none', bucket_id = null }: AddTask) {
   try {
     const { data: userData } = await supabase.auth.getUser();
     if (!userData.user) throw new Error ('User not authenticated');
@@ -15,7 +16,8 @@ async function addTask ({ newTask, priorityKey = 'none' }: AddTask) {
       .insert([{
         title: newTask,
         user_id: userData.user.id, 
-        priority: priorityKey || 'none' 
+        bucket_id,
+        priority: priorityKey || 'none' ,
       }]);
     if (error) throw new Error (`An issue has accured while saving task data`)
 

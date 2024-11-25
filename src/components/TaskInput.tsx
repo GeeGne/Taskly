@@ -34,11 +34,15 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
 import { 
-    useSideBarStore, useNotificationToastStore,
-    useTaskInputStore, usePriorityPopupStore 
-  } from '@/store/index.js';
+  useSideBarStore, useNotificationToastStore,
+  useTaskInputStore, usePriorityPopupStore 
+} from '@/store/index.js';
 
-export default function TaskInput () {
+type TaskInput = {
+  bucket_id?: number | null ;
+}
+
+export default function TaskInput ({ bucket_id = null }: TaskInput) {
 
   const queryClient = useQueryClient();
 
@@ -107,7 +111,7 @@ export default function TaskInput () {
       case "add_button_is_clicked":
         setFocus(true);
         if (newTask === '') return;
-        addTaskMutation.mutate({newTask, priorityKey});
+        addTaskMutation.mutate({newTask, priorityKey, bucket_id});
         break;
       case 'toggle_sideBar_button_is_clicked':
         setToggle(!toggle)

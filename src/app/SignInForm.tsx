@@ -62,6 +62,8 @@ export default function SignInForm () {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['auth'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['buckets'] });
     }
   })
 
@@ -103,7 +105,6 @@ export default function SignInForm () {
     if (emailErrorRef.current) emailErrorRef.current.style.display = 'none';  
     if (passErrorRef.current) passErrorRef.current.style.display = 'none';  
   }
-
 
   const handleClick = (e: any) => {
     const { type, name } = e.currentTarget.dataset;

@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 // import Link from 'next/link';
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -48,6 +48,7 @@ export default function Home() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const loginParam = Number(searchParams.get('login'));
   // const signupParam = Number(searchParams.get('signup'));
 
@@ -67,6 +68,9 @@ export default function Home() {
     onError: (error) => {
       setErrorAlert(Date.now());
       setErrorText('Auth error: ' + error.message)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['auth', 'tasks', 'buckets'] })
     }
   });
 

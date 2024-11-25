@@ -19,6 +19,9 @@ import {
 // API
 import addBucketApi from '@/api/addBucket';
 
+// UTILS
+import strSpaceToHyphen from '@/utils/strSpaceToHyphen';
+
 export default function AddBucketPopup () {
 
   const queryClient = useQueryClient();
@@ -106,7 +109,7 @@ export default function AddBucketPopup () {
 
     switch (name) {
       case 'name':
-        setName(value);
+        setName(strSpaceToHyphen(value));
         break;
       default:
         console.error('Unknown name: ', name);''

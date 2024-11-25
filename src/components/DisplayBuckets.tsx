@@ -1,7 +1,7 @@
-'use client';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 
 // API
 import signOut from '@/api/signOut';
@@ -33,32 +33,36 @@ import {
 } from '@/store/index.js';
 
 export default function DisplayBuckets ({buckets, isLoading}: any) {
-  
   return (
     <ul
       className="flex flex-col gap-1" 
     >
       { buckets?.map((itm: any, i: number) => 
           <li
-            className="flex items-center gap-2 text-body-light text-sm text-left p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            key={itm.id}
+            className="p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
-            data-type="myTasks_button_is_clicked"
-            data-key="myTasks"
-            key={i}
-          >
-            <span>
-              {itm.emoji}
-            </span>
-            <span>
-              {itm.name}
-            </span>
-            <span
-              className={`
-                ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
-              `}
+            data-type="bucketList_button_is_clicked"
+            data-bucket-name={itm.name}
+          > 
+            <Link 
+              className="flex items-center gap-2 text-body-light text-sm text-left"
+              href={`/bucket/${itm.name}`}
             >
-              0
-            </span>
+              <span>
+                {itm.emoji}
+              </span>
+              <span>
+                {itm.name}
+              </span>
+              <span
+                className={`
+                  ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                `}
+              >
+                0
+              </span>
+            </Link>
           </li>
         )
       }
