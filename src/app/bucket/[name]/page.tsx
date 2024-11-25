@@ -3,7 +3,7 @@
 // HOOKS
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 // COMPONENTS
 import MainWrapper from '@/components/MainWrapper';
@@ -13,9 +13,11 @@ import DisplayTasks from '@/components/DisplayTasks';
 import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
 
 // API
-import getBucketByName from '@/api/getBucketByName';
 import getTasksByBucketId from '@/api/getTasksByBucketId';
 import getBuckets from '@/api/getBuckets';
+
+// STORES
+import { useCurrentTabStore } from '@/store/index.js';
 
 type NameParams = {
   name: string
@@ -24,6 +26,9 @@ type NameParams = {
 export default function BucketPage () {
 
   const { name } = useParams<NameParams>();
+  const { setCurrentTab } = useCurrentTabStore();
+  
+  useEffect(() => setCurrentTab(name), []);
 
   const { data: buckets, isLoading } = useQuery({
     queryKey: ['buckets'],

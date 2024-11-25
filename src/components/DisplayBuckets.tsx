@@ -32,7 +32,11 @@ import {
   useSettingsPopupStore, useAddBucketPopupStore 
 } from '@/store/index.js';
 
-export default function DisplayBuckets ({buckets, isLoading}: any) {
+export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
+
+  const currentTab = useCurrentTabStore(status => status.currentTab);
+  console.log(currentTab);
+
   return (
     <ul
       className="flex flex-col gap-1" 
@@ -46,7 +50,10 @@ export default function DisplayBuckets ({buckets, isLoading}: any) {
             data-bucket-name={itm.name}
           > 
             <Link 
-              className="flex items-center gap-2 text-body-light text-sm text-left"
+              className={`
+                flex items-center gap-2 text-sm text-left
+                ${currentTab === (itm.name) ? 'text-primary font-bold' : 'text-body-light font-normal'}
+              `}
               href={`/bucket/${itm.name}`}
             >
               <span>
@@ -57,10 +64,11 @@ export default function DisplayBuckets ({buckets, isLoading}: any) {
               </span>
               <span
                 className={`
-                  ml-auto font-bold text-xs text-body-extra-light px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                  ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                  ${currentTab === (itm.name) ? 'text-primary' : 'text-body-light'}
                 `}
               >
-                0
+                {tasks?.filter((task: any) => task.bucket_id === itm.id).length}
               </span>
             </Link>
           </li>

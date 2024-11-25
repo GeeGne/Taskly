@@ -226,7 +226,7 @@ export default function SideBar () {
             Buckets
           </span>
         </h2>
-        <DisplayBuckets buckets={buckets} />
+        <DisplayBuckets buckets={buckets} tasks={tasks} />
         <button
             className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
