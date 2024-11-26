@@ -68,7 +68,7 @@ export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
                   ${currentTab === (itm.name) ? 'text-primary' : 'text-body-light'}
                 `}
               >
-                {tasks?.filter((task: any) => task.bucket_id === itm.id).length}
+                {tasks?.filter((task: any) => !task.is_completed && task.bucket_id === itm.id).length}
               </span>
             </Link>
           </li>

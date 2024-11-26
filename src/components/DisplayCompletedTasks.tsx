@@ -155,6 +155,7 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
         <span
           className={`
             font-bold text-sm text-body-extra-light px-2
+            ${isTasksLoading ? 'hidden' : 'initial'}
           `}
         
         >
@@ -171,7 +172,6 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
           ? imitateTasks.map((itm ,i) => 
               <li
                 className="--flirk relative flex flex-row before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]"
-
                 key={i}
               >
                 <input 
@@ -182,11 +182,8 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 <label
                   htmlFor="task3"
                   className="relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
-
                 >
-                  {/* <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" /> */}
-                  <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
-
+                  <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
                   <span className="opacity-0">
                     Wash the Dishes And hangout with friends.
                   </span>
@@ -194,6 +191,12 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 <nav
                   className="flex ml-auto gap-2 ease-out transition-all duration-150"
                 >
+                  <ArrowUpSvg 
+                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
+                  />                  
+                  <ArrowDownSvg 
+                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
+                  />            
                   <XSvg 
                     className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
                   />            

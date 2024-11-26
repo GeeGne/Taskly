@@ -32,7 +32,7 @@ import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useCurrentTabStore } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 export default function Inbox () {
 
@@ -49,18 +49,22 @@ export default function Inbox () {
   const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   
-  const { setCurrentTab } = useCurrentTabStore();
   const { toggle, setToggle } = useSideBarStore();
   const { notificationToast, setNotificationToast, setNotificationText } = useNotificationToastStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
+  const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
+  const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+
+  useEffect(() => {
+    setCurrentTab('inbox')
+    setIsHomePage(false);
+  }, []);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuthAndGetUser
   });
-
-  useEffect(() => setCurrentTab('inbox'), []);
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],

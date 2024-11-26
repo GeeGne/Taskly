@@ -44,7 +44,7 @@ export default function SideBar () {
 
   const toggle = useSideBarStore(status => status.toggle);
   const setToggle = useSideBarStore(status => status.setToggle);
-  const headerRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const myTasksBtnRef = useRef<HTMLButtonElement>(null);
   const usersBtnRef = useRef<HTMLButtonElement>(null);
   const aboutBtnRef = useRef<HTMLButtonElement>(null);
@@ -87,7 +87,7 @@ export default function SideBar () {
     if (aboutBtnRef.current) aboutBtnRef.current.removeAttribute('style');       
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLInputElement | HTMLLIElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLInputElement | HTMLLIElement | HTMLDivElement>) => {
     const { type, key } = e.currentTarget.dataset;
 
     switch (type) {
@@ -115,9 +115,9 @@ export default function SideBar () {
   }
   
   return (
-    <header
+    <div
       className={`
-        fixed md:sticky top-0 w-[200px] h-[100vh] bg-[var(--background-color)] z-[100] 
+        fixed md:sticky top-0 w-[200px] h-[100vh] z-[100]
         transition-all duraion-300 ease-in 
         before:content[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
         md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
@@ -139,7 +139,7 @@ export default function SideBar () {
         <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
       </button>
       <nav
-        className="flex flex-col h-[100%] bg-[--background-color] py-2 px-2" 
+        className="flex flex-col h-[100%] py-2 px-2 bg-[var(--background-color)] md:bg-transparent backdrop-blur-[20px]" 
       >
         <ul
           className="flex flex-col"
@@ -165,7 +165,7 @@ export default function SideBar () {
                 ${currentTab === 'myTasks' ? 'text-primary' : 'text-body-extra-light'}
               `}
             >
-              {tasks?.filter((itm: any) => !itm.is_completed).length}
+              {tasks?.filter((itm: any) => !itm.is_completed && !itm.bucket_id).length || 0}
             </span>
           </li>
           <li
@@ -279,7 +279,7 @@ export default function SideBar () {
           </li>
         </ul>
       </nav>
-    </header>
+    </div>
   )
 }
 

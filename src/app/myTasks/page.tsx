@@ -17,12 +17,17 @@ import DisplayTasks from '@/components/DisplayTasks';
 import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
 
 // STORES
-import { useCurrentTabStore } from '@/store/index.js';
+import { useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 export default function MyTasks () {
 
-  const { setCurrentTab } = useCurrentTabStore();
-  useEffect(() => setCurrentTab('myTasks'), []);
+  const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
+  const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+
+  useEffect(() => {
+    setCurrentTab('myTasks')
+    setIsHomePage(false);
+  }, []);
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],

@@ -18,28 +18,43 @@ const SideBar = dynamic(
 ) 
 
 // STORES
-import { useThemeStore } from '@/store/index';
+import { useThemeStore, useHomePageStore } from '@/store/index';
+
+// CONFETTI 
+import Photons from "react-canvas-confetti/dist/presets/photons";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   const theme = useThemeStore((status) => status.theme)
   const bodyRef = useRef<HTMLBodyElement>(null);
+  const isHomepage = useHomePageStore(status => status.isHomePage);
 
   return (
     <html lang="en">
       <body 
         className={`
-          ${theme} transition-colors duration-300 ease-out
+          ${theme} theme-transition
         `}
         ref={bodyRef}
       >
         <ReactQueryProvider>
           <Suspense>
             <ErrorAlert />                
-            <NotificationToast />                          
+            <NotificationToast />       
+              {isHomepage || 
+                <Photons
+                  autorun={{ speed: 1 }}
+                  decorateOptions={defaultOptions =>
+                    theme === 'light'
+                      ? { ...defaultOptions, colors: ['#000000'] } // Fix #00000 typo to #000000 (black)
+                      : { ...defaultOptions, colors: ['#ffffff'] } // Fix #fffff typo to #ffffff (white)
+                  }
+                />
+              }
               <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
                 <SideBar />
                 <main className="">

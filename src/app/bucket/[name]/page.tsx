@@ -17,7 +17,7 @@ import getTasksByBucketId from '@/api/getTasksByBucketId';
 import getBuckets from '@/api/getBuckets';
 
 // STORES
-import { useCurrentTabStore } from '@/store/index.js';
+import { useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 type NameParams = {
   name: string
@@ -26,9 +26,14 @@ type NameParams = {
 export default function BucketPage () {
 
   const { name } = useParams<NameParams>();
-  const { setCurrentTab } = useCurrentTabStore();
-  
-  useEffect(() => setCurrentTab(name), []);
+  const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
+  const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+
+  useEffect(() => {
+    setCurrentTab(name)
+    setIsHomePage(false);
+  }, []);
+
 
   const { data: buckets, isLoading } = useQuery({
     queryKey: ['buckets'],

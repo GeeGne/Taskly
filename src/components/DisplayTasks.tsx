@@ -26,16 +26,19 @@ import XSvg from '@/components/svgs/XSvg';
 // STORES
 import { useSideBarStore, useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
 
+// CONFETTI 
+import Pride from "react-canvas-confetti/dist/presets/pride";
+
 type Tasks = {
   tasks?: any[] | null;
   isTasksLoading?: boolean
 }
 
 export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: Tasks) {
-
+  // isTasksLoading = true;
   const queryClient = useQueryClient();
   const router = useRouter();
-  const imitateTasks = [1, 2, 3, 4, 5];
+  const imitateTasks = [1, 2, 3];
 
   type DeleteActivityBtn = {
     activity: boolean,
@@ -47,8 +50,10 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
   
+  const [ showPrideConfetti, setShowPrideConfetti ] = useState<boolean>(false);
+  const confettiTimerId = useRef<any>(null);
+  
   const tasksLiRefs = useRef<HTMLElement[]>([]);
-  console.log('tasksLiRefs:', tasksLiRefs)
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
@@ -80,12 +85,11 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
       queryClient.invalidateQueries({queryKey: ['tasks']});
       setNotificationText('task completed');
       setNotificationToast(Date.now());
+      displayPrideConfetti();
     }
   })
 
   const getPriorityColor = (key: string) => {
-    
-    console.log('key: ', key);
     switch (key) {
       case 'none':
         return 'var(--none-priority-color)';
@@ -148,10 +152,20 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
     />;
   }
 
+  const displayPrideConfetti = () => {
+    setShowPrideConfetti(true);
+
+    clearTimeout(confettiTimerId.current);
+    confettiTimerId.current = setTimeout(() => {
+      setShowPrideConfetti(false);
+    }, 5000)
+  }
+
   return (
     <section
       className="flex flex-col gap-1"
     >
+      {showPrideConfetti && <Pride autorun={{ speed: 3, duration: 1000 }} />}
       <div 
         className="flex items-center cursor-pointer"
         role="button"
@@ -176,6 +190,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
         <span
           className={`
             font-bold text-sm text-body-extra-light px-2
+            ${isTasksLoading ? 'hidden' : 'initial'}
           `}
         >
           {tasks?.length}
@@ -202,7 +217,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                   htmlFor="task3"
                   className="relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
                 >
-                  <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
+                  <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
                   <span className="opacity-0">
                     Wash the Dishes And hangout with friends.
                   </span>
@@ -273,7 +288,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                     </div>
                 </label>
                 <nav
-                  className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
+                  className="flex shrink-0 items-center ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
                 >
                   <div
                     className="group relative overflow-hidden hover:overflow-visible"

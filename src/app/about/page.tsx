@@ -12,7 +12,7 @@ import { useCurrentTabStore} from '@/store/index.js';
 
 export default function About() {
   
-  const { setCurrentTab } = useCurrentTabStore();
+  const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   useEffect(() => setCurrentTab('about'), []);
 
   return (

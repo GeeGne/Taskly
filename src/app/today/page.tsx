@@ -32,7 +32,7 @@ import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useCurrentTabStore } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 export default function today () {
 
@@ -41,9 +41,13 @@ export default function today () {
     taskId?: string
   };
   
-  const { setCurrentTab } = useCurrentTabStore();
+  const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
+  const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
 
-  useEffect(() => setCurrentTab('today'), []);
+  useEffect(() => {
+    setCurrentTab('today');
+    setIsHomePage(false);
+  }, []);
 
   const { data: tasks, isLoading: isTasksLoading } = useQuery({
     queryKey: ['tasks'],

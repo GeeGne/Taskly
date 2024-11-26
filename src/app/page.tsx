@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
+import confetti from 'canvas-confetti';
 
 // COMPONENTS
 import MainWrapper from '@/components/MainWrapper';
@@ -42,7 +43,7 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import Redirector from '@/utils/Redirector';
 
 // STORES
-import { useErrorAlertStore, useThemeStore } from '@/store/index';
+import { useErrorAlertStore, useThemeStore, useHomePageStore } from '@/store/index';
 
 export default function Home() {
 
@@ -57,6 +58,7 @@ export default function Home() {
   const [ mount, setMount ] = useState<boolean>(false);
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const { theme, setTheme } = useThemeStore();
+  const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['auth'],
@@ -76,6 +78,7 @@ export default function Home() {
 
   useEffect(() => {
     // if (!mount) return setMount(true);
+    setIsHomePage(true);
     if (!isLoading) setTimeout(() => setLoadingScreen(false), 2000)
     if (isLoading && !user) return;
 

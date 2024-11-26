@@ -90,9 +90,15 @@ const useCurrentTabStore = create(
   )
 )
 
+const useHomePageStore = create(set => ({
+  isHomePage: true,
+  setIsHomePage: isHomePage => set({ isHomePage })
+}))
+
 export { 
   useThemeStore, useSideBarStore, useCurrentTabStore, 
   useNotificationToastStore, useErrorAlertStore, 
   useSettingsPopupStore, usePriorityPopupStore,
-  useTaskInputStore, useAddBucketPopupStore
+  useTaskInputStore, useAddBucketPopupStore,
+  useHomePageStore
 };
