@@ -45,7 +45,7 @@ export default function BucketPage () {
 
   const displayHeaderTitle: any = () => {
     if (isLoading) return name;
-    return getBucket().emoji + ' ' + name
+    return getBucket()?.emoji + ' ' + name
   }
 
   const { data:tasks, isLoading: isTasksLoading } = useQuery({
