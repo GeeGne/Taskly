@@ -1,13 +1,16 @@
 // COMPONENTS
 import ThemeSwitch from '@/components/ThemeSwitch';
+import ControllerSwitch from '@/components/ControllerSwitch';
 
 // STORE
-import { useSettingsPopupStore } from '@/store/index';
+import { useSettingsPopupStore, useControllersStore } from '@/store/index';
 
 export default function SettingsPopup () {
   
-  const setSettingsPopup = useSettingsPopupStore(status => status.setSettingsPopup)
-  const settingsPopup = useSettingsPopupStore(status => status.settingsPopup)
+  const setSettingsPopup = useSettingsPopupStore(status => status.setSettingsPopup);
+  const settingsPopup = useSettingsPopupStore(status => status.settingsPopup);
+  const { backgroundConfettiToggle, setBackgroundConfettiToggle } = useControllersStore();
+  const { taskCompleteCelebrateConfettiToggle, setTaskCompleteCelebrateConfettiToggle } = useControllersStore();
 
   const  handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type } = e.currentTarget.dataset;
@@ -35,7 +38,7 @@ export default function SettingsPopup () {
         className={`
           flex flex-col items-center bg-[--background-color] rounded-xl overflow-hidden shaddow-2xl
           transition-all duration-[0.5s] ease-[var(--bounce-bezier)]
-          ${settingsPopup ? 'scale-[100%] w-[250px]' : 'scale-[70%] w-[200px]'}
+          ${settingsPopup ? 'scale-[100%] w-[400px]' : 'scale-[70%] w-[200px]'}
         `}
       >
         <h2
@@ -44,16 +47,40 @@ export default function SettingsPopup () {
           General Settings
         </h2>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
-        <div
-          className="flex justify-between items-center w-[100%] py-2 px-4"
+        <ul
+          className="flex flex-col gap-4 w-[100%] py-4 px-4"
         >
-          <span
-            className="text-sm text-heading"
+          <li
+            className="flex justify-between items-center"
           >
-            Current Theme
-          </span>
-          <ThemeSwitch />
-        </div>
+            <span
+              className="text-xs text-heading font-bold"
+            >
+              Current Theme
+            </span>
+            <ThemeSwitch />
+          </li>
+          <li
+            className="flex justify-between items-center"
+          >
+            <span
+              className="text-xs text-heading font-bold"
+            >
+              Display Celebration Confetti When Task is Completed
+            </span>
+            <ControllerSwitch className="shrink-0" toggle={taskCompleteCelebrateConfettiToggle} setToggle={setTaskCompleteCelebrateConfettiToggle} />
+          </li>
+          <li
+            className="flex justify-between items-center"
+          >
+            <span
+              className="text-xs text-heading font-bold"
+            >
+              Background Confetti
+            </span>
+            <ControllerSwitch toggle={backgroundConfettiToggle} setToggle={setBackgroundConfettiToggle} />
+          </li>
+        </ul>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <div
           className="

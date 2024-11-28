@@ -74,7 +74,7 @@ export default function SunLoopSvg({
           values="0 12 12;360 12 12"
         />
       </g>
-      <g fill="currentColor">
+      <g fill={color}>
         <path d="M15.22 6.03L17.75 4.09L14.56 4L13.5 1L12.44 4L9.25 4.09L11.78 6.03L10.87 9.09L13.5 7.28L16.13 9.09L15.22 6.03Z">
           <animate
             fill="freeze"
@@ -94,8 +94,8 @@ export default function SunLoopSvg({
         </path>
       </g>
       <path
-        fill="currentColor"
-        stroke="currentColor"
+        fill={color}
+        stroke={color}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
@@ -158,7 +158,7 @@ export default function SunLoopSvg({
         r="10"
         mask="url(#lineMdMoonFilledToSunnyFilledLoopTransition0)"
         opacity="0"
-        fill="currentColor"
+        fill={color}
       >
         <animate
           fill="freeze"

@@ -18,10 +18,10 @@ const SideBar = dynamic(
 ) 
 
 // STORES
-import { useThemeStore, useHomePageStore } from '@/store/index';
+import { useThemeStore, useHomePageStore, useControllersStore } from '@/store/index';
 
 // CONFETTI 
-import Photons from "react-canvas-confetti/dist/presets/photons";
+import Photons from "react-canvas-confetti/dist/presets/snow";
 
 export default function RootLayout({
   children,
@@ -32,6 +32,7 @@ export default function RootLayout({
   const theme = useThemeStore((status) => status.theme)
   const bodyRef = useRef<HTMLBodyElement>(null);
   const isHomepage = useHomePageStore(status => status.isHomePage);
+  const backgroundConfettiToggle = useControllersStore(status => status.backgroundConfettiToggle);
 
   return (
     <html lang="en">
@@ -45,9 +46,9 @@ export default function RootLayout({
           <Suspense>
             <ErrorAlert />                
             <NotificationToast />       
-              {isHomepage || 
+              {isHomepage || backgroundConfettiToggle &&
                 <Photons
-                  autorun={{ speed: 1 }}
+                  autorun={{ speed: 3 }}
                   decorateOptions={defaultOptions =>
                     theme === 'light'
                       ? { ...defaultOptions, colors: ['#000000'] } // Fix #00000 typo to #000000 (black)

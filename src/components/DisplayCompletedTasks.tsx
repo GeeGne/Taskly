@@ -48,7 +48,6 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
   const [ toggle, setToggle ] = useState<boolean>(true);
 
   const tasksLiRefs = useRef<HTMLElement[]>([]);
-  console.log('tasksLiRefs:', tasksLiRefs)
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
@@ -126,6 +125,10 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
       className="p-1 hover:bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--font-body-color)"
     />;
   }
+
+  // DEBUG
+  // console.log('tasksLiRefs:', tasksLiRefs);
+
 
   return (
     <section

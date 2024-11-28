@@ -24,7 +24,7 @@ import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js';
+import { useSideBarStore, useNotificationToastStore, useErrorAlertStore, useControllersStore  } from '@/store/index.js';
 
 // CONFETTI 
 import Pride from "react-canvas-confetti/dist/presets/pride";
@@ -36,6 +36,7 @@ type Tasks = {
 
 export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: Tasks) {
   // isTasksLoading = true;
+  
   const queryClient = useQueryClient();
   const router = useRouter();
   const imitateTasks = [1, 2, 3];
@@ -47,6 +48,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
 
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
+  const taskCompleteCelebrateConfettiToggle = useControllersStore(status => status.taskCompleteCelebrateConfettiToggle);
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
   
@@ -165,7 +167,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
     <section
       className="flex flex-col gap-1"
     >
-      {showPrideConfetti && <Pride autorun={{ speed: 3, duration: 1000 }} />}
+      {taskCompleteCelebrateConfettiToggle && showPrideConfetti && <Pride autorun={{ speed: 3, duration: 1000 }} />}
       <div 
         className="flex items-center cursor-pointer"
         role="button"

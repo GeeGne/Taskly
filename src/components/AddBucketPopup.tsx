@@ -36,7 +36,7 @@ export default function AddBucketPopup () {
   const [ emoji, setEmoji ] = useState<string>('📃');
   const [ name, setName ] = useState<string>('')
   const [ createBtnActivity, setCreateBtnActivity ] = useState<boolean>(false);
-  console.log('name', name);
+
   const emojiInputRef = useRef<HTMLInputElement>(null);
 
   const addBucketMutation = useMutation({

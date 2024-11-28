@@ -35,7 +35,6 @@ import {
 export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
 
   const currentTab = useCurrentTabStore(status => status.currentTab);
-  console.log(currentTab);
 
   return (
     <ul

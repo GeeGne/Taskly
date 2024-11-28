@@ -7,9 +7,14 @@ import SunLoopSvg from '@/components/svgs/SunLoopSvg';
 import { useThemeStore } from '@/store/index';
 
 // export default function ThemeSwitch ({ theme = 'light' }: { theme: string}) {
-export default function ThemeSwitch () {
 
-  const { theme, setTheme } = useThemeStore(); 
+type ControllerSwitch = {
+  toggle?: boolean;
+  setToggle: (value: boolean) => void;
+  className?: string,
+}
+
+export default function ControllerSwitch ({ toggle = false, setToggle, className = '' }: ControllerSwitch) {
 
   return (
     <div
@@ -20,9 +25,10 @@ export default function ThemeSwitch () {
         before:opacity-60 before:blur-[3px]
         before:border-solid before:border-[var(--background-light-invert-color)] before:border-[2px]
         before:transition-all before:duration-500 before:ease-[var(--bounce-bezier)]
-        ${theme === 'light' ? 'bg-cyan-200' : 'bg-cyan-800'}
+        ${toggle ? 'bg-[var(--primary-color)]' : 'bg-[var(--background-light-invert-color)]'}
+        ${className}
       `}
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      onClick={() => setToggle(!toggle)}
     >
       <div
         className={`
@@ -31,30 +37,22 @@ export default function ThemeSwitch () {
           flex items-center justify-center
           rounded-[100%] bg-[var(--background-color)] shadow-md
           transition-all duration-500 ease-[var(--bounce-bezier)]
-          ${theme === 'light' ? 'left-[2px]' : 'left-[calc(100%-1.5rem)]'}
+          ${toggle ? 'left-[calc(100%-1.5rem)]' : 'left-[2px]'}
         `}
       >
-        {theme === 'light' 
-          ? <SunLoopSvg
-              width="12px" height="12px" color="var(--font-heading-color)"
-            />
-          : <MoonLoopSvg
-              width="12px" height="12px" color="var(--font-heading-color)"
-            />
-        }
         <span
           className="
-          absolute top-[50%] translate-y-[-50%] left-[calc(100%+0.3rem)]
-          text-body text-xs font-bold"
+          absolute top-[50%] translate-y-[-50%] left-[calc(100%+0.5rem)]
+          text-body-invert text-xs font-bold"
         >
-          Light
+          Off
         </span>
         <span
           className="
-          absolute top-[50%] translate-y-[-50%] right-[calc(100%+0.3rem)]
-          text-body text-xs font-bold"
+          absolute top-[50%] translate-y-[-50%] right-[calc(100%+0.5rem)]
+          text-body-invert text-xs font-bold"
         >
-          Dark
+          On
         </span>
       </div>
     </div>

@@ -95,10 +95,28 @@ const useHomePageStore = create(set => ({
   setIsHomePage: isHomePage => set({ isHomePage })
 }))
 
+const useControllersStore = create(
+  persist(
+    (set) => ({
+      backgroundConfettiToggle: true,
+      setTestToggle: testToggle => (set({ testToggle })),
+      backgroundConfettiToggle: true,
+      setBackgroundConfettiToggle: backgroundConfettiToggle => (set({ backgroundConfettiToggle })),
+      taskCompleteCelebrateConfettiToggle: true,
+      setTaskCompleteCelebrateConfettiToggle: taskCompleteCelebrateConfettiToggle => (set({ taskCompleteCelebrateConfettiToggle })),
+
+    }),
+    {
+      name: 'controllers-storage',
+      storage: createJSONStorage(() => localStorage)  
+    }
+  )
+)
+
 export { 
   useThemeStore, useSideBarStore, useCurrentTabStore, 
   useNotificationToastStore, useErrorAlertStore, 
   useSettingsPopupStore, usePriorityPopupStore,
   useTaskInputStore, useAddBucketPopupStore,
-  useHomePageStore
+  useHomePageStore, useControllersStore
 };
