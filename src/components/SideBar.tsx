@@ -94,6 +94,7 @@ export default function SideBar () {
       case 'myTasks_button_is_clicked':
       case 'users_button_is_clicked':
       case 'about_button_is_clicked':
+      case 'profile_button_is_clicked':
         router.push(`/${key}`);
         window.scrollTo(0, 0);
         break;
@@ -244,6 +245,10 @@ export default function SideBar () {
         >
           <li 
             className="bg-[var(--background-light-color)] rounded-[100%] p-2 cursor-pointer"
+            role="button"
+            data-key="profile"
+            data-type="profile_button_is_clicked"
+            onClick={handleClick}
           >
             <PersonFillSvg color="var(--font-body-color)" width="2rem" height="2rem" />
           </li>

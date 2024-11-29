@@ -38,7 +38,7 @@ export default function SettingsPopup () {
         className={`
           flex flex-col items-center bg-[--background-color] rounded-xl overflow-hidden shaddow-2xl
           transition-all duration-[0.5s] ease-[var(--bounce-bezier)]
-          ${settingsPopup ? 'scale-[100%] w-[400px]' : 'scale-[70%] w-[200px]'}
+          ${settingsPopup ? 'scale-[100%] w-[300px]' : 'scale-[70%] w-[200px]'}
         `}
       >
         <h2
@@ -64,7 +64,7 @@ export default function SettingsPopup () {
             className="flex justify-between items-center"
           >
             <span
-              className="text-xs text-heading font-bold"
+              className="text-xs max-w-[11rem] text-heading font-bold"
             >
               Display Celebration Confetti When Task is Completed
             </span>
