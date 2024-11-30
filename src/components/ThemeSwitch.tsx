@@ -31,7 +31,7 @@ export default function ThemeSwitch () {
           flex items-center justify-center
           rounded-[100%] bg-[var(--background-color)] shadow-md
           transition-all duration-500 ease-[var(--bounce-bezier)]
-          ${theme === 'light' ? 'left-[2px]' : 'left-[calc(100%-1.5rem)]'}
+          ${theme === 'light' ? 'left-[2px]' : 'left-[calc(100%-1.5rem+2px)]'}
         `}
       >
         {theme === 'light' 

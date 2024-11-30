@@ -56,3 +56,11 @@
 .theme-transition {
   @apply transition-colors duration-300 ease-out
 }
+
+.circular-progress {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 20rem;
+  background: conic-gradient( #43d188 calc(var(--circular-progress) * 1%), hsla(0, 0%, 0%, 0.5) 0 );
+  mask: radial-gradient(circle, transparent 62%, black 65%);
+}

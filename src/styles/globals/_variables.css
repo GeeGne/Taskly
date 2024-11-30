@@ -37,6 +37,7 @@
   --background-2-url: url(/assets/background-2.jpg);
   --background-3-url: url(/assets/background-3.jpg);
   --background-4-url: url(/assets/background-4.jpg);
+  --circular-progress: 20;
 }
 
 .dark {

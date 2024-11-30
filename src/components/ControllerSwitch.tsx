@@ -37,7 +37,7 @@ export default function ControllerSwitch ({ toggle = false, setToggle, className
           flex items-center justify-center
           rounded-[100%] bg-[var(--background-color)] shadow-md
           transition-all duration-500 ease-[var(--bounce-bezier)]
-          ${toggle ? 'left-[calc(100%-1.5rem)]' : 'left-[2px]'}
+          ${toggle ? 'left-[calc(100%-1.5rem+2px)]' : 'left-[2px]'}
         `}
       >
         <span
