@@ -2,9 +2,11 @@
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 
 // API
 import signOut from '@/api/signOut';
+import getUserProfilePictureURL from '@/api/getUserProfilePictureURL';
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import getTasks from '@/api/getTasks';
 import getBuckets from '@/api/getBuckets';
@@ -33,6 +35,11 @@ import {
   useSettingsPopupStore, useAddBucketPopupStore 
 } from '@/store/index.js';
 
+type UserProfile = {
+  picture_url?: string;
+  [key: string]: unknown;
+}
+
 export default function SideBar () {
 
   const router = useRouter();
@@ -58,7 +65,13 @@ export default function SideBar () {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks
-  }) 
+  }); 
+
+  const { data: userProfileUrl, isLoading: isProfileUrlLoading } = useQuery<UserProfile | any>({
+    queryKey: ['user-profile-picture'],
+    queryFn: getUserProfilePictureURL
+  });
+
 
   const signOutMutation = useMutation({
     mutationFn: signOut,
@@ -244,12 +257,24 @@ export default function SideBar () {
           className="flex flex-row justify-between items-center"
         >
           <li 
-            className="bg-[var(--background-light-color)] rounded-[100%] p-2 cursor-pointer"
+            className="relative bg-[var(--background-light-color)] rounded-[100%] p-2 cursor-pointer overflow-hidden"
             role="button"
             data-key="profile"
             data-type="profile_button_is_clicked"
             onClick={handleClick}
           >
+            { userProfileUrl &&
+              <Image 
+                src={userProfileUrl?.picture_url}
+                alt="User Profile Picture"
+                width={48}
+                height={48}
+                className="
+                  absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] 
+                  w-12 aspect-[1/1] object-cover object-center
+                "
+              />
+            }
             <PersonFillSvg color="var(--font-body-color)" width="2rem" height="2rem" />
           </li>
           <li

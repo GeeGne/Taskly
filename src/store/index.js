@@ -113,10 +113,16 @@ const useControllersStore = create(
   )
 )
 
+const useBackgroundActivityStore = create(set => ({
+  backgroundActivityToggle: false,
+  setBackgroundActivityToggle: backgroundActivityToggle => (set({ backgroundActivityToggle }))
+}))
+
 export { 
   useThemeStore, useSideBarStore, useCurrentTabStore, 
   useNotificationToastStore, useErrorAlertStore, 
   useSettingsPopupStore, usePriorityPopupStore,
   useTaskInputStore, useAddBucketPopupStore,
-  useHomePageStore, useControllersStore
+  useHomePageStore, useControllersStore,
+  useBackgroundActivityStore
 };

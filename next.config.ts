@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'rwyqposlmznyoaeceqpm.supabase.co',
+      }
+    ]
+  }
 };
 
 export default nextConfig;

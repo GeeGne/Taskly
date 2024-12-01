@@ -1,9 +1,27 @@
+// HOOKS
+import { useRef, useEffect } from 'react';
+
 type Props = {
-  title: string,
-  description: string
+  title?: string,
+  description?: string,
+  percantageText?: string,
+  percantage?: number
 }
 
-export default function CircularProgressBox ({title="no title", description = "no description"}) {
+export default function CircularProgressBox ({ 
+  percantageText = '-- / --',
+  title="no title", 
+  description = "no description",
+  percantage = 50
+}: Props) {
+
+  const circularProgressRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (circularProgressRef.current) 
+      circularProgressRef.current.style.setProperty('--circular-progress', String(percantage));
+  }, [percantage]);
+
   return (
     <div     
       className="flex flex-col items-center gap-4 w-[12rem]"     
@@ -13,6 +31,7 @@ export default function CircularProgressBox ({title="no title", description = "n
       >
         <div
           className="circular-progress"
+          ref={circularProgressRef}
         />             
         <span
             className="
@@ -20,7 +39,7 @@ export default function CircularProgressBox ({title="no title", description = "n
               text-xl text-body font-bold
             "
           >
-            44 / 90
+            {percantageText}
         </span>
       </div>
       <h3

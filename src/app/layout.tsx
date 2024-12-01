@@ -11,6 +11,7 @@ import "@/app/globals.css";
 import ReactQueryProvider from '@/components/ReactQueryProvider';
 import ErrorAlert from '@/components/ErrorAlert';
 import NotificationToast from '@/components/NotificationToast';
+import BackgroundActivity from '@/components/BackgroundActivity';
 import dynamic from 'next/dynamic';
 const SideBar = dynamic(
   () => import('@/components/SideBar'),
@@ -18,7 +19,7 @@ const SideBar = dynamic(
 ) 
 
 // STORES
-import { useThemeStore, useHomePageStore, useControllersStore } from '@/store/index';
+import { useThemeStore, useHomePageStore, useControllersStore, useBackgroundActivityStore } from '@/store/index';
 
 // CONFETTI 
 import Photons from "react-canvas-confetti/dist/presets/snow";
@@ -33,6 +34,7 @@ export default function RootLayout({
   const bodyRef = useRef<HTMLBodyElement>(null);
   const isHomepage = useHomePageStore(status => status.isHomePage);
   const backgroundConfettiToggle = useControllersStore(status => status.backgroundConfettiToggle);
+  const backgroundActivityToggle = useBackgroundActivityStore(status => status.backgroundActivityToggle);
 
   return (
     <html lang="en">
@@ -46,22 +48,23 @@ export default function RootLayout({
           <Suspense>
             <ErrorAlert />                
             <NotificationToast />       
-              {isHomepage || backgroundConfettiToggle &&
-                <Photons
-                  autorun={{ speed: 3 }}
-                  decorateOptions={defaultOptions =>
-                    theme === 'light'
-                      ? { ...defaultOptions, colors: ['#000000'] } // Fix #00000 typo to #000000 (black)
-                      : { ...defaultOptions, colors: ['#ffffff'] } // Fix #fffff typo to #ffffff (white)
-                  }
-                />
-              }
-              <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
-                <SideBar />
-                <main className="">
-                  {children}
-                </main>
-              </div>
+            <BackgroundActivity />
+            {isHomepage || backgroundConfettiToggle &&
+              <Photons
+                autorun={{ speed: 3 }}
+                decorateOptions={defaultOptions =>
+                  theme === 'light'
+                    ? { ...defaultOptions, colors: ['#000000'] } // Fix #00000 typo to #000000 (black)
+                    : { ...defaultOptions, colors: ['#ffffff'] } // Fix #fffff typo to #ffffff (white)
+                }
+              />
+            }
+            <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
+              <SideBar />
+              <main className="">
+                {children}
+              </main>
+            </div>
           </Suspense>
         </ReactQueryProvider>
       </body>
