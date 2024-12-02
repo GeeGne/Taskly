@@ -64,12 +64,14 @@ export default function SideBar () {
 
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
-    queryFn: getTasks
+    queryFn: getTasks,
+    enabled: !!user
   }); 
 
   const { data: userProfileUrl, isLoading: isProfileUrlLoading } = useQuery<UserProfile | any>({
     queryKey: ['user-profile-picture'],
-    queryFn: getUserProfilePictureURL
+    queryFn: getUserProfilePictureURL,
+    enabled: !!user
   });
 
 
@@ -176,7 +178,7 @@ export default function SideBar () {
             <span
               className={`
                 ml-auto text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
-                ${currentTab === 'myTasks' ? 'text-primary' : 'text-body-extra-light'}
+                ${currentTab === 'myTasks' ? 'text-primary' : 'text-body-light'}
               `}
             >
               {tasks?.filter((itm: any) => !itm.is_completed && !itm.bucket_id).length || 0}
@@ -200,7 +202,7 @@ export default function SideBar () {
             <span
               className={`
                 ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
-                ${currentTab === 'today' ? 'text-primary' : 'text-body-extra-light'}
+                ${currentTab === 'today' ? 'text-primary' : 'text-body-light'}
               `}
             >
               0
@@ -224,7 +226,7 @@ export default function SideBar () {
             <span
               className={`
                 ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
-                ${currentTab === 'inbox' ? 'text-primary' : 'text-body-extra-light'}
+                ${currentTab === 'inbox' ? 'text-primary' : 'text-body-light'}
               `}
             >
               0
