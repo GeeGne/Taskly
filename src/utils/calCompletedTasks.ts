@@ -1,0 +1,6 @@
+function calCompletedTasks (tasksArray: any = []) {
+  if (!tasksArray) return '--';
+  return tasksArray.filter((task: any) => task.is_completed === 1).length;
+}
+
+export default calCompletedTasks

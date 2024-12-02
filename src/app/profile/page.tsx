@@ -21,6 +21,7 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import uploadProfilePictureToStorage from '@/api/uploadProfilePictureToStorage';
 import updateUserProfilePictureURL from '@/api/updateUserProfilePictureURL';
 import getUserProfilePictureURL from '@/api/getUserProfilePictureURL';
+import getTasks from '@/api/getTasks';
 import getBuckets from '@/api/getBuckets';
 
 // STORES
@@ -33,6 +34,12 @@ import {
 // ASSETS
 import pfpImg from '@/../public/assets/pfp.jpg'
 
+// UTILS
+import calTasks from '@/utils/calTasks';
+import calRemainingTasks from '@/utils/calRemainingTasks';
+import calCompletedTasks from '@/utils/calCompletedTasks';
+
+// TYPES
 type NameParams = {
   name: string
 }
@@ -69,9 +76,16 @@ export default function ProfilePage () {
     queryFn: checkAuthAndGetUser,
   })
 
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: getTasks,
+    enabled: !!user
+  })
+
   const { data: userProfileUrl } = useQuery<UserProfile | any>({
     queryKey: ['user-profile-picture'],
-    queryFn: getUserProfilePictureURL
+    queryFn: getUserProfilePictureURL,
+    enabled: !!user
   });
 
   const uploadProfilePictureMutation = useMutation({
@@ -139,6 +153,9 @@ export default function ProfilePage () {
   // console.log('user: ', user);
   // console.log('file', pfpInputRef.current?.files[0])
   // console.log('userProfileUrl: ', userProfileUrl?.picture_url);
+  console.log('total tasks: ', calTasks(tasks));
+  console.log('completed tasks: ', calCompletedTasks(tasks));
+  console.log('remaining tasks: ', calRemainingTasks(tasks));
 
   return (
     <MainWrapper>
@@ -218,10 +235,14 @@ export default function ProfilePage () {
           "
         >
           <CircularProgressBox
+            percantageText={`${calRemainingTasks(tasks)} / ${calTasks(tasks)}`}
+            percantage={(calCompletedTasks(tasks) * 100) / calTasks(tasks)}          
             title="On the Horizon 📌" 
             description="Look forward to upcoming tasks that keep you moving toward your goals."       
           />
           <CircularProgressBox 
+            percantageText={`${calCompletedTasks(tasks)} / ${calTasks(tasks)}`}
+            percantage={(calCompletedTasks(tasks) * 100) / calTasks(tasks)}          
             title="Accomplished Goals 🎖️" 
             description="Celebrate the tasks you've successfully completed, each one a step closer to your larger ambitions." 
           />
