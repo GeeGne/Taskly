@@ -111,12 +111,17 @@ const useControllersStore = create(
       storage: createJSONStorage(() => localStorage)  
     }
   )
-)
+);
 
 const useBackgroundActivityStore = create(set => ({
   backgroundActivityToggle: false,
   setBackgroundActivityToggle: backgroundActivityToggle => (set({ backgroundActivityToggle }))
-}))
+}));
+
+const useActivateDeleteBucketsStore = create(set => ({
+  activateDeleteBucketToggle: true,
+  setBackgroundActivityToggle: activateDeleteBucketToggle => (set({ activateDeleteBucketToggle }))
+}));
 
 export { 
   useThemeStore, useSideBarStore, useCurrentTabStore, 
@@ -124,5 +129,5 @@ export {
   useSettingsPopupStore, usePriorityPopupStore,
   useTaskInputStore, useAddBucketPopupStore,
   useHomePageStore, useControllersStore,
-  useBackgroundActivityStore
+  useBackgroundActivityStore, useActivateDeleteBucketsStore
 };

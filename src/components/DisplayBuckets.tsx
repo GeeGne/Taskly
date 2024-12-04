@@ -13,9 +13,7 @@ import getBuckets from '@/api/getBuckets';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
-import SettingsPopup from '@/components/SettingsPopup';
-import AddBucketPopup from '@/components/AddBucketPopup';
-import PersonFillSvg from '@/components/svgs/PersonFillSvg';
+import DeleteSvg from '@/components/svgs/DeleteSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
 import InfoCircleSvg from '@/components/svgs/InfoCircleSvg';
 import SunFillSvg from '@/components/svgs/SunFillSvg';
@@ -33,24 +31,64 @@ import {
 } from '@/store/index.js';
 
 export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
-
+  const emptyArray = [1, 2, 3, 4];
   const currentTab = useCurrentTabStore(status => status.currentTab);
 
   return (
     <ul
       className="flex flex-col gap-1" 
     >
-      { buckets?.map((itm: any, i: number) => 
+      { isLoading
+        ? emptyArray.map((itm: any, i: number) => 
+            <li
+              key={i}
+              className="--flirk p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+              role="button"
+            > 
+              <Link 
+                className={`
+                  flex items-center gap-2 text-sm text-left text-transparent
+                `}
+                href={`/bucket/${itm.name}`}
+              >
+                <span
+                  className="bg-[var(--background-light-color)]"
+                >
+                  ✨
+                </span>
+                <span
+                  className="bg-[var(--background-light-color)]"
+                >
+                  some-name-rand
+                </span>
+                <span
+                  className={`
+                    ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                  `}
+                >
+                  0
+                </span>
+              </Link>
+            </li>
+          )
+        : buckets?.map((itm: any, i: number) => 
           <li
             key={itm.id}
-            className="p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className="flex shrink-0 overflow-scroll p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="bucketList_button_is_clicked"
             data-bucket-name={itm.name}
           > 
+            <div
+              className="hidden items-center justify-center h-[100%] w-10 bg-red-500 hover:bg-red-600 shrink-0"
+            >
+              <DeleteSvg 
+                color="var(--font-heading-invert-color)"
+              />
+            </div>
             <Link 
               className={`
-                flex items-center gap-2 text-sm text-left
+                flex items-center gap-2 text-sm text-left w-[100%] shrink-0
                 ${currentTab === (itm.name) ? 'text-primary font-bold' : 'text-body-light font-normal'}
               `}
               href={`/bucket/${itm.name}`}
@@ -67,7 +105,7 @@ export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
                   ${currentTab === (itm.name) ? 'text-primary' : 'text-body-light'}
                 `}
               >
-                {tasks?.filter((task: any) => !task.is_completed && task.bucket_id === itm.id).length}
+                {tasks?.filter((task: any) => !task.is_completed && task.bucket_id === itm.id).length || 0}
               </span>
             </Link>
           </li>

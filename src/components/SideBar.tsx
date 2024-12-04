@@ -26,13 +26,15 @@ import ListTaskSvg from '@/components/svgs/ListTaskSvg';
 import CalendarSvg from '@/components/svgs/CalendarSvg';
 import InboxSvg from '@/components/svgs/InboxSvg';
 import PlusSvg from '@/components/svgs/PlusSvg';
+import MagicBroomSvg from '@/components/svgs/MagicBroomSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 
 // STORES
 import { 
   useSideBarStore, useCurrentTabStore,
-  useSettingsPopupStore, useAddBucketPopupStore 
+  useSettingsPopupStore, useAddBucketPopupStore,
+  useActivateDeleteBucketsStore
 } from '@/store/index.js';
 
 type UserProfile = {
@@ -47,6 +49,7 @@ export default function SideBar () {
 
   const { currentTab, setCurrentTab } = useCurrentTabStore();
   const { settingsPopup, setSettingsPopup } = useSettingsPopupStore();
+  const { activateDeleteBucketToggle, setActivateDeleteBucketToggle } = useActivateDeleteBucketsStore();
   const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket)
 
   const toggle = useSideBarStore(status => status.toggle);
@@ -233,21 +236,33 @@ export default function SideBar () {
             </span>
           </li>
         </ul>
-        <h2
-          className="relative z-[5] py-2 text-body text-sm font-bold before:absolute before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[100%] before:h-[1px] before:bg-body-light before:z-[-1]"
+        <div
+          className="relative flex items-center justify-around z-[5] py-2 text-body before:absolute before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[100%] before:h-[1px] before:bg-body-light before:z-[-1]"
         >
-          <span
-            className="px-1 ml-4 bg-[var(--background-color)] text-body-light"
+          <h2
+            className="inline px-1 ml-4 bg-[var(--background-color)] text-sm font-bold text-body-light"
           >
             Buckets
-          </span>
-        </h2>
-        <DisplayBuckets buckets={buckets} tasks={tasks} />
-        <button
-            className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
-            role="button"
-            data-type="addBucket_button_is_clicked"
+          </h2>
+          <button
+            className="group flex gap-1 px-1 ml-4 bg-[var(--background-color)]"
+            data-type="clean_buckets_button_is_clicked"
             onClick={handleClick}
+          >
+            <MagicBroomSvg width="0.8rem" height="0.8rem" color="var(--font-extra-light-color)" />
+            <span
+              className="text-xs text-body-light group-hover:text-body"
+            >
+              Clean
+            </span>
+          </button>
+        </div>
+        <DisplayBuckets buckets={buckets} tasks={tasks} isLoading={isBucketsLoading} />
+        <button
+          className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
+          role="button"
+          data-type="addBucket_button_is_clicked"
+          onClick={handleClick}
         >
           <PlusSvg color="var(--font-light-color)" />
           <span className="font-bold">
