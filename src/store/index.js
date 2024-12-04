@@ -120,7 +120,7 @@ const useBackgroundActivityStore = create(set => ({
 
 const useActivateDeleteBucketsStore = create(set => ({
   activateDeleteBucketToggle: true,
-  setBackgroundActivityToggle: activateDeleteBucketToggle => (set({ activateDeleteBucketToggle }))
+  setActivateDeleteBucketToggle: activateDeleteBucketToggle => (set({ activateDeleteBucketToggle }))
 }));
 
 export { 

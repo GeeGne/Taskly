@@ -30,7 +30,7 @@ import {
   useSettingsPopupStore, useAddBucketPopupStore 
 } from '@/store/index.js';
 
-export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
+export default function DisplayBuckets ({buckets, tasks, isLoading, activateDeleteBucketToggle}: any) {
   const emptyArray = [1, 2, 3, 4];
   const currentTab = useCurrentTabStore(status => status.currentTab);
 
@@ -74,13 +74,18 @@ export default function DisplayBuckets ({buckets, tasks, isLoading}: any) {
         : buckets?.map((itm: any, i: number) => 
           <li
             key={itm.id}
-            className="flex shrink-0 overflow-scroll p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
+            className="flex shrink-0 overflow-hidden p-1 hover:bg-[var(--background-light-color)] transition-colors duration-200 ease-out rounded-md"
             role="button"
             data-type="bucketList_button_is_clicked"
             data-bucket-name={itm.name}
           > 
             <div
-              className="hidden items-center justify-center h-[100%] w-10 bg-red-500 hover:bg-red-600 shrink-0"
+              className={`
+                flex items-center justify-center h-[100%] bg-red-500 hover:bg-red-600 shrink-0
+                transition-all duration-300 ease-in-out
+                ${activateDeleteBucketToggle ? `w-10 mr-2` : 'w-0'}
+              `}
+              style={{ transitionDelay: `${i / 10}s`}}
             >
               <DeleteSvg 
                 color="var(--font-heading-invert-color)"

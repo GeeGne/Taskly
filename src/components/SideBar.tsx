@@ -77,7 +77,6 @@ export default function SideBar () {
     enabled: !!user
   });
 
-
   const signOutMutation = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
@@ -128,11 +127,16 @@ export default function SideBar () {
       case 'addBucket_button_is_clicked':
         setAddBucket(true);
         break;
+      case 'clean_buckets_button_is_clicked':
+        setActivateDeleteBucketToggle(!activateDeleteBucketToggle);
+      break;
       default:
         console.error('Unkown type: ', type);
     }
   }
   
+  console.log('activateDeleteBucketToggle: ', activateDeleteBucketToggle);
+
   return (
     <div
       className={`
@@ -250,17 +254,25 @@ export default function SideBar () {
             onClick={handleClick}
           >
             <MagicBroomSvg width="0.8rem" height="0.8rem" 
-              // color="var(--font-extra-light-color)" 
-              className="text-body-extra-light group-hover:text-body"
+              className={`
+                ${activateDeleteBucketToggle ? 'text-primary' : 'text-body-extra-light group-hover:text-body'}
+              `}
             />
             <span
-              className="text-xs text-body-extra-light group-hover:text-body"
+              className={`
+                text-xs
+                ${activateDeleteBucketToggle ? 'text-primary' : 'text-body-extra-light group-hover:text-body'}
+              `}
             >
               Clean
             </span>
           </button>
         </div>
-        <DisplayBuckets buckets={buckets} tasks={tasks} isLoading={isBucketsLoading} />
+        <DisplayBuckets 
+          buckets={buckets} 
+          tasks={tasks} 
+          activateDeleteBucketToggle={activateDeleteBucketToggle}
+          isLoading={isBucketsLoading} />
         <button
           className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
           role="button"
