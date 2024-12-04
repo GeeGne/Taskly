@@ -249,9 +249,12 @@ export default function SideBar () {
             data-type="clean_buckets_button_is_clicked"
             onClick={handleClick}
           >
-            <MagicBroomSvg width="0.8rem" height="0.8rem" color="var(--font-extra-light-color)" />
+            <MagicBroomSvg width="0.8rem" height="0.8rem" 
+              // color="var(--font-extra-light-color)" 
+              className="text-body-extra-light group-hover:text-body"
+            />
             <span
-              className="text-xs text-body-light group-hover:text-body"
+              className="text-xs text-body-extra-light group-hover:text-body"
             >
               Clean
             </span>

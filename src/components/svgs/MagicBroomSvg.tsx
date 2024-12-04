@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function MagicBroomSvg({
-  color = "black",
+  color = "currentColor",
   width = "1rem",
   height = "1rem",
   className = "",
