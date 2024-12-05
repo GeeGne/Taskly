@@ -119,8 +119,15 @@ const useBackgroundActivityStore = create(set => ({
 }));
 
 const useActivateDeleteBucketsStore = create(set => ({
-  activateDeleteBucketToggle: true,
+  activateDeleteBucketToggle: false,
   setActivateDeleteBucketToggle: activateDeleteBucketToggle => (set({ activateDeleteBucketToggle }))
+}));
+
+const useDeleteBucketPopupStore = create(set => ({
+  deleteBucketPopupToggle: false,
+  deleteBucketPopupDetails: {},
+  setDeleteBucketPopupDetails: deleteBucketPopupDetails => (set({ deleteBucketPopupDetails })),
+  setDeleteBucketPopupToggle: deleteBucketPopupToggle => (set({ deleteBucketPopupToggle }))
 }));
 
 export { 
@@ -129,5 +136,6 @@ export {
   useSettingsPopupStore, usePriorityPopupStore,
   useTaskInputStore, useAddBucketPopupStore,
   useHomePageStore, useControllersStore,
-  useBackgroundActivityStore, useActivateDeleteBucketsStore
+  useBackgroundActivityStore, useActivateDeleteBucketsStore,
+  useDeleteBucketPopupStore
 };

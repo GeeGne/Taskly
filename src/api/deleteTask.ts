@@ -3,9 +3,9 @@ import { supabase } from '@/lib/supabaseClient';
 async function deleteTask (taskId: string) {
   try {
     const { data, error } = await supabase
-     .from('tasks')
-     .delete()
-     .eq('id', taskId);
+      .from('tasks')
+      .delete()
+      .eq('id', taskId);
     if (error) throw new Error ('Failed to delete')
     
     return data;

@@ -17,6 +17,7 @@ import Redirector from '@/utils/Redirector';
 // COMPONENTS
 import SettingsPopup from '@/components/SettingsPopup';
 import AddBucketPopup from '@/components/AddBucketPopup';
+import DeleteBucketPopup from '@/components/DeleteBucketPopup';
 import DisplayBuckets from '@/components/DisplayBuckets';;
 import PersonFillSvg from '@/components/svgs/PersonFillSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
@@ -151,6 +152,7 @@ export default function SideBar () {
     >
       <AddBucketPopup />
       <SettingsPopup />
+      <DeleteBucketPopup />
       <button
         className={`
           initial md:hidden absolute top-4 left-[calc(100%+1rem)] hover:left-[calc(100%+1rem-5px)] z-[100] p-2 bg-[var(--background-color)] hover:bg-[var(--background-light-color)] rounded-md transition-all duraion-200 ease-out
@@ -213,7 +215,7 @@ export default function SideBar () {
               `}
             >
               0
-            </span>
+              </span>
           </li>
           <li
             className={`
@@ -236,7 +238,7 @@ export default function SideBar () {
                 ${currentTab === 'inbox' ? 'text-primary' : 'text-body-light'}
               `}
             >
-              0
+              {tasks?.filter((itm: any) => !itm.is_completed ).length || 0}
             </span>
           </li>
         </ul>
@@ -315,12 +317,11 @@ export default function SideBar () {
             data-type="settings_button_is_clicked"
             onClick={handleClick}
           >
-            <GearWideConnectedSvg color="var(--font-body-color)" />
+            <GearWideConnectedSvg className={settingsPopup ? 'text-primary' : 'text-body'} />
           </li>
           <li
             className={`
               p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]
-              ${currentTab === 'about' ? 'bg-secondary' : 'bg-[transparent]'}
             `}
             role="button"
             data-key="about"
@@ -328,7 +329,7 @@ export default function SideBar () {
             onClick={handleClick}
           >
             <InfoCircleSvg 
-              color={`${currentTab === 'about' ? "var(--font-heading-color)" : "var(--font-body-color)"}`} />
+              className={`${currentTab === 'about' ? "text-primary" : "text-body"}`} />
           </li>
           <li
             className="p-2 hover:bg-[var(--background-light-color)] transition-colors ease-out duration-150 cursor-pointer rounded-[100%]"

@@ -26,13 +26,32 @@ import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
 
 // STORES
 import { 
-  useSideBarStore, useCurrentTabStore,
+  useDeleteBucketPopupStore, useCurrentTabStore,
   useSettingsPopupStore, useAddBucketPopupStore 
 } from '@/store/index.js';
 
 export default function DisplayBuckets ({buckets, tasks, isLoading, activateDeleteBucketToggle}: any) {
   const emptyArray = [1, 2, 3, 4];
   const currentTab = useCurrentTabStore(status => status.currentTab);
+  const { 
+    deleteBucketPopupDetails, setDeleteBucketPopupDetails,
+    deleteBucketPopupToggle ,setDeleteBucketPopupToggle
+  } = useDeleteBucketPopupStore();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { type, bucketId } = e.currentTarget.dataset;
+    const getBucket = (id: number) => buckets?.find((itm: any) => itm.id === id);
+
+    switch (type) { 
+      case 'delete_bucket_button_is_clicked':
+        setDeleteBucketPopupDetails(getBucket( Number(bucketId) ));
+        setDeleteBucketPopupToggle(true);
+        console.log('getBucket: ', getBucket(Number(bucketId)));
+        break;
+      default:
+        console.error('Unknown type: ', type);
+    }
+  }
 
   return (
     <ul
@@ -79,18 +98,21 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
             data-type="bucketList_button_is_clicked"
             data-bucket-name={itm.name}
           > 
-            <div
+            <button
               className={`
-                flex items-center justify-center h-[100%] bg-red-500 hover:bg-red-600 shrink-0
+                flex items-center justify-center h-[100%] bg-red-500 hover:bg-red-600 shrink-0 
                 transition-all duration-300 ease-in-out
                 ${activateDeleteBucketToggle ? `w-10 mr-2` : 'w-0'}
               `}
               style={{ transitionDelay: `${i / 10}s`}}
+              data-bucket-id={itm.id}
+              data-type="delete_bucket_button_is_clicked"
+              onClick={handleClick}
             >
               <DeleteSvg 
                 color="var(--font-heading-invert-color)"
               />
-            </div>
+            </button>
             <Link 
               className={`
                 flex items-center gap-2 text-sm text-left w-[100%] shrink-0

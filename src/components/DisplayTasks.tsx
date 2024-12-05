@@ -275,7 +275,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true }: T
                     <div
                       className={`
                         absolute content-[''] top-[50%] translate-y-[-50%] left-[0] w-[100%] h-2
-                        flex z-[1] blur-[0px] overflow-hidden opacity-30
+                        flex z-[1] blur-[0px] overflow-hidden opacity-30 
                         ${itm.priority !== 'normal' || 'bg-[var(--normal-priority-color)]'}                                                      
                         ${itm.priority !== 'important' || 'bg-[var(--important-priority-color)]'}                                                      
                         ${itm.priority !== 'critical' || 'bg-[var(--critical-priority-color)]'}                                                    
