@@ -17,10 +17,10 @@ export default function CircularProgressBox ({
 
   const circularProgressRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (circularProgressRef.current) 
-      circularProgressRef.current.style.setProperty('--circular-progress', String(percantage));
-  }, [percantage]);
+  // useEffect(() => {
+    // if (circularProgressRef.current) 
+      // circularProgressRef.current.style.setProperty('--circular-progress', String(percantage));
+  // }, [percantage]);
 
   return (
     <div     
@@ -31,6 +31,7 @@ export default function CircularProgressBox ({
       >
         <div
           className="circular-progress"
+          style={{ "--circular-progress": String(percantage)} as React.CSSProperties}
           ref={circularProgressRef}
         />             
         <span

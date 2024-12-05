@@ -5,8 +5,8 @@ async function uploadProfilePictureToStorage (file: any) {
     const { data: userData } = await supabase.auth.getUser();
     if (!userData) throw new Error ('Couldn\'t get user Data, Please try again.');
 
-    const fileName = `${userData.user?.id}-${Date.now()}-pfp`;
-    const filePath = `profile-pictures/${fileName}`;
+    const fileName = `${Date.now()}-pfp`;
+    const filePath = `profile-pictures/${userData.user?.id}/${fileName}`;
     const { data, error: bucketError } = await supabase.storage
       .from('assets')
       .upload(filePath, file
