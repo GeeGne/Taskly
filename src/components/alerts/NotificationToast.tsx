@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from 'react'
 // STORES
 import { useNotificationToastStore } from '@/store/index';
 
-export default function NotificationToast () {
-  
+export default function NotificationToast ({ currentLanguage = 'en' }: { currentLanguage?: string }) {
+  const isEn = currentLanguage === 'en';
   const { notificationToast, notificationText } = useNotificationToastStore();
   const [ mount, setMount ] = useState(false);
   const notificationToastRef = useRef<HTMLButtonElement>(null);
@@ -19,6 +19,18 @@ export default function NotificationToast () {
     setTimeout(() => notificationToastRef.current?.classList.add('--notificationToast-ani'), 10);
   }, [notificationToast]);
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { type } = e.currentTarget.dataset;
+
+    switch (type) {
+      case 'toast_button_is_clicked':
+        e.currentTarget.classList.add('invisible');
+        break;
+      default:
+        console.error('Unknwon type: ', type);
+    }
+  }
+
   return (
     <button
       className="
@@ -28,10 +40,12 @@ export default function NotificationToast () {
       transition-all duraiton-300 ease-out
       hover:bg-[var(--background-invert-color)]
       "
+      data-type="toast_button_is_clicked"
+      onClick={handleClick}
       ref={notificationToastRef}
     >
-      <span>{ notificationText }</span>
-      <span className="text-secondary"> Undo</span>
+      <span>{ notificationText }</span>{' '}
+      <span className="text-secondary">{isEn ? 'Close' : 'الغاء'}</span>
     </button>
   )
 }

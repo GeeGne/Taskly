@@ -9,8 +9,8 @@ import "@/app/globals.css";
 
 // COMPONENTS
 import ReactQueryProvider from '@/components/ReactQueryProvider';
-import ErrorAlert from '@/components/ErrorAlert';
-import NotificationToast from '@/components/NotificationToast';
+import Alerts from '@/components/alerts/index';
+import Popups from '@/components/popups/index';
 import BackgroundActivity from '@/components/BackgroundActivity';
 import dynamic from 'next/dynamic';
 const SideBar = dynamic(
@@ -19,7 +19,10 @@ const SideBar = dynamic(
 ) 
 
 // STORES
-import { useThemeStore, useHomePageStore, useControllersStore, useBackgroundActivityStore } from '@/store/index';
+import { 
+  useThemeStore, useLanguageStore, useHomePageStore, 
+  useControllersStore, useBackgroundActivityStore 
+} from '@/store/index';
 
 // CONFETTI 
 import Photons from "react-canvas-confetti/dist/presets/snow";
@@ -35,19 +38,21 @@ export default function RootLayout({
   const isHomepage = useHomePageStore(status => status.isHomePage);
   const backgroundConfettiToggle = useControllersStore(status => status.backgroundConfettiToggle);
   const backgroundActivityToggle = useBackgroundActivityStore(status => status.backgroundActivityToggle);
+  const currentLanguage = useLanguageStore(status => status.currentLanguage);
 
   return (
     <html lang="en">
       <body 
         className={`
           ${theme} theme-transition
+          ${currentLanguage}
         `}
         ref={bodyRef}
       >
         <ReactQueryProvider>
           <Suspense>
-            <ErrorAlert />                
-            <NotificationToast />       
+            <Alerts currentLanguage={currentLanguage} />
+            <Popups currentLanguage={currentLanguage} />
             <BackgroundActivity />
             {isHomepage || backgroundConfettiToggle &&
               <Photons
@@ -59,8 +64,8 @@ export default function RootLayout({
                 }
               />
             }
-            <div className="app-layout grid-cols-[1fr] md:grid-cols-[auto_1fr]">
-              <SideBar />
+            <div className="grid grid-cols-[1fr] md:grid-cols-[auto_1fr]">
+              <SideBar currentLanguage={currentLanguage} />
               <main className="">
                 {children}
               </main>

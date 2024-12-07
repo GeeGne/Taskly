@@ -35,21 +35,21 @@ const useSettingsPopupStore = create(
       storage: createJSONStorage(() => localStorage)
     }
   )
-)
+);
 
 const useErrorAlertStore = create((set) => ({
   errorAlert: 0,
   setErrorAlert: (errorAlert) => set({ errorAlert }),
   errorText: 'test',
   setErrorText: (errorText) => set({ errorText })
-}))
+}));
 
 const useNotificationToastStore = create((set) => ({
   notificationToast: 0,
   setNotificationToast: (notificationToast) => set({ notificationToast }),
   notificationText: 'test',
   setNotificationText: (notificationText) => set({ notificationText }),
-}))
+}));
 
 const useThemeStore = create(
   persist(
@@ -62,7 +62,20 @@ const useThemeStore = create(
       storage: createJSONStorage(() => localStorage)
     }
   )
-)
+);
+
+const useLanguageStore = create(
+  persist(
+    set => ({
+      currentLanguage: 'ar',
+      setCurrentLanguage: currentLanguage => set(({ currentLanguage }))
+    }),
+    {
+      name: 'language-storage',
+      storage: createJSONStorage(() => localStorage)
+    }
+  )
+);
 
 const useSideBarStore = create(
   persist(
@@ -75,7 +88,7 @@ const useSideBarStore = create(
       storage: createJSONStorage(() => localStorage)
     }
   )
-)
+);
 
 const useCurrentTabStore = create(
   persist (
@@ -88,7 +101,7 @@ const useCurrentTabStore = create(
       storage: createJSONStorage(() => localStorage)
     }
   )
-)
+);
 
 const useHomePageStore = create(set => ({
   isHomePage: true,
@@ -131,7 +144,8 @@ const useDeleteBucketPopupStore = create(set => ({
 }));
 
 export { 
-  useThemeStore, useSideBarStore, useCurrentTabStore, 
+  useThemeStore, useLanguageStore, 
+  useSideBarStore, useCurrentTabStore, 
   useNotificationToastStore, useErrorAlertStore, 
   useSettingsPopupStore, usePriorityPopupStore,
   useTaskInputStore, useAddBucketPopupStore,

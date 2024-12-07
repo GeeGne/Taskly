@@ -5,8 +5,8 @@ import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
 // STORES
 import { useSideBarStore, useCurrentTabStore } from '@/store/index';
 
-export default function Header ({ tab }: { tab?: string; }) {
-
+export default function Header ({ tab, currentLanguage = 'en' }: { tab?: string; currentLanguage?: string ;}) {
+  const isEn = currentLanguage === 'en';
   const { toggle, setToggle } = useSideBarStore();
   const { currentTab } = useCurrentTabStore();
 
@@ -41,8 +41,8 @@ export default function Header ({ tab }: { tab?: string; }) {
         onClick={handleClick}
       >
         {toggle 
-          ? <ArrowBarLeftSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" /> 
-          : <ArrowBarRightSvg color="var(--font-heading-color)" width="1.5em" height="1.5em" />
+          ? <ArrowBarLeftSvg className={isEn ? 'rotate-0' : 'rotate-180'} color="var(--font-heading-color)" width="1.5em" height="1.5em" /> 
+          : <ArrowBarRightSvg className={isEn ? 'rotate-0' : 'rotate-180'} color="var(--font-heading-color)" width="1.5em" height="1.5em" />
         }
       </button>
       <h1

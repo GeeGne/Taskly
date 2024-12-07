@@ -16,7 +16,8 @@ import {
 // API
 import deleteBucket from '@/api/deleteBucket';
 
-export default function DeleteBucketPopup () {
+export default function DeleteBucketPopup ({ currentLanguage = 'en' }: { currentLanguage?: string ;}) {
+  const isEn = currentLanguage === 'en';
   
   const queryClient = useQueryClient();
   const [ deleteActivity, setDeleteActivity ] = useState<boolean>(false);
@@ -57,7 +58,7 @@ export default function DeleteBucketPopup () {
         setDeleteBucketPopupToggle(false);
         break;
       case 'delete_button_is_clicked':
-        deleteBucketMutation.mutate(deleteBucketPopupDetails.id.toString());
+        deleteBucketMutation.mutate(deleteBucketPopupDetails.id);
         break;
       default:
         console.error('Unknown type: ', type);

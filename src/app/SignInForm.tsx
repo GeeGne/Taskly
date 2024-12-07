@@ -26,14 +26,15 @@ import signInFormReducer from '@/reducers/signInFormReducer';
 import validate from '@/utils/validate';
 
 // STORES
-import { useErrorAlertStore } from '@/store/index';
+import { useLanguageStore, useErrorAlertStore } from '@/store/index';
 
-export default function SignInForm () {
+export default function SignInForm ({ currentLanguage }: { currentLanguage: string }) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const queryClient = useQueryClient();
+  const isEn = currentLanguage === 'en';
 
   const [ activity, setActivity ] = useState<boolean>(false);
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
@@ -172,7 +173,7 @@ export default function SignInForm () {
       <h2
         className="font-bold text-2xl text-heading mx-auto"
       >
-        Sign Up
+        {isEn ? 'Login' : 'تسجيل الدخول'}
       </h2>
       <div
         className="relative flex flex-col"
@@ -181,7 +182,7 @@ export default function SignInForm () {
           className="text-body font-semibold"
           htmlFor="email"
         >
-          Email
+          {isEn ? 'Email' : 'ايميل'}
         </label>
         <input 
           className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
@@ -204,7 +205,7 @@ export default function SignInForm () {
           htmlFor="password"
           className="text-body font-semibold"
         >
-          Password
+          {isEn ? 'Password' : 'كلمه المرور'}
         </label>
         <div
           className="relative"
@@ -219,7 +220,10 @@ export default function SignInForm () {
             ref={passRef}
           />
           <Image
-            className="absolute content-[''] top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]"
+            className={`
+              absolute content-[''] top-[50%] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]
+              ${isEn ? 'right-[0rem]' : 'left-[1rem]'}
+            `}
             src={eyeIcon}
             alt="Eye Icon"
             data-type="eyeIcon_button_is_clicked"
@@ -239,10 +243,10 @@ export default function SignInForm () {
       >
         {activity 
           ? <>
-              <span className="opacity-0">Continue</span>
+              <span className="opacity-0">{isEn ? 'Continue' : ''}</span>
               <TripleBarActivity />
             </>
-          : <span>Continue</span>
+          : <span>{isEn? 'Continue' : 'متابعه'}</span>
         }
       </button><br/>
       <div
@@ -255,7 +259,7 @@ export default function SignInForm () {
         <span
           className="text-primary underline"
         >
-          Forgot your password?
+          {isEn ? 'Forgot your password?' : 'نسيت كلمه المرور؟'}
         </span>{' '}
         <span
           className="font-bold text-primary"
@@ -272,12 +276,12 @@ export default function SignInForm () {
         <span
           className="text-primary underline"
         >
-          First time here?
+          {isEn ? 'First time here?' : 'اول مره هنا؟'}
         </span>{' '}
         <span
           className="font-bold text-primary"
         >
-          Create Account
+          {isEn ? 'Create Account' : 'انشئ حساب'}
         </span>  
       </div>
     </form>

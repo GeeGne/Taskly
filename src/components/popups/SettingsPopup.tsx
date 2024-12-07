@@ -1,11 +1,13 @@
 // COMPONENTS
 import ThemeSwitch from '@/components/ThemeSwitch';
+import LanguageSwitch from '@/components/switches/LanguageSwitch';
 import ControllerSwitch from '@/components/ControllerSwitch';
 
 // STORE
 import { useSettingsPopupStore, useControllersStore } from '@/store/index';
 
-export default function SettingsPopup () {
+export default function SettingsPopup ({ currentLanguage }: { currentLanguage: string }) {
+  const isEn = currentLanguage === 'en';
   
   const setSettingsPopup = useSettingsPopupStore(status => status.setSettingsPopup);
   const settingsPopup = useSettingsPopupStore(status => status.settingsPopup);
@@ -44,7 +46,7 @@ export default function SettingsPopup () {
         <h2
           className="py-1 font-bold text-md text-body"
         >
-          General Settings
+          {isEn ? 'General Settings' : 'الاعدادت العامه'}
         </h2>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <ul
@@ -56,7 +58,7 @@ export default function SettingsPopup () {
             <span
               className="text-xs text-heading font-bold"
             >
-              Current Theme
+              {isEn ? 'Current Theme' : 'الوضع الحالي'}
             </span>
             <ThemeSwitch />
           </li>
@@ -64,9 +66,22 @@ export default function SettingsPopup () {
             className="flex justify-between items-center"
           >
             <span
+              className="text-xs text-heading font-bold"
+            >
+              {isEn ? 'Current language' : 'اللغه الحاليه'}
+            </span>
+            <LanguageSwitch />
+          </li>
+          <li
+            className="flex justify-between items-center"
+          >
+            <span
               className="text-xs max-w-[11rem] text-heading font-bold"
             >
-              Display Celebration Confetti When Task is Completed
+              {isEn 
+                ? 'Display Celebration Confetti When Task is Completed'
+                : 'عرض فقاقيع الاحتفال عند انجاز المهمه'
+              }
             </span>
             <ControllerSwitch className="shrink-0" toggle={taskCompleteCelebrateConfettiToggle} setToggle={setTaskCompleteCelebrateConfettiToggle} />
           </li>
@@ -76,7 +91,7 @@ export default function SettingsPopup () {
             <span
               className="text-xs text-heading font-bold"
             >
-              Background Confetti
+              {isEn ? 'Background Confetti' : 'التاثيرات الخلفيه'}
             </span>
             <ControllerSwitch toggle={backgroundConfettiToggle} setToggle={setBackgroundConfettiToggle} />
           </li>
@@ -85,7 +100,6 @@ export default function SettingsPopup () {
         <div
           className="
             relative flex flex-grow w-[100%] justify-around
-            before:content[''] before:absolute before:top-[50%] before:left-[50%] before:translate-y-[-50%] before:translate-x-[-50%] before:h-[80%] before:w-[1px] before:bg-[var(--background-deep-color)]
           "
         >
           <button
@@ -96,17 +110,7 @@ export default function SettingsPopup () {
             data-type="cancel_button_is_clicked"
             onClick={handleClick}
           >
-            cancel
-          </button>
-          <button
-            className="
-              flex-grow w-[50%] py-1 text-sm text-body font-bold 
-              hover:bg-secondary
-            "
-            data-type="cancel_button_is_clicked"
-            onClick={handleClick}
-          >
-            save
+            {isEn ? 'close' : 'الغاء'}
           </button>
         </div>
       </div>

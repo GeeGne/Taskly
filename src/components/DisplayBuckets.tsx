@@ -30,8 +30,9 @@ import {
   useSettingsPopupStore, useAddBucketPopupStore 
 } from '@/store/index.js';
 
-export default function DisplayBuckets ({buckets, tasks, isLoading, activateDeleteBucketToggle}: any) {
+export default function DisplayBuckets ({buckets, tasks, isLoading, activateDeleteBucketToggle, currentLanguage = 'en'}: any) {
   const emptyArray = [1, 2, 3, 4];
+  const isEn = currentLanguage === 'en';
   const currentTab = useCurrentTabStore(status => status.currentTab);
   const { 
     deleteBucketPopupDetails, setDeleteBucketPopupDetails,
@@ -52,6 +53,9 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
         console.error('Unknown type: ', type);
     }
   }
+
+  // DEBUG & UI
+  // isLoading = true;
 
   return (
     <ul
@@ -83,6 +87,7 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
                 <span
                   className={`
                     ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                    ${isEn ? 'ml-auto' : 'mr-auto'}
                   `}
                 >
                   0
@@ -128,8 +133,9 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
               </span>
               <span
                 className={`
-                  ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                  font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
                   ${currentTab === (itm.name) ? 'text-primary' : 'text-body-light'}
+                  ${isEn ? 'ml-auto' : 'mr-auto'}
                 `}
               >
                 {tasks?.filter((task: any) => !task.is_completed && task.bucket_id === itm.id).length || 0}

@@ -27,15 +27,16 @@ import { useNotificationToastStore, useErrorAlertStore  } from '@/store/index.js
 
 type Tasks = {
   tasks?: any[] | null;
-  isTasksLoading?: boolean
+  isTasksLoading?: boolean;
+  currentLanguage?: string;
 }
 
-export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = true }: Tasks) {
-  // isTasksLoading = true;
+export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = true, currentLanguage = 'en' }: Tasks) {
 
   const queryClient = useQueryClient();
   const router = useRouter();
   const imitateTasks = [1, 2, 3, 4, 5];
+  const isEn = currentLanguage === 'en';
 
   type DeleteActivityBtn = {
     activity: boolean,
@@ -59,7 +60,7 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['tasks']});
-      setNotificationText('Task deleted successfully');
+      setNotificationText(isEn ? 'Task deleted successfully' : 'تم مسح المهمه بنجاح');
       setNotificationToast(Date.now());
     }
   })
@@ -67,13 +68,13 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
   const updateIsCompletedTaskMutation = useMutation({
     mutationFn: updateIsCompletedFromTasks,
     onError: error => {
-      setErrorText('Error while updating task: ' + error.message);
+      setErrorText( isEn ? 'Error while updating task: ' : 'حصل خطأ خلال تعديل الهمه' + error.message);
       setErrorAlert(Date.now());
     },
     onSuccess: () => {
       tasksLiRefs.current.forEach(el => el?.classList.add('task-completed'));
       queryClient.invalidateQueries({queryKey: ['tasks']});
-      setNotificationText('task is back to list');
+      setNotificationText(isEn ? 'task is back to list' : 'نم ارجاع المهمه الى القائمه');
       setNotificationToast(Date.now());
     }
   })
@@ -126,16 +127,19 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
     />;
   }
 
-  // DEBUG
+  // DEBUG & UI
   // console.log('tasksLiRefs:', tasksLiRefs);
-
+  // isTasksLoading = true;
 
   return (
     <section
       className="flex flex-col gap-1"
     >
       <div 
-        className="flex items-center cursor-pointer"
+        className={`
+          flex items-center cursor-pointer
+          ${isTasksLoading && 'gap-2'}
+        `}
         role="button"
         data-type="toggle_div_is_clicked"
         onClick={handleClick}
@@ -153,7 +157,7 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
             ${isTasksLoading ? '--flirk text-transparent bg-[var(--background-light-color)] rounded-lg' : ''}
           `}
         >
-          Completed
+          {isEn ? 'Completed' : 'مكتمل'}
         </h2>
         <span
           className={`
@@ -184,22 +188,22 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 />
                 <label
                   htmlFor="task3"
-                  className="relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]"
+                  className={`
+                    relative group/check px-2 text-sm text-body bg-[var(--background-light-color)] rounded-lg ml-2 z-[5] hover:cursor-pointer before:content-[''] before:absolute before:top-[50%] before:left-[-1.5rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-light-color)] before:z-[10]
+                    ${isEn ? 'before:left-[-1.5rem]' : 'before:right-[-1.5rem]'}
+                  `}
                 >
                   <CheckSvg className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" />
                   <span className="opacity-0">
-                    Wash the Dishes And hangout with friends.
+                    Wash the friends.
                   </span>
                 </label>
                 <nav
-                  className="flex ml-auto gap-2 ease-out transition-all duration-150"
+                  className={`
+                    flex gap-2 ease-out transition-all duration-150
+                    ${isEn ? 'ml-auto' : 'mr-auto'}
+                  `}
                 >
-                  <ArrowUpSvg 
-                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                  />                  
-                  <ArrowDownSvg 
-                    className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
-                  />            
                   <XSvg 
                     className="p-1 bg-[var(--background-light-color)] ease-out transition-all duration-150 rounded-[100%] cursor-pointer" width="1.5rem" height="1.5rem" color="var(--background-light-color)"  
                   />            
@@ -226,13 +230,17 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                 />
                 <label
                   htmlFor={itm.id}
-                  className="
+                  className={`
                     relative group/check px-2 z-[5] hover:cursor-pointer 
                     before:content-[''] before:absolute before:top-[50%] before:left-[-1rem] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]
-                  "
+                    ${isEn ? 'before:left-[-1rem]' : 'before:right-[-1rem]'}
+                  `}
                 >
                   <CheckSvg 
-                    className="absolute top-[50%] left-[-1rem] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)" 
+                    className={`
+                      absolute top-[50%] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)
+                      ${isEn ? 'left-[-1rem]' : 'right-[-1rem]'}
+                    `} 
                   />
                   <span
                     className="text-sm text-body"
@@ -241,7 +249,10 @@ export default function DisplayCompletedTasks ({ tasks = null, isTasksLoading = 
                   </span>
                 </label>
                 <nav
-                  className="flex ml-auto gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150"
+                  className={`
+                    flex gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150
+                    ${isEn ? 'ml-auto' : 'mr-auto'}
+                  `}
                 >
                   <button
                     role="button"

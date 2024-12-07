@@ -15,9 +15,6 @@ import getBuckets from '@/api/getBuckets';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
-import SettingsPopup from '@/components/SettingsPopup';
-import AddBucketPopup from '@/components/AddBucketPopup';
-import DeleteBucketPopup from '@/components/DeleteBucketPopup';
 import DisplayBuckets from '@/components/DisplayBuckets';;
 import PersonFillSvg from '@/components/svgs/PersonFillSvg';
 import GearWideConnectedSvg from '@/components/svgs/GearWideConnectedSvg';
@@ -30,12 +27,13 @@ import PlusSvg from '@/components/svgs/PlusSvg';
 import MagicBroomSvg from '@/components/svgs/MagicBroomSvg';
 import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
 import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
+import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
 
 // STORES
 import { 
-  useSideBarStore, useCurrentTabStore,
-  useSettingsPopupStore, useAddBucketPopupStore,
-  useActivateDeleteBucketsStore
+  useSideBarStore, useLanguageStore, 
+  useCurrentTabStore, useSettingsPopupStore, 
+  useAddBucketPopupStore, useActivateDeleteBucketsStore
 } from '@/store/index.js';
 
 type UserProfile = {
@@ -43,7 +41,7 @@ type UserProfile = {
   [key: string]: unknown;
 }
 
-export default function SideBar () {
+export default function SideBar ({ currentLanguage }: { currentLanguage: string }) {
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -51,7 +49,8 @@ export default function SideBar () {
   const { currentTab, setCurrentTab } = useCurrentTabStore();
   const { settingsPopup, setSettingsPopup } = useSettingsPopupStore();
   const { activateDeleteBucketToggle, setActivateDeleteBucketToggle } = useActivateDeleteBucketsStore();
-  const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket)
+  const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket);
+  const isEn = currentLanguage === 'en';
 
   const toggle = useSideBarStore(status => status.toggle);
   const setToggle = useSideBarStore(status => status.setToggle);
@@ -136,32 +135,40 @@ export default function SideBar () {
     }
   }
   
-  console.log('activateDeleteBucketToggle: ', activateDeleteBucketToggle);
+  // DEBUG & UI
+  // console.log('activateDeleteBucketToggle: ', activateDeleteBucketToggle);
+  // console.log('toggle && !isEn: ', toggle && !isEn);
+  // const isBucketsLoading = true;
 
   return (
     <div
       className={`
-        fixed md:sticky top-0 w-[200px] h-[100vh] z-[100]
+        fixed md:sticky top-0 h-[100vh] z-[100]
         transition-all duraion-300 ease-in 
         before:content[''] before:absolute before:left-[100%] before:top-[50%] before:translate-y-[-50%] before:w-[1px] before:h-[100%] before:bg-[var(--background-light-color)]
-        md:after:hidden after:content-[''] after:absolute after:top-[0] after:left-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
-        ${toggle ? 'left-0 md:visble md:opacity-100 after:visible' : 'left-[-200px] md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0'}
-        ${user ? 'initial' : 'hidden'}
+        @shade-background md:after:hidden after:content-[''] after:absolute after:top-[0] after:w-[100vw] after:h-[100vh] after:bg-[var(--shade-color)] after:z-[-1] after:blur-[5px] after:transtion-all after:duration-[0.15s] after:ease-in
+        ${isEn ? 'before:left-[100%] after:left-[0]' : 'before:right-[100%] after:right-[0]'}
+        ${toggle 
+          ? `${isEn ? 'left-0' : 'right-0'} md:visble md:opacity-100 after:visible` 
+          : `${isEn ? 'left-[-200px]' : 'right-[-200px]'} md:invisible md:w-[0px] md:p-[0] md:opacity-0 after:invisible after:opacity-0`}
+        ${user ? 'visible w-[200px]' : 'invisible w-[0px] overflow-hidden'}
       `}
       ref={headerRef}
     >
-      <AddBucketPopup />
-      <SettingsPopup />
-      <DeleteBucketPopup />
       <button
         className={`
-          initial md:hidden absolute top-4 left-[calc(100%+1rem)] hover:left-[calc(100%+1rem-5px)] z-[100] p-2 bg-[var(--background-color)] hover:bg-[var(--background-light-color)] rounded-md transition-all duraion-200 ease-out
+          initial md:hidden absolute top-4 hover:translate-x-1 z-[100] p-2 bg-[var(--background-color)] hover:bg-[var(--background-light-color)] rounded-md transition-all duraion-200 ease-out
+          ${isEn ? 'left-[calc(100%+1rem)]' : 'right-[calc(100%+1rem)]'}
+
           ${toggle ? 'initial' : 'hidden'}
         `}
         data-type="toggle_sidebar_button_is_clicked"
         onClick={handleClick}
       >
-        <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
+        {isEn 
+          ? <ArrowBarLeftSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
+          : <ArrowBarRightSvg width="1.5rem" height="1.5rem" color="var(--font-heading-color)" />
+        }
       </button>
       <nav
         className="flex flex-col h-[100%] py-2 px-2 bg-[var(--background-color)] md:bg-transparent backdrop-blur-[20px]" 
@@ -182,11 +189,11 @@ export default function SideBar () {
           >
             <ListTaskSvg color={`${currentTab === 'myTasks' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
-              My Tasks
+              {isEn ? 'My Tasks' : 'مهامي'}
             </span>
             <span
               className={`
-                ml-auto text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${isEn ? 'ml-auto' : 'mr-auto'} text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
                 ${currentTab === 'myTasks' ? 'text-primary' : 'text-body-light'}
               `}
             >
@@ -206,11 +213,11 @@ export default function SideBar () {
           >
             <CalendarSvg color={`${currentTab === 'today' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
-              today
+              {isEn ? 'today' : 'اليوم'}
             </span>
             <span
               className={`
-                ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${isEn ? 'ml-auto' : 'mr-auto'} text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
                 ${currentTab === 'today' ? 'text-primary' : 'text-body-light'}
               `}
             >
@@ -230,11 +237,11 @@ export default function SideBar () {
           >
             <InboxSvg color={`${currentTab === 'inbox' ? 'var(--primary-color)' : 'var(--font-light-color'}`} />
             <span>
-              inbox
+              {isEn ? 'inbox' : 'الصندوق'}
             </span>
             <span
               className={`
-                ml-auto font-bold text-xs px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
+                ${isEn ? 'ml-auto' : 'mr-auto'} text-xs font-bold px-2 py-1 bg-[var(--background-light-color)] rounded-[2rem]
                 ${currentTab === 'inbox' ? 'text-primary' : 'text-body-light'}
               `}
             >
@@ -248,7 +255,7 @@ export default function SideBar () {
           <h2
             className="inline px-1 ml-4 bg-[var(--background-color)] text-sm font-bold text-body-light"
           >
-            Buckets
+            {isEn? 'Buckets' : 'المجموعات'}
           </h2>
           <button
             className="group flex gap-1 px-1 ml-4 bg-[var(--background-color)]"
@@ -266,7 +273,7 @@ export default function SideBar () {
                 ${activateDeleteBucketToggle ? 'text-primary' : 'text-body-extra-light group-hover:text-body'}
               `}
             >
-              Clean
+              {isEn ? 'Clean' : 'مسح'}
             </span>
           </button>
         </div>
@@ -274,7 +281,9 @@ export default function SideBar () {
           buckets={buckets} 
           tasks={tasks} 
           activateDeleteBucketToggle={activateDeleteBucketToggle}
-          isLoading={isBucketsLoading} />
+          isLoading={isBucketsLoading} 
+          currentLanguage={currentLanguage}
+        />
         <button
           className="flex items-center justify-center text-body-light text-sm text-left p-1 my-1 bg-[var(--background-light-color)] hover:bg-[var(--background-deep-light-color)] transition-colors duration-200 ease-out rounded-md"
           role="button"
@@ -283,7 +292,7 @@ export default function SideBar () {
         >
           <PlusSvg color="var(--font-light-color)" />
           <span className="font-bold">
-            Add
+            {isEn ? 'Add' : 'اضف '}
           </span>
         </button>
         <hr className="h-[1px] bg-[var(--background-light-color)] mt-[auto] mb-2" />

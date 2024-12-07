@@ -17,6 +17,7 @@ import GoogleSvg from '@/components/svgs/GoogleSvg';
 import FacebookSvg from '@/components/svgs/FacebookSvg';
 import GithubSvg from '@/components/svgs/GithubSvg';
 import MoonSlashSunSvg from '@/components/svgs/MoonSlashSunSvg';
+import GrommetLanguageSvg from '@/components/svgs/GrommetLanguageSvg';
 
 // ASSETS
 import googleIcon from "../../public/assets/google.svg";
@@ -43,7 +44,12 @@ import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import Redirector from '@/utils/Redirector';
 
 // STORES
-import { useErrorAlertStore, useThemeStore, useHomePageStore } from '@/store/index';
+import { 
+  useErrorAlertStore, 
+  useThemeStore, 
+  useHomePageStore,
+  useLanguageStore
+} from '@/store/index';
 
 export default function Home() {
 
@@ -58,6 +64,8 @@ export default function Home() {
   const [ mount, setMount ] = useState<boolean>(false);
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const { theme, setTheme } = useThemeStore();
+  const { currentLanguage, setCurrentLanguage } = useLanguageStore();
+  const isEn = currentLanguage === 'en';
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
 
   const { data: user, isLoading } = useQuery({
@@ -100,6 +108,9 @@ export default function Home() {
         const isThemeLight = theme === 'light'
         setTheme(isThemeLight ? 'dark' : 'light');
         break;
+      case 'language_button_is_clicked':
+        setCurrentLanguage(isEn ? 'ar' : 'en');
+        break;
       default:
         console.error('Unknown type: ', type);
     }
@@ -123,7 +134,7 @@ export default function Home() {
         <h1 
           className="text-2xl font-bold text-heading-invert dark:text-heading"
         >
-          <span className="text-secondary dark:text-[#6A9C89]">S</span>tay Organized, Stay Focused!
+          <span className="text-secondary dark:text-[#6A9C89]">{isEn ? 'S' : 'ا'}</span>{isEn ? 'tay Organized, Stay Focused!' : 'بق منظما, و ابق مركزا!'}
         </h1>
         <ul
           className="flex flex-col justify-center gap-8 h-[100%] w-[100%]"
@@ -136,9 +147,12 @@ export default function Home() {
               alt="Icon"
               src={lampIcon}
             />
-            <span>Organize your tasks.</span>
+            <span>{isEn ? 'Organize your tasks.' : 'رتب مهامك'}</span>
             <div 
-              className="--float-shadow-ani absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+              className={`
+                --float-shadow-ani absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
+                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+              `}
             />
           </li>
           <li
@@ -149,9 +163,12 @@ export default function Home() {
               alt="Icon"
               src={bookIcon}
             />
-            <span>track your progress.</span>
+            <span>{isEn ? 'track your progress.' : 'تابع تتطورك'}</span>
             <div 
-              className="--float-shadow-ani delay--1s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+              className={`
+                --float-shadow-ani delay--1s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
+                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+              `}
             />
           </li>
           <li
@@ -162,9 +179,12 @@ export default function Home() {
               alt="Icon"
               src={achivementIcon}
             />
-            <span>achieve your goals with ease.</span>
+            <span>{isEn ? 'achieve your goals with ease.' : 'احرز اهدافك بكل سهوله'}</span>
             <div 
-              className="--float-shadow-ani delay--05s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+              className={`
+                --float-shadow-ani delay--05s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
+                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+              `}
             />
           </li>
           <li
@@ -176,18 +196,51 @@ export default function Home() {
               onClick={handleClick}
             >
               <MoonSlashSunSvg 
-                className="--float-ani delay--1s w-12 cursor-pointer z-[10]"
+                className="--float-ani .delay--1s-05s w-12 cursor-pointer z-[10]"
                 width="3rem" height="3rem" color="hsl(0, 0%, 90%)"
               />
             </div>
-            <span>Pick your style in a</span>{' '}
+            <span>{isEn ? 'Pick your style in a' : 'حدد نمطك'}</span>{' '}
             <span 
               className="text-[#6A9C89] font-bold underline cursor-pointer"
               data-type="theme_button_is_clicked"
               onClick={handleClick}
-            >click</span>{'.'}
+            >
+              {isEn ? 'click' : 'بنقره'}
+            </span>{'.'}
             <div 
-              className="--float-shadow-ani delay--1s absolute bottom-[-6px] left-[0.3rem] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]"
+              className={`
+                --float-shadow-ani .delay--1s-05s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
+                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+              `}
+            />
+          </li>
+          <li
+            className="relative flex flex-row items-end gap-2 text-heading-invert dark:text-heading text-xl before:content-[''] before:absolute before:top-[calc(100%+0.5rem)] before:left-[0%] before:w-[100%] before:h-[2px] before:bg-secondary dark:before:bg-[#6A9C89] before:blur-[1px]"
+          >
+            <div
+              className="p-1 hover:bg-[hsla(0,0%,20%,0.7)] rounded-[100%] transition-colors duration-200 ease-out"
+              data-type="language_button_is_clicked"
+              onClick={handleClick}
+            >
+              <GrommetLanguageSvg 
+                className="--float-ani .delay--1s w-12 cursor-pointer z-[10]"
+                width="3rem" height="3rem" color="hsl(0, 0%, 90%)"
+              />
+            </div>
+            <span>{isEn ? 'Your journey is important for us' : 'رحلتك تهمنا'}</span>{' '}
+            <span 
+              className="text-[#6A9C89] font-bold underline cursor-pointer"
+              data-type="language_button_is_clicked"
+              onClick={handleClick}
+            >
+              {isEn ? 'select your language' : 'اختر لغتك'}
+            </span>{'.'}
+            <div 
+              className={`
+                --float-shadow-ani .delay--1s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
+                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+              `}
             />
           </li>
           <li
@@ -211,8 +264,8 @@ export default function Home() {
         className="md:flex md:flex-col md:max md:w-[50%] md:items-center z-[20]"
       >
         {loginParam 
-          ? <SignInForm />
-          : <SignUpForm />
+          ? <SignInForm currentLanguage={currentLanguage} />
+          : <SignUpForm currentLanguage={currentLanguage} />
         }
         <div
           className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-[var(--background-color)]"
@@ -227,7 +280,7 @@ export default function Home() {
             data-provider='google'
             onClick={handleClick}
           >
-            <span>Sign in with Google</span>
+            <span>{isEn ? 'Sign in with Google' : 'سجل الدخول بواسطه جوجل'}</span>
             <GoogleSvg color="var(--font-heading-color)"/>
           </button>
           <button 
@@ -236,7 +289,7 @@ export default function Home() {
             data-provider='facebook'
             onClick={handleClick}
           >
-            <span>Sign in with Facebook</span>
+            <span>{isEn ? 'Sign in with Faceboo' : 'سجل الدخول بواسطه فيسبوك'}</span>
             <FacebookSvg color="var(--font-heading-color)"/>
           </button>
           <button 
@@ -245,7 +298,7 @@ export default function Home() {
             data-provider='github'
             onClick={handleClick}
           >
-            <span>Sign in with GitHub</span>
+            <span>{isEn ? 'Sign in with GitHub' : 'سجل الدخول بواسطه جيت هاب'}</span>
             <GithubSvg color="var(--font-heading-color)"/>
           </button>
         </section>

@@ -14,7 +14,7 @@ import deleteTask from '@/api/deleteTask';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
-import PriorityPopup from '@/components/PriorityPopup';
+import PriorityPopup from '@/components/popups/PriorityPopup';
 import PriorityHighRoundedSvg from '@/components/svgs/PriorityHighRoundedSvg';
 import MainWrapper from '@/components/MainWrapper';
 import Header from '@/components/Header';
@@ -40,14 +40,15 @@ import {
 
 type TaskInput = {
   bucket_id?: number | null ;
+  currentLanguage?: string
 }
 
-export default function TaskInput ({ bucket_id = null }: TaskInput) {
+export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }: TaskInput) {
 
   const queryClient = useQueryClient();
-
+  const isEn = currentLanguage === 'en';
+  
   const [ newTask, setNewTask ] = useState('');
-  // const [ focus, setFocus ] = useState(true);
   const [ addTaskActivityBtn, setAddTaskActivityBtn ] = useState<boolean>(false);
   
   const { toggle, setToggle } = useSideBarStore();
@@ -56,16 +57,6 @@ export default function TaskInput ({ bucket_id = null }: TaskInput) {
   const { focus, setFocus } = useTaskInputStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
-
-  const { data: user, isLoading } = useQuery({
-    queryKey: ['auth'],
-    queryFn: checkAuthAndGetUser
-  });
-
-  const { data: tasks, isLoading: isTasksLoading } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: getTasks
-  });
 
   const addTaskMutation = useMutation({
     mutationFn: addTask,
@@ -162,9 +153,11 @@ export default function TaskInput ({ bucket_id = null }: TaskInput) {
     }
   };
 
+  // DEBUG
+  // const [ focus, setFocus ] = useState(true);
+
   return (
     <section>
-      <PriorityPopup />
       <label
         className={`
           flex flex-col border-solid border-2 p-2 rounded-2xl gap-2 transition-all duration-150 ease-out
@@ -174,7 +167,7 @@ export default function TaskInput ({ bucket_id = null }: TaskInput) {
       >
         <input 
           className="peer task-input text-body outline-none bg-[var(--background-color)] px-2 text-md text-body"
-          placeholder="What's on your mind?" 
+          placeholder={isEn ? "What's on your mind?": "ايا افكار ببالك؟"} 
           id="addTask"
           name="addTask"
           spellCheck="false"

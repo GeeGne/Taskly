@@ -7,8 +7,8 @@ import XSvg from '@/components/svgs/XSvg';
 // STORES
 import { useErrorAlertStore } from '@/store/index';
 
-export default function ErrorAlert () {
-  
+export default function ErrorAlert ({ currentLanguage = 'en' }: { currentLanguage?: string } ) {
+  const isEn = currentLanguage === 'en'
   const { errorAlert, errorText } = useErrorAlertStore();
   const [ mount, setMount ] = useState(false);
   const errorAlertRef = useRef<HTMLButtonElement>(null);
@@ -41,8 +41,7 @@ export default function ErrorAlert () {
         {errorText}
       </span>
       <XSvg 
-        className="shrink-0 p2 bg-[hsl(0,0,20%)] rounded-[100%]"
-        color="var(jsl(0,0,90%))" 
+        className="shrink-0 text-[hsl(0,0,90%)] bg-[hsl(0,0,20%)] rounded-[100%]"
       />
     </button>
   )

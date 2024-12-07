@@ -17,12 +17,14 @@ import DisplayTasks from '@/components/DisplayTasks';
 import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
 
 // STORES
-import { useCurrentTabStore, useHomePageStore } from '@/store/index.js';
+import { useCurrentTabStore, useHomePageStore, useLanguageStore } from '@/store/index.js';
 
 export default function MyTasks () {
 
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+  const currentLanguage = useLanguageStore(status => status.currentLanguage);
+  const isEn = currentLanguage === 'en';
 
   useEffect(() => {
     setCurrentTab('myTasks')
@@ -36,10 +38,18 @@ export default function MyTasks () {
 
   return (
     <MainWrapper>
-      <Header tab='My Tasks' />
-      <TaskInput />
-      <DisplayTasks tasks={tasks?.filter((itm: any) => !itm.is_completed && !itm.bucket_id)} isTasksLoading={isTasksLoading} />
-      <DisplayCompletedTasks tasks={tasks?.filter((itm: any) => itm.is_completed && !itm.bucket_id)} isTasksLoading={isTasksLoading} />
+      <Header tab={isEn ? 'My Tasks' : 'مهماتي'} currentLanguage={currentLanguage}/>
+      <TaskInput currentLanguage={currentLanguage} />
+      <DisplayTasks 
+        tasks={tasks?.filter((itm: any) => !itm.is_completed && !itm.bucket_id)} 
+        isTasksLoading={isTasksLoading} 
+        currentLanguage={currentLanguage}
+      />
+      <DisplayCompletedTasks 
+        tasks={tasks?.filter((itm: any) => itm.is_completed && !itm.bucket_id)} 
+        isTasksLoading={isTasksLoading} 
+        currentLanguage={currentLanguage}
+      />
     </MainWrapper>
   )
 }

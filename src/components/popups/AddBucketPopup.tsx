@@ -22,8 +22,8 @@ import addBucketApi from '@/api/addBucket';
 // UTILS
 import strSpaceToHyphen from '@/utils/strSpaceToHyphen';
 
-export default function AddBucketPopup () {
-
+export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLanguage?: string ;}) {
+  const isEn = currentLanguage === 'en';
   const queryClient = useQueryClient();
 
   const setAddBucket = useAddBucketPopupStore(status => status.setAddBucket);

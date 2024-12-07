@@ -26,14 +26,15 @@ import signUpFormReducer from '@/reducers/signUpFormReducer';
 import validate from '@/utils/validate';
 
 // STORES
-import { useErrorAlertStore } from '@/store/index';
+import { useLanguageStore, useErrorAlertStore } from '@/store/index';
 
-export default function SignUpForm () {
+export default function SignUpForm ({ currentLanguage }: {currentLanguage: string}) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname= usePathname();
   const queryClient = useQueryClient();
+  const isEn = currentLanguage === 'en';
 
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const [ activity, setActivity ] = useState<boolean>(false);
@@ -195,7 +196,7 @@ export default function SignUpForm () {
       <h2
         className="font-bold text-2xl text-heading mx-auto"
       >
-        Create account
+        {isEn ? 'Create account' : 'انشاء حساب'}
       </h2>
       <div
         className="relative flex flex-col"
@@ -204,7 +205,7 @@ export default function SignUpForm () {
           htmlFor="username"
           className="text-body font-semibold"
         >
-          Username
+          {isEn ? 'Username' : 'الاسم'}
         </label>
         <input 
           className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
@@ -226,7 +227,7 @@ export default function SignUpForm () {
           className="text-body font-semibold"
           htmlFor="email"
         >
-          Email
+          {isEn ? 'Email' : 'ايميل'}
         </label>
         <input 
           className="p-2 bg-[hsla(0,0%,80%)] rounded-sm outline-primary outline-secondary focus:outline-primary transition-all duration-[0.15s] ease-in"
@@ -252,7 +253,7 @@ export default function SignUpForm () {
             htmlFor="password"
             className="text-body font-semibold"
           >
-            Password
+            {isEn ? 'Password' : 'كلمه المرور'}
           </label>
           <div
             className="relative"
@@ -267,7 +268,10 @@ export default function SignUpForm () {
               ref={passRef}
             />
             <Image
-              className="absolute top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]  hover:opacity-[0.8] cursor-pointer"
+              className={`
+                absolute top-[50%] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%]  hover:opacity-[0.8] cursor-pointer
+                ${isEn ? 'right-[0rem]' : 'left-[1rem]'}
+              `}
               src={eyeSlashIcon}
               alt="Eye Icon"
               data-type="eyeIcon_button_is_clicked"
@@ -288,7 +292,7 @@ export default function SignUpForm () {
             htmlFor="confirmPassword"
             className="text-body font-semibold"
           >
-            Confirm
+            {isEn ? 'Confirm' : 'تاكيد'}
           </label>
           <div
             className="relative flex flex-col flex-grow"
@@ -303,7 +307,10 @@ export default function SignUpForm () {
               ref={cPassRef}
             />
             <Image
-              className="absolute top-[50%] right-[0.5rem] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%] hover:opacity-[0.8] cursor-pointer"
+              className={`
+                absolute top-[50%] bg-[hsl(0,0%,80%)] translate-x-[-50%] translate-y-[-50%] hover:opacity-[0.8] cursor-pointer
+                ${isEn ? 'right-[0.5rem]' : 'left-[1rem]'}
+              `}
               src={eyeSlashIcon}
               alt="Eye Icon"
               data-type="eyeIcon_button_is_clicked"
@@ -324,10 +331,10 @@ export default function SignUpForm () {
       >
         {activity 
           ? <>
-              <span className="opacity-0">Create Account</span>
+              <span className="opacity-0">{isEn ? 'Create Account' : 'انشاء حساب'}</span>
               <TripleBarActivity />
             </>
-          : <span>Create Account</span>
+          : <span>{isEn ? 'Create Account' : 'انشاء حساب'}</span>
         }
       </button><br/>
       <div
@@ -340,12 +347,12 @@ export default function SignUpForm () {
         <span
           className="text-primary underline"
         >
-          Already have an Account?
+          {isEn ? 'Already have an Account?' : 'لديك حساب؟'}
         </span>{' '}
         <span
           className="font-bold text-primary"
         >
-          login
+          {isEn ? 'login' : 'تسجيل الدخول'}
         </span>  
       </div>
     </form>

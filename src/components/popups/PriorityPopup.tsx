@@ -5,7 +5,8 @@ import PriorityHighRoundedSvg from '@/components/svgs/PriorityHighRoundedSvg';
 // STORE
 import { usePriorityPopupStore, useTaskInputStore } from '@/store/index';
 
-export default function PriorityPopup () {
+export default function PriorityPopup ({ currentLanguage }: { currentLanguage: string }) {
+  const isEn = currentLanguage === 'en';
   
   const setPriorityPopup = usePriorityPopupStore(status => status.setPriorityPopup);
   const priorityPopup = usePriorityPopupStore(status => status.priorityPopup);
