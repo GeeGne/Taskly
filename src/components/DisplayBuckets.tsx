@@ -107,7 +107,7 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
               className={`
                 flex items-center justify-center h-[100%] bg-red-500 hover:bg-red-600 shrink-0 
                 transition-all duration-300 ease-in-out
-                ${activateDeleteBucketToggle ? `w-10 mr-2` : 'w-0'}
+                ${activateDeleteBucketToggle ? `w-10 ${isEn ? 'mr-2' : 'ml-2'}` : 'w-0'}
               `}
               style={{ transitionDelay: `${i / 10}s`}}
               data-bucket-id={itm.id}

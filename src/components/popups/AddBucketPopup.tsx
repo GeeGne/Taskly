@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 // COMPONENTS
-import ThemeSwitch from '@/components/ThemeSwitch';
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
 import EmojiPicker from 'emoji-picker-react';
 import Theme from 'emoji-picker-react';
 import AddowDownSvg from '@/components/svgs/ArrowDownSvg'
@@ -120,17 +120,18 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
     <div
       className={`
         fixed top-0 left-0 w-[100vw] h-[100vh]
-        items-center 
-        justify-center bg-[--shade-color] backdrop-blur-[2px] z-[200]
+        bg-[--shade-color] backdrop-blur-[2px] z-[200]
         transition-all duraiton-300 ease-in
         ${addBucket ? 'visible opacity-100 backdrop-blur-[2px]' : 'invisible opacity-0 backdrop-blur-[0]'}
       `}
     >
       <EmojiPicker 
-        className="
-          absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]
+        className={`
+          absolulte top-[50%] translate-y-[-50%] translate-x-[-50%]
+          min-w-[100vw] max-w-[100vh] max-h-[100vh] min-h-[100vh]
           z-[10]
-        "
+          ${isEn ? 'left-[50%]' : 'left-[50%]'}
+        `}
         open={pickerToggle} 
         theme={theme} 
         onEmojiClick={handleEmojiClick} 
@@ -146,7 +147,7 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
         <h2
           className="py-1 font-bold text-md text-body"
         >
-          Add a Bucket
+          {isEn ? 'Add a Bucket' : 'اضف مجموعه'}
         </h2>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <br/>
@@ -154,10 +155,11 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
           className="flex gap-1 items-center bg-[var(--background-light-color)] rounded-md"
         > 
           <label
-            className="
+            className={`
               relative flex items-center
-              before:content-[''] before:absolute before:top-0 before:right-0 before:h-[100%] before:w-[1px] before:bg-[var(--background-deep-color)]
-            "
+              before:content-[''] before:absolute before:top-0 before:h-[100%] before:w-[1px] before:bg-[var(--background-deep-color)]
+              ${isEn ? 'before:right-0' : 'before:left-0'}
+            `}
             htmlFor="emoji"
           >
             <input
@@ -177,7 +179,7 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
           </label>
           <input
             className="bg-transparent border-none outline-none p-1 text-md text-heading"
-            placeholder="Bucket name"
+            placeholder={isEn ? "Bucket name" : "اسم المجموعه"}
             name="name"
             onChange={handleChange}
           />
@@ -198,7 +200,7 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
             data-type="cancel_button_is_clicked"
             onClick={handleClick}
           >
-            cancel
+            {isEn ? 'cancel' : 'الغاء'}
           </button>
           <button
             className="
@@ -210,7 +212,7 @@ export default function AddBucketPopup ({ currentLanguage = 'en' }: { currentLan
           >
             {createBtnActivity 
               ? <SpinnersRingSvg color="var(--font-body-color)"/> 
-              : 'create'
+              : isEn ? 'create' : 'اضف'
             }
           </button>
         </div>

@@ -1,5 +1,5 @@
 // COMPONENTS
-import ThemeSwitch from '@/components/ThemeSwitch';
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
 import PriorityHighRoundedSvg from '@/components/svgs/PriorityHighRoundedSvg';
 
 // STORE

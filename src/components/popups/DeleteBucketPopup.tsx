@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 // COMPONENTS
-import ThemeSwitch from '@/components/ThemeSwitch';
-import ControllerSwitch from '@/components/ControllerSwitch';
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
+import ControllerSwitch from '@/components/switches/ControllerSwitch';
 import SpinnerRingSvg from '@/components/svgs/SpinnersRingSvg'
 
 // STORE
@@ -98,18 +98,21 @@ export default function DeleteBucketPopup ({ currentLanguage = 'en' }: { current
           <h3
             className="text-xs text-heading font-bold"
           >
-            Are you sure you want to delete this {' '} 
+            {isEn ? 'Are you sure you want to delete this' : 'هل انت متاكد من مسح مجموعه'} {' '} 
             <span
               className="text-primary"
             >
               {deleteBucketPopupDetails.name} 
             </span>{' '}
-            bucket? 
+            {isEn ? 'bucket?' : '؟'} 
           </h3>
           <h4 
             className="text-xs text-body font-thin"
           >
-            All contents will be permanently removed, but you can create a new one anytime.
+            {isEn 
+              ? 'All contents will be permanently removed, but you can create a new one anytime.'
+              : 'كل المحتوى الخاص بلجموعه سوف ايضا يتم مسحه, ولكن يمكنك بي اضافه مجموعه اخرى في ايا وقت.'
+            }
           </h4>
         </div>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
@@ -127,7 +130,7 @@ export default function DeleteBucketPopup ({ currentLanguage = 'en' }: { current
             data-type="cancel_button_is_clicked"
             onClick={handleClick}
           >
-            cancel
+            {isEn ? 'cancel' : 'الغاء'}
           </button>
           <button
             className="
@@ -139,7 +142,7 @@ export default function DeleteBucketPopup ({ currentLanguage = 'en' }: { current
           >
             { deleteActivity
               ? <SpinnerRingSvg className="text-body" />
-              : 'Delete'
+              : isEn ? 'Delete' : 'مسح'
             }
           </button>
         </div>

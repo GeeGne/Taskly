@@ -68,3 +68,7 @@
 .ar {
   direction: rtl;
 }
+
+.direction-ltr {
+  direction: ltr;
+}

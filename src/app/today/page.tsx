@@ -32,7 +32,7 @@ import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
+import { useLanguageStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 export default function today () {
 
@@ -43,6 +43,8 @@ export default function today () {
   
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+  const currentLanguage = useLanguageStore(status => status.currentLanguage);
+  const isEn = currentLanguage === 'en';
 
   useEffect(() => {
     setCurrentTab('today');
@@ -56,10 +58,18 @@ export default function today () {
   
   return (
     <MainWrapper>
-      <Header tab='Today' />
-      <TaskInput />
-      <DisplayTasks tasks={tasks?.filter((itm: any) => !itm.is_completed)} isTasksLoading={isTasksLoading} />
-      <DisplayCompletedTasks tasks={tasks?.filter((itm: any) => itm.is_completed)} isTasksLoading={isTasksLoading} />
+      <Header tab={isEn ? 'Today' : 'اليوم'} currentLanguage={currentLanguage} />
+      <TaskInput currentLanguage={currentLanguage} />
+      <DisplayTasks 
+        tasks={tasks?.filter((itm: any) => !itm.is_completed)}
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage}
+      />
+      <DisplayCompletedTasks 
+        tasks={tasks?.filter((itm: any) => itm.is_completed)}
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage}
+      />
     </MainWrapper>
   )
 }

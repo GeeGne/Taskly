@@ -195,11 +195,11 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
             onClick={handleClick}
           >
             <PriorityHighRoundedSvg color="var(--font-body-color)" />
-            <span>
-              Priority
+            <span className="px-1">
+              {isEn ? 'Priority' : 'الاهميه'}
             </span>
             <XSvg className="
-              border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] ml-2
+              border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] 
             " 
             color="var(--font-body-color)" />
           </button>
@@ -213,11 +213,11 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
             >
               <PriorityHighRoundedSvg color={getPriorityColor()} />
               <span
-                className={`text-xs text-[${getPriorityColor()}] font-bold`}
+                className={`text-xs text-[${getPriorityColor()}] font-bold px-1`}
               >
                 {priorityKey}
               </span>
-              <XSvg className="border-solid border-body-extra-light group-hover:border-heading border-[1px] rounded-sm ml-2" color="var(--font-body-color)" />
+              <XSvg className="border-solid border-body-extra-light group-hover:border-heading border-[1px] rounded-sm" color="var(--font-body-color)" />
             </button>
           }
           {/* <button
@@ -226,11 +226,11 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
             Cancel
           </button> */}
           <button
-            className="ml-auto btn-a m-0 grow-0 px-2 py-2 text-xs"
+            className={`${isEn ? 'ml-auto' : 'mr-auto'} btn-a m-0 grow-0 px-2 py-2 text-xs`}
             data-type="add_button_is_clicked"
             onClick={handleClick}
           >
-            {handleAddBtn('Add Task')}
+            {handleAddBtn(`${isEn ? 'Add Task' : 'اضف المهمه'}`)}
           </button>
         </div>
       </label>

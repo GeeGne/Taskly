@@ -283,9 +283,12 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true, cur
                 >
                   <CheckSvg 
                     className={`
-                      absolute top-[50%] translate-y-[-50%] opacity-0 group-hover/check:opacity-100 z-[15]" width="1rem" height="1rem" color="var(--font-light-color)
+                      absolute top-[50%] translate-y-[-50%] 
+                      text-body-extra-light opacity-0 group-hover/check:opacity-100 z-[15]                      
                       ${isEn ? 'left-[-1rem]' : 'right-[-1rem]'}
                     `} 
+                    width="1rem" 
+                    height="1rem"
                   />             
                   <span
                     className="text-sm text-body"

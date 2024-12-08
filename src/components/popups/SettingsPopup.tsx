@@ -1,7 +1,7 @@
 // COMPONENTS
-import ThemeSwitch from '@/components/ThemeSwitch';
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
 import LanguageSwitch from '@/components/switches/LanguageSwitch';
-import ControllerSwitch from '@/components/ControllerSwitch';
+import ControllerSwitch from '@/components/switches/ControllerSwitch';
 
 // STORE
 import { useSettingsPopupStore, useControllersStore } from '@/store/index';
