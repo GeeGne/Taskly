@@ -50,7 +50,7 @@ export default function PriorityPopup ({ currentLanguage }: { currentLanguage: s
         <h2
           className="py-1 font-bold text-md text-body"
         >
-          Set Priority
+          {isEn ? 'Set Priority' : 'اختر الاهميه'}
         </h2>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>
         <div

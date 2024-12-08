@@ -17,7 +17,7 @@ import getTasksByBucketId from '@/api/getTasksByBucketId';
 import getBuckets from '@/api/getBuckets';
 
 // STORES
-import { useCurrentTabStore, useHomePageStore } from '@/store/index.js';
+import { useLanguageStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
 type NameParams = {
   name: string
@@ -25,9 +25,11 @@ type NameParams = {
 
 export default function BucketPage () {
 
-  const { name } = useParams<NameParams>();
+  const name = decodeURIComponent(useParams<NameParams>().name);
+  
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+  const currentLanguage = useLanguageStore(status => status.currentLanguage);
 
   useEffect(() => {
     setCurrentTab(name)
@@ -54,17 +56,22 @@ export default function BucketPage () {
     enabled: !!buckets && !!getBucket()?.id
   });
 
+  // DEBUG & UI
+  // console.log('decoded name: ', name);
+
   return (
     <MainWrapper>
-      <Header tab={displayHeaderTitle()} />
-      <TaskInput bucket_id={getBucket()?.id}/>
+      <Header tab={displayHeaderTitle()} currentLanguage={currentLanguage} />
+      <TaskInput bucket_id={getBucket()?.id} currentLanguage={currentLanguage} />
       <DisplayTasks 
         tasks={tasks?.filter((itm: any) => !itm.is_completed)} 
-        isTasksLoading={isTasksLoading} 
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage} 
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed)} 
-        isTasksLoading={isTasksLoading} 
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage} 
       />
     </MainWrapper>
   )
