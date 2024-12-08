@@ -211,7 +211,7 @@ export default function Home() {
             <div 
               className={`
                 --float-shadow-ani .delay--1s-05s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
-                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+                ${isEn ? 'left-[0.5rem]' : 'right-[0.5rem]'}
               `}
             />
           </li>
@@ -225,21 +225,21 @@ export default function Home() {
             >
               <GrommetLanguageSvg 
                 className="--float-ani .delay--1s w-12 cursor-pointer z-[10]"
-                width="3rem" height="3rem" color="hsl(0, 0%, 90%)"
+                width="2.8rem" height="2.8rem" color="hsl(0, 0%, 90%)"
               />
             </div>
-            <span>{isEn ? 'Your journey is important for us' : 'رحلتك تهمنا'}</span>{' '}
+            <span>{isEn ? 'Your journey is cruical' : 'رحلتك تهمنا'}</span>{' '}
             <span 
               className="text-[#6A9C89] font-bold underline cursor-pointer"
               data-type="language_button_is_clicked"
               onClick={handleClick}
             >
-              {isEn ? 'select your language' : 'اختر لغتك'}
+              {isEn ? 'pick' : 'اختر لغتك'}
             </span>{'.'}
             <div 
               className={`
                 --float-shadow-ani .delay--1s absolute bottom-[-6px] w-10 h-2 bg-[hsla(0,0%,10%,0.5)] rounded-[100%] blur-[2px]
-                ${isEn ? 'left-[0.3rem]' : 'right-[0.3rem]'}
+                ${isEn ? 'left-[0.5rem]' : 'right-[0.5rem]'}
               `}
             />
           </li>
@@ -268,7 +268,11 @@ export default function Home() {
           : <SignUpForm currentLanguage={currentLanguage} />
         }
         <div
-          className="relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-[var(--background-color)]"
+          className={`
+            relative font-bold text-heading-invert w-[100%] px-4 py-8 text-center z-[3] before:absolute before:content-[''] before:top-[50%] before:left-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:w-[calc(100%-7rem)] md:before:max-w-[calc(600px-7rem)] before:h-[1px] before:bg-[var(--grey-color)] before:z-[1] 
+            after:content-['Or'] after:absolute after:top-[50%] after:left-[50%] after:translate-y-[-50%] after:translate-x-[-50%] after:text-[var(--grey-color)] after:text-sm after:p-2 after:z-[2] after:bg-[var(--background-color)]
+            ${isEn ? `after:content-['Or']` : `after:content-['او']` }
+          `}
         >
         </div>
         <section
