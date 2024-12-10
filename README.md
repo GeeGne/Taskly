@@ -34,7 +34,7 @@ Contribute to the code or report issues on [GitHub](https://github.com/your-user
 
 ---
 
-**Built with love by Ahmed El Grahbra and contributors** ❤️🛠️
+**Built Geegne** ❤️🛠️
 
 ---
 
