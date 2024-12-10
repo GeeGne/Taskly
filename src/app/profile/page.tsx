@@ -26,9 +26,9 @@ import getBuckets from '@/api/getBuckets';
 
 // STORES
 import { 
-  useCurrentTabStore, useHomePageStore, 
-  useNotificationToastStore, useErrorAlertStore,
-  useBackgroundActivityStore
+  useCurrentTabStore, useLanguageStore,
+  useHomePageStore, useNotificationToastStore, 
+  useErrorAlertStore, useBackgroundActivityStore
 } from '@/store/index.js';
 
 // ASSETS
@@ -58,6 +58,8 @@ export default function ProfilePage () {
 
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
+  const currentLanguage = useLanguageStore(status => status.currentLanguage);
+  const isEn = currentLanguage === 'en';
 
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
@@ -153,13 +155,13 @@ export default function ProfilePage () {
   // console.log('user: ', user);
   // console.log('file', pfpInputRef.current?.files[0])
   // console.log('userProfileUrl: ', userProfileUrl?.picture_url);
-  console.log('total tasks: ', calTasks(tasks));
-  console.log('completed tasks: ', calCompletedTasks(tasks));
-  console.log('remaining tasks: ', calRemainingTasks(tasks));
+  // console.log('total tasks: ', calTasks(tasks));
+  // console.log('completed tasks: ', calCompletedTasks(tasks));
+  // console.log('remaining tasks: ', calRemainingTasks(tasks));
 
   return (
     <MainWrapper>
-      <Header tab='Profile' />
+      <Header tab={isEn ? 'Profile' : 'الحساب'} currentLanguage={currentLanguage} />
       <div
         className="flex flex-col gap-4"
       >
@@ -209,7 +211,7 @@ export default function ProfilePage () {
                 className="opacity-70 group-hover:opacity-100"
               />
               <span>
-                Change Image
+                {isEn ? 'Change Image' : 'تعديل الصوره'}
               </span>
             </button>
           </label>
@@ -237,27 +239,27 @@ export default function ProfilePage () {
           <CircularProgressBox
             percantageText={`${calRemainingTasks(tasks)} / ${calTasks(tasks)}`}
             percantage={(calCompletedTasks(tasks) * 100) / calTasks(tasks)}          
-            title="On the Horizon 📌" 
-            description="Look forward to upcoming tasks that keep you moving toward your goals."       
+            title={isEn ? "On the Horizon 📌" : "📌 في الأفق"}
+            description={isEn ? "Look forward to upcoming tasks that keep you moving toward your goals." : "تطلع إلى المهام القادمة التي تدفعك نحو أهدافك."}
           />
           <CircularProgressBox 
             percantageText={`${calCompletedTasks(tasks)} / ${calTasks(tasks)}`}
             percantage={(calCompletedTasks(tasks) * 100) / calTasks(tasks)}          
-            title="Accomplished Goals 🎖️" 
-            description="Celebrate the tasks you've successfully completed, each one a step closer to your larger ambitions." 
+            title={isEn ? "Accomplished Goals 🎖️" : "🎖️ الأهداف المُنجَزة"}
+            description={isEn ? "Celebrate the tasks you've successfully completed, each one a step closer to your larger ambitions" : "احتفل بالمهام التي أنجزتها بنجاح، فكل منها خطوة تقربك أكثر من طموحاتك الأكبر."}
           />
           <CircularProgressBox
-            title="Done & Dusted ✨" 
-            description="Reflect on your hard work and enjoy the satisfaction of checking things off your list."       
+            title={isEn ? "Done & Dusted ✨" : "✨ تمَّ الأمر وانتهى!"}
+            description={isEn ? "Reflect on your hard work and enjoy the satisfaction of checking things off your list." : "تأمل في عملك الجاد واستمتع بشعور الرضا عند شطب المهام من قائمتك."}
           />
           <CircularProgressBox
-            title="Task Universe" 
-            description="View the complete galaxy of all tasks you’ve ever created—your productivity universe!"       
+            title={isEn ? "Task Universe" : "عالم المهام"}
+            description={isEn ? "View the complete galaxy of all tasks you’ve ever created—your productivity universe!" : "استعرض المجرة الكاملة لجميع المهام التي أنشأتها على الإطلاق—كون إنتاجيتك!"}
           />
           <CircularProgressBox
             percantageText="19 / 399"
-            title="Pending Goals"
-            description="Keep track of tasks that still need your attention and plan your next steps."
+            title={isEn ? "Pending Goals": "الأهداف المعلقة"}
+            description={isEn ? "Keep track of tasks that still need your attention and plan your next steps" : "تابع المهام التي لا تزال بحاجة إلى اهتمامك وخطط لخطواتك التالية."}
             percantage={10}
           />
         </section>
