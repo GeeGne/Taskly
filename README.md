@@ -34,11 +34,11 @@ Contribute to the code or report issues on [GitHub](https://github.com/your-user
 
 ---
 
-**Built Geegne** ❤️🛠️
+**Built by Geegne** ❤️🛠️
 
 ---
 
-Hope you enjoy using Taskly as much as we loved building it! 🌈
+Hope you enjoy using Taskly as much as I loved building it! 🌈
 
 ---
 
