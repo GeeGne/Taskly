@@ -67,7 +67,7 @@ const useThemeStore = create(
 const useLanguageStore = create(
   persist(
     set => ({
-      currentLanguage: 'ar',
+      currentLanguage: 'en',
       setCurrentLanguage: currentLanguage => set(({ currentLanguage }))
     }),
     {
