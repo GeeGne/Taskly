@@ -48,6 +48,7 @@ export default function Inbox () {
         tasks={tasks?.filter((itm: any) => !itm.is_completed)} 
         isTasksLoading={isTasksLoading} 
         currentLanguage={currentLanguage}
+        title={isEn ? 'To Do' : 'قائمه المهام'}
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed)} 

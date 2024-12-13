@@ -33,9 +33,15 @@ type Tasks = {
   tasks?: any[] | null;
   isTasksLoading?: boolean;
   currentLanguage?: string;
+  title?: string;
 }
 
-export default function DisplayTasks ({ tasks = null, isTasksLoading = true, currentLanguage = 'en' }: Tasks) {
+export default function DisplayTasks ({ 
+  tasks = null, 
+  isTasksLoading = true, 
+  currentLanguage = 'en',
+  title = 'To Do'
+}: Tasks) {
  
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -197,7 +203,7 @@ export default function DisplayTasks ({ tasks = null, isTasksLoading = true, cur
             ${isTasksLoading ? '--flirk text-transparent bg-[var(--background-light-color)] rounded-lg' : ''}
           `}
         >
-          {isEn ? 'To Do' : 'قائمه المهام'}
+          {title}
         </h2>
         <span
           className={`

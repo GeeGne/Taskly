@@ -27,6 +27,9 @@ import {
 // CONFETTI 
 import Photons from "react-canvas-confetti/dist/presets/snow";
 
+// DAYJS
+import dayjs from 'dayjs';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,6 +42,9 @@ export default function RootLayout({
   const backgroundConfettiToggle = useControllersStore(status => status.backgroundConfettiToggle);
   const backgroundActivityToggle = useBackgroundActivityStore(status => status.backgroundActivityToggle);
   const currentLanguage = useLanguageStore(status => status.currentLanguage);
+
+  // DEBUG
+  console.log( dayjs());
 
   return (
     <html lang="en">

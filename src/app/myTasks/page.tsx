@@ -44,6 +44,7 @@ export default function MyTasks () {
         tasks={tasks?.filter((itm: any) => !itm.is_completed && !itm.bucket_id)} 
         isTasksLoading={isTasksLoading} 
         currentLanguage={currentLanguage}
+        title={isEn ? 'To Do' : 'قائمه المهام'}
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed && !itm.bucket_id)} 

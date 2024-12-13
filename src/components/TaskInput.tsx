@@ -203,6 +203,24 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
             " 
             color="var(--font-body-color)" />
           </button>
+          <button
+            className="
+              flex items-center text-xs text-body-light hover:text-heading font-bold 
+              px-2 rounded-md cursor-pointer
+              border-solid border-body-light hover:border-heading border-[1px]
+            "
+            data-type="forToday_button_is_clicked"
+            onClick={handleClick}
+          >
+            @
+            <span className="px-1">
+              {isEn ? 'Today' : 'لليوم'}
+            </span>
+            <XSvg className="
+              border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] 
+            " 
+            color="var(--font-body-color)" />
+          </button>
           { priorityKey &&
             <button
               className="

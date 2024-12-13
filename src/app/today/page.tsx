@@ -34,6 +34,9 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 // STORES
 import { useLanguageStore, useCurrentTabStore, useHomePageStore } from '@/store/index.js';
 
+// DAYJS
+import dayjs from 'dayjs';
+
 export default function today () {
 
   type DeleteActivityBtn = {
@@ -41,6 +44,12 @@ export default function today () {
     taskId?: string
   };
   
+  const date = dayjs();
+  const yesterday = date.subtract(1, 'day');
+  const createdAt = '2024-12-13 11:39:46.480279+00';
+  const isToday = date.isSame(createdAt, 'day');
+  const isYesterday = date.subtract(1, 'day').isSame(createdAt, 'day');
+
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
   const currentLanguage = useLanguageStore(status => status.currentLanguage);
@@ -56,6 +65,12 @@ export default function today () {
     queryFn: getTasks
   });
   
+  //DEBUG
+  console.log('date: ', date);
+  console.log('is same as Today: ', isToday);
+  console.log('is same as yesterday: ', isYesterday);
+  console.log('yesterday: ', yesterday);
+
   return (
     <MainWrapper>
       <Header tab={isEn ? 'Today' : 'اليوم'} currentLanguage={currentLanguage} />
@@ -64,6 +79,19 @@ export default function today () {
         tasks={tasks?.filter((itm: any) => !itm.is_completed)}
         isTasksLoading={isTasksLoading}
         currentLanguage={currentLanguage}
+        title={isEn ? 'For Today' : 'لليوم'}
+      />
+      <DisplayTasks 
+        tasks={tasks?.filter((itm: any) => !itm.is_completed)}
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage}
+        title={isEn ? 'Yesterday' : 'امس'}
+      />
+      <DisplayTasks 
+        tasks={tasks?.filter((itm: any) => !itm.is_completed)}
+        isTasksLoading={isTasksLoading}
+        currentLanguage={currentLanguage}
+        title={isEn ? 'Past Week' : 'ضمن الاسبوع'}
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed)}

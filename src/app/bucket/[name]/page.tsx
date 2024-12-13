@@ -30,6 +30,7 @@ export default function BucketPage () {
   const setCurrentTab = useCurrentTabStore(status => status.setCurrentTab);
   const setIsHomePage = useHomePageStore(status => status.setIsHomePage);
   const currentLanguage = useLanguageStore(status => status.currentLanguage);
+  const isEn = currentLanguage === 'en';
 
   useEffect(() => {
     setCurrentTab(name)
@@ -67,6 +68,7 @@ export default function BucketPage () {
         tasks={tasks?.filter((itm: any) => !itm.is_completed)} 
         isTasksLoading={isTasksLoading}
         currentLanguage={currentLanguage} 
+        title={isEn ? 'To Do' : 'قائمه المهام'}
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed)} 
