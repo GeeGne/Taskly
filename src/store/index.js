@@ -143,6 +143,11 @@ const useDeleteBucketPopupStore = create(set => ({
   setDeleteBucketPopupToggle: deleteBucketPopupToggle => (set({ deleteBucketPopupToggle }))
 }));
 
+const useTodayLabelStore = create(set => ({
+  todayLabelToggle: false,
+  setTodayLabelToggle: todayLabelToggle => set(({ todayLabelToggle }))
+}));
+
 export { 
   useThemeStore, useLanguageStore, 
   useSideBarStore, useCurrentTabStore, 
@@ -151,5 +156,5 @@ export {
   useTaskInputStore, useAddBucketPopupStore,
   useHomePageStore, useControllersStore,
   useBackgroundActivityStore, useActivateDeleteBucketsStore,
-  useDeleteBucketPopupStore
+  useDeleteBucketPopupStore, useTodayLabelStore
 };

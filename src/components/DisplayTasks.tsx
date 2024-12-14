@@ -264,29 +264,31 @@ export default function DisplayTasks ({
           : tasks?.map((itm:any, i: number) => 
               <li
                 className="
-                  relative group flex flex-row 
+                  relative group flex flex-col 
                   before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]
                 "
                 key={itm.id}
                 data-task-id={itm.id}
                 ref={(el: any) => tasksLiRefs.current[i] = el}
               >
-                <input 
-                  className="opacity-0"
-                  id={itm.id}
-                  type="checkbox"
-                  name="task"
-                  data-task-id={itm.id}
-                  onChange={handleChange}
-                />
                 <label
                   htmlFor={itm.id}
                   className={`
-                    relative group/check px-2 z-[5] hover:cursor-pointer 
+                    relative group/check 
+                    flex items-center 
+                    px-2 z-[5] hover:cursor-pointer 
                     before:content-[''] before:absolute before:top-[50%] before:translate-y-[-50%] before:w-4 before:h-4 before:bg-[var(--background-light-color)] before:rounded-[100%] before:border-solid before:border-[1px] before:border-[var(--background-deep-color)] before:z-[10]
                     ${isEn ? 'before:left-[-1rem]' : 'before:right-[-1rem]'}
                   `}
                 >
+                  <input 
+                    className="opacity-0"
+                    id={itm.id}
+                    type="checkbox"
+                    name="task"
+                    data-task-id={itm.id}
+                    onChange={handleChange}
+                  />
                   <CheckSvg 
                     className={`
                       absolute top-[50%] translate-y-[-50%] 
@@ -297,26 +299,46 @@ export default function DisplayTasks ({
                     height="1rem"
                   />             
                   <span
-                    className="text-sm text-body"
+                    className="text-sm text-body mr-auto"
                   >
                     {itm.title}
                   </span>
+                  <div
+                    className={`
+                      absolute content-[''] top-[50%] translate-y-[-50%] left-[0] 
+                      w-[100%] h-2 
+                      z-[1] blur-[0px] overflow-hidden opacity-30 
+                      ${itm.priority !== 'normal' || 'bg-[var(--normal-priority-color)]'}                                                      
+                      ${itm.priority !== 'important' || 'bg-[var(--important-priority-color)]'}                                                      
+                      ${itm.priority !== 'critical' || 'bg-[var(--critical-priority-color)]'}                                                    
+                    `}
+                  >
                     <div
-                      className={`
-                        absolute content-[''] top-[50%] translate-y-[-50%] left-[0] w-[100%] h-2
-                        flex z-[1] blur-[0px] overflow-hidden opacity-30 
-                        ${itm.priority !== 'normal' || 'bg-[var(--normal-priority-color)]'}                                                      
-                        ${itm.priority !== 'important' || 'bg-[var(--important-priority-color)]'}                                                      
-                        ${itm.priority !== 'critical' || 'bg-[var(--critical-priority-color)]'}                                                    
-                      `}
+                      className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
+                    />                      
+                    <div
+                      className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
+                    />                        
+                  </div>
+                  <div
+                    className="flex gap-3 shink-0 p-2 opacity-70 font-bold"
+                  >
+                    <span
+                      className="text-body text-xs text-red-400"
                     >
-                      <div
-                        className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
-                      />                      
-                      <div
-                        className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
-                      />                        
-                    </div>
+                      !important 
+                    </span>
+                    <span
+                      className="text-body text-xs text-[var(--today-label-invert-color)]"
+                    >
+                      @today 
+                    </span>
+                    <span
+                      className="text-body text-xs text-primary"
+                    >
+                      #work
+                    </span>
+                  </div>
                 </label>
                 <nav
                   className={`

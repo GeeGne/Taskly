@@ -5,6 +5,7 @@
 .delay--04s { animation-delay: 0.4s !important }
 .delay--05s { animation-delay: 0.5s !important }
 .delay--1s { animation-delay: 1s !important }
+.delay--1s-05s { animation-delay: 1.5s !important }
 
 @keyframes flirk {
   0% {
@@ -105,6 +106,66 @@
   }
 }
 
+@keyframes fill-center {
+  0% {
+    filter: brightness(150%);
+    width: 0;
+    height: 0;
+    background-color: var(--today-label-color)
+  }
+
+  85% {
+    filter: brightness(150%);
+    width: 6rem;
+    height: 6rem;
+    background-color: var(--today-label-color)
+  }
+
+  100% {
+    filter: brightness(100%);
+    width: 6rem;
+    height: 6rem;
+    background-color: var(--today-label-color)
+  }
+}
+
+@keyframes fill-center-invert {
+  0% {
+    filter: brightness(150%);
+    width: 6rem;
+    height: 6rem;
+  }
+
+  15% {
+    filter: brightness(100%);
+    width: 6rem;
+    height: 6rem;
+  }
+
+  100% {
+    filter: brightness(100%);
+    width: 0;
+    height: 0;
+  }
+}
+
+@keyframes scale {
+  0% {
+    scale: 150%;
+    opacity: 0;
+  }
+
+  20% {
+    scale: 130%;
+    opacity: 0.3;
+  }
+
+  100% {
+    scale: 100%;
+    opacity: 1;
+  }
+}
+
 .--flirk {
   animation-name: flirk;
   animation-duration: 2s;
@@ -154,4 +215,25 @@
 
 .--ani-none {
   animation: none;
+}
+
+.--fill-center {
+  animation-name: fill-center;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.--fill-center-invert {
+  animation-name: fill-center-invert;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.--scale {
+  animation-name: scale;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
 }

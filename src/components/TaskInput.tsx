@@ -35,7 +35,8 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 // STORES
 import { 
   useSideBarStore, useNotificationToastStore,
-  useTaskInputStore, usePriorityPopupStore 
+  useTaskInputStore, usePriorityPopupStore,
+  useTodayLabelStore
 } from '@/store/index.js';
 
 type TaskInput = {
@@ -55,6 +56,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
   const { setPriorityPopup, priorityKey, setPriorityKey } = usePriorityPopupStore();
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
   const { focus, setFocus } = useTaskInputStore();
+  const { todayLabelToggle, setTodayLabelToggle } = useTodayLabelStore();
 
   const addTaskInpRef = useRef<HTMLInputElement>(null);
 
@@ -113,6 +115,10 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       case 'priorityKey_button_is_clicked':
         setPriorityKey(null);
         break;
+      case 'forToday_button_is_clicked':
+        setTodayLabelToggle(!todayLabelToggle);
+        setFocus(true);
+        break;
       default:
         console.error('Unknown Type: ', type);
     }
@@ -155,6 +161,9 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
 
   // DEBUG
   // const [ focus, setFocus ] = useState(true);
+  // const toggle = true;
+  // const focus = true;
+  // const todayLabelToggle = true;
 
   return (
     <section>
@@ -204,22 +213,43 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
             color="var(--font-body-color)" />
           </button>
           <button
-            className="
-              flex items-center text-xs text-body-light hover:text-heading font-bold 
-              px-2 rounded-md cursor-pointer
-              border-solid border-body-light hover:border-heading border-[1px]
-            "
+            className={`
+              relative flex items-center text-xs hover:text-heading font-bold 
+              border-solid border-body-light border-[1px] px-2 rounded-md cursor-pointer
+              hover:border-heading overflow-hidden
+              ${todayLabelToggle ? 'bg-transparent text-heading border-transparent' : 'bg-transparent text-body-light border-body-light'}
+            `}
             data-type="forToday_button_is_clicked"
             onClick={handleClick}
           >
-            @
-            <span className="px-1">
+            <div 
+              className={`
+                absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
+                bg-[var(--today-label-color)] z-[1] rounded-[2em]
+                ${todayLabelToggle ? '--fill-center' : '--fill-center-invert'}
+              `}
+            />
+            <span
+              className="z-[2]"
+            >
+              @
+            </span>
+            <span className="px-1 z-[2]">
               {isEn ? 'Today' : 'لليوم'}
             </span>
-            <XSvg className="
-              border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] 
-            " 
-            color="var(--font-body-color)" />
+            {todayLabelToggle 
+              ? <CheckSvg 
+                  className={`
+                  text-heading-invert bg-green-600 dark:bg-green-400  group-hover:border-heading rounded-[2rem] shadow-md z-[2]
+                    --scale delay-04s
+                  `} 
+                />
+              : <XSvg 
+                  className="
+                    text-body border-solid rotate-[45deg] border-body group-hover:border-heading border-[1px] rounded-[2rem] 
+                  " 
+                />
+            }
           </button>
           { priorityKey &&
             <button

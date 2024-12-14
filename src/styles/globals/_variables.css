@@ -1,6 +1,8 @@
 :root {
   --primary-color: #16432C;
   --secondary-color: #6A9C89;
+  --today-label-color: #00FFFF;
+  --today-label-invert-color: #008B8B;
 
   --font-heading-color: hsl(0, 0%, 10%);
   --font-heading-invert-color: hsl(0, 0%, 90%);
@@ -43,6 +45,8 @@
 .dark {
   --primary-color: #43d188;
   --secondary-color: #30473e;
+  --today-label-color: #008B8B;
+  --today-label-invert-color: #00FFFF;
 
   --font-heading-color: hsl(0, 0%, 90%);
   --font-heading-invert-color: hsl(0, 0%, 10%);
