@@ -75,6 +75,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       setNotificationText('New Task is Added');
       setNotificationToast(Date.now());
       setPriorityKey(null);
+      setTodayLabelToggle(false);
     }
   });
 
@@ -104,7 +105,8 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       case "add_button_is_clicked":
         setFocus(true);
         if (newTask === '') return;
-        addTaskMutation.mutate({newTask, priorityKey, bucket_id});
+        const for_today = todayLabelToggle;
+        addTaskMutation.mutate({newTask, priorityKey, bucket_id, for_today});
         break;
       case 'toggle_sideBar_button_is_clicked':
         setToggle(!toggle)

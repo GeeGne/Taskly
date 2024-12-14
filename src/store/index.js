@@ -148,6 +148,19 @@ const useTodayLabelStore = create(set => ({
   setTodayLabelToggle: todayLabelToggle => set(({ todayLabelToggle }))
 }));
 
+const useHightlightTaskBasedOnPriorityStore = create(
+  persist(
+    set => ({
+      hightlightTaskBasedOnPriorityToggle: true,
+      setHightlightTaskBasedOnPriorityToggle: hightlightTaskBasedOnPriorityToggle => set(({ hightlightTaskBasedOnPriorityToggle })) 
+    }),
+    {
+      name:'hightlightOption-storage',
+      storage: createJSONStorage(() => localStorage)
+    }
+  )
+);
+
 export { 
   useThemeStore, useLanguageStore, 
   useSideBarStore, useCurrentTabStore, 
@@ -156,5 +169,6 @@ export {
   useTaskInputStore, useAddBucketPopupStore,
   useHomePageStore, useControllersStore,
   useBackgroundActivityStore, useActivateDeleteBucketsStore,
-  useDeleteBucketPopupStore, useTodayLabelStore
+  useDeleteBucketPopupStore, useTodayLabelStore,
+  useHightlightTaskBasedOnPriorityStore
 };

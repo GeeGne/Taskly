@@ -47,7 +47,9 @@ export default function DisplayBuckets ({buckets, tasks, isLoading, activateDele
       case 'delete_bucket_button_is_clicked':
         setDeleteBucketPopupDetails(getBucket( Number(bucketId) ));
         setDeleteBucketPopupToggle(true);
-        console.log('getBucket: ', getBucket(Number(bucketId)));
+
+        // DEBUG
+        // console.log('getBucket: ', getBucket(Number(bucketId)));
         break;
       default:
         console.error('Unknown type: ', type);

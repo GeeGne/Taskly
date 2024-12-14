@@ -4,7 +4,7 @@ import LanguageSwitch from '@/components/switches/LanguageSwitch';
 import ControllerSwitch from '@/components/switches/ControllerSwitch';
 
 // STORE
-import { useSettingsPopupStore, useControllersStore } from '@/store/index';
+import { useSettingsPopupStore, useControllersStore, useHightlightTaskBasedOnPriorityStore } from '@/store/index';
 
 export default function SettingsPopup ({ currentLanguage }: { currentLanguage: string }) {
   const isEn = currentLanguage === 'en';
@@ -13,6 +13,7 @@ export default function SettingsPopup ({ currentLanguage }: { currentLanguage: s
   const settingsPopup = useSettingsPopupStore(status => status.settingsPopup);
   const { backgroundConfettiToggle, setBackgroundConfettiToggle } = useControllersStore();
   const { taskCompleteCelebrateConfettiToggle, setTaskCompleteCelebrateConfettiToggle } = useControllersStore();
+  const { hightlightTaskBasedOnPriorityToggle, setHightlightTaskBasedOnPriorityToggle } = useHightlightTaskBasedOnPriorityStore();
 
   const  handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { type } = e.currentTarget.dataset;
@@ -94,6 +95,16 @@ export default function SettingsPopup ({ currentLanguage }: { currentLanguage: s
               {isEn ? 'Background Confetti' : 'التاثيرات الخلفيه'}
             </span>
             <ControllerSwitch toggle={backgroundConfettiToggle} setToggle={setBackgroundConfettiToggle} />
+          </li>
+          <li
+            className="flex justify-between items-center"
+          >
+            <span
+              className="text-xs text-heading font-bold"
+            >
+              {isEn ? 'Highlight task based on priority' : 'تعليم المهام حسب الاهميه'}
+            </span>
+            <ControllerSwitch toggle={hightlightTaskBasedOnPriorityToggle} setToggle={setHightlightTaskBasedOnPriorityToggle} />
           </li>
         </ul>
         <hr className="w-[100%] border-[var(--background-deep-color)]"/>

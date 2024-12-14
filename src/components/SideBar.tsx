@@ -36,6 +36,9 @@ import {
   useAddBucketPopupStore, useActivateDeleteBucketsStore
 } from '@/store/index.js';
 
+// DAYJS
+import dayjs from 'dayjs';
+
 type UserProfile = {
   picture_url?: string;
   [key: string]: unknown;
@@ -45,6 +48,8 @@ export default function SideBar ({ currentLanguage }: { currentLanguage: string 
 
   const router = useRouter();
   const queryClient = useQueryClient();
+  const date = dayjs();
+  const isToday = (createdAt: string) => date.isSame(createdAt, 'day');
 
   const { currentTab, setCurrentTab } = useCurrentTabStore();
   const { settingsPopup, setSettingsPopup } = useSettingsPopupStore();
@@ -221,7 +226,7 @@ export default function SideBar ({ currentLanguage }: { currentLanguage: string 
                 ${currentTab === 'today' ? 'text-primary' : 'text-body-light'}
               `}
             >
-              0
+              {tasks?.filter((itm: any) => isToday(itm.created_at) && !itm.is_completed).length || 0}
               </span>
           </li>
           <li
@@ -245,7 +250,7 @@ export default function SideBar ({ currentLanguage }: { currentLanguage: string 
                 ${currentTab === 'inbox' ? 'text-primary' : 'text-body-light'}
               `}
             >
-              {tasks?.filter((itm: any) => !itm.is_completed ).length || 0}
+              {tasks?.filter((itm: any) => !itm.is_completed).length || 0}
             </span>
           </li>
         </ul>

@@ -24,7 +24,10 @@ import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 
 // STORES
-import { useSideBarStore, useNotificationToastStore, useErrorAlertStore, useControllersStore  } from '@/store/index.js';
+import { 
+  useSideBarStore, useNotificationToastStore, useErrorAlertStore, 
+  useControllersStore, useHightlightTaskBasedOnPriorityStore  
+} from '@/store/index.js';
 
 // CONFETTI 
 import Pride from "react-canvas-confetti/dist/presets/pride";
@@ -34,13 +37,15 @@ type Tasks = {
   isTasksLoading?: boolean;
   currentLanguage?: string;
   title?: string;
+  buckets?: any[] | null;
 }
 
 export default function DisplayTasks ({ 
+  title = 'To Do',
+  currentLanguage = 'en',
   tasks = null, 
   isTasksLoading = true, 
-  currentLanguage = 'en',
-  title = 'To Do'
+  buckets = null
 }: Tasks) {
  
   const queryClient = useQueryClient();
@@ -56,6 +61,7 @@ export default function DisplayTasks ({
   const { setNotificationToast, setNotificationText } = useNotificationToastStore();
   const { setErrorAlert, setErrorText } = useErrorAlertStore();
   const taskCompleteCelebrateConfettiToggle = useControllersStore(status => status.taskCompleteCelebrateConfettiToggle);
+  const hightlightTaskBasedOnPriorityToggle = useHightlightTaskBasedOnPriorityStore(status => status.hightlightTaskBasedOnPriorityToggle);
   const [ deleteTaskActivityBtn, setDeleteTaskActivityBtn ] = useState<DeleteActivityBtn>({ activity: true, taskId: '1'})
   const [ toggle, setToggle ] = useState<boolean>(true);
   
@@ -64,6 +70,8 @@ export default function DisplayTasks ({
   
   const tasksLiRefs = useRef<HTMLElement[]>([]);
 
+  const isTaskHaveBucket = (bucket_id: number) => buckets?.some((bucket: any) => bucket.id === bucket_id);
+  const getBucket = (bucket_id: number) =>  buckets?.find((bucket:any) => bucket.id === bucket_id)
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
     onMutate: taskId => {
@@ -172,6 +180,7 @@ export default function DisplayTasks ({
 
   // DEBUG & UI
   // isTasksLoading = true;
+  console.log('hightlightTaskBasedOnPriorityToggle: ', hightlightTaskBasedOnPriorityToggle);
 
   return (
     <section
@@ -299,50 +308,65 @@ export default function DisplayTasks ({
                     height="1rem"
                   />             
                   <span
-                    className="text-sm text-body mr-auto"
+                    className={`relative text-sm text-body ${isEn ? 'mr-auto' : 'ml-auto'}`}
                   >
                     {itm.title}
+                    <div
+                      className={`
+                        absolute content-[''] top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] 
+                        w-[calc(100%+1.5rem)] h-2 
+                        z-[1] blur-[0px] overflow-hidden opacity-30 
+                        ${itm.priority !== 'normal' || !hightlightTaskBasedOnPriorityToggle || 'bg-[var(--normal-priority-color)]'}                                                      
+                        ${itm.priority !== 'important' || !hightlightTaskBasedOnPriorityToggle || 'bg-[var(--important-priority-color)]'}                                                      
+                        ${itm.priority !== 'critical' || !hightlightTaskBasedOnPriorityToggle || 'bg-[var(--critical-priority-color)]'}                                                    
+                      `}
+                    >
+                      <div
+                        className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
+                      />                      
+                      <div
+                        className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
+                      />                        
+                    </div>
                   </span>
                   <div
                     className={`
-                      absolute content-[''] top-[50%] translate-y-[-50%] left-[0] 
-                      w-[100%] h-2 
-                      z-[1] blur-[0px] overflow-hidden opacity-30 
-                      ${itm.priority !== 'normal' || 'bg-[var(--normal-priority-color)]'}                                                      
-                      ${itm.priority !== 'important' || 'bg-[var(--important-priority-color)]'}                                                      
-                      ${itm.priority !== 'critical' || 'bg-[var(--critical-priority-color)]'}                                                    
+                      flex gap-3 shink-0 p-2 opacity-70 font-bold
                     `}
                   >
-                    <div
-                      className="absolute top-1 left-[-1.5rem] w-10 h-10 rotate-[45deg] bg-[var(--background-color)]"
-                    />                      
-                    <div
-                      className="absolute bottom-1 right-[-1.5rem] w-10 h-10 rotate-[-45deg] bg-[var(--background-color)]"
-                    />                        
-                  </div>
-                  <div
-                    className="flex gap-3 shink-0 p-2 opacity-70 font-bold"
-                  >
-                    <span
-                      className="text-body text-xs text-red-400"
-                    >
-                      !important 
-                    </span>
-                    <span
-                      className="text-body text-xs text-[var(--today-label-invert-color)]"
-                    >
-                      @today 
-                    </span>
-                    <span
-                      className="text-body text-xs text-primary"
-                    >
-                      #work
-                    </span>
+                    { itm.priority === 'none' ||
+                      <span
+                        className={`
+                          text-xs 
+                          ${itm.priority !== 'normal' || 'text-[var(--normal-priority-color)]'}                                                      
+                          ${itm.priority !== 'important' || 'text-[var(--important-priority-color)]'}                                                      
+                          ${itm.priority !== 'critical' || 'text-[var(--critical-priority-color)]'}                                                    
+
+                        `}
+                      >
+                        {'!' + itm.priority}
+                      </span>
+                    }
+                    { itm.for_today &&
+                      <span
+                        className="text-xs text-[var(--today-label-invert-color)]"
+                      >
+                        @{isEn ? 'today' : 'اليوم'} 
+                      </span>
+                    }
+                    { isTaskHaveBucket(itm.bucket_id) &&
+                      <span
+                        className="text-body text-xs text-primary"
+                       >
+                        {'#' + getBucket(itm.bucket_id).name}
+                      </span>
+                    }
                   </div>
                 </label>
                 <nav
                   className={`
-                    flex shrink-0 items-center gap-2 opacity-0 group-hover:opacity-100 ease-out transition-all duration-150
+                    flex shrink-0 items-center gap-2 opacity-0 h-0 group-hover:h-[1.5rem] group-hover:opacity-100 
+                    ease-out transition-all duration-150
                     ${isEn ? 'ml-auto' : 'mr-auto'}
                   `}
                 >
