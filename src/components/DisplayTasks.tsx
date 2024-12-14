@@ -32,6 +32,9 @@ import {
 // CONFETTI 
 import Pride from "react-canvas-confetti/dist/presets/pride";
 
+// DAYJS
+import dayjs from 'dayjs';
+
 type Tasks = {
   tasks?: any[] | null;
   isTasksLoading?: boolean;
@@ -180,7 +183,8 @@ export default function DisplayTasks ({
 
   // DEBUG & UI
   // isTasksLoading = true;
-  console.log('hightlightTaskBasedOnPriorityToggle: ', hightlightTaskBasedOnPriorityToggle);
+  // console.log('hightlightTaskBasedOnPriorityToggle: ', hightlightTaskBasedOnPriorityToggle);
+  console.log('tasks: ', tasks);
 
   return (
     <section
@@ -273,7 +277,7 @@ export default function DisplayTasks ({
           : tasks?.map((itm:any, i: number) => 
               <li
                 className="
-                  relative group flex flex-col 
+                  relative group flex flex-col
                   before:content-[''] before:absolute before:top-[calc(100%+2px)] before:left-[0] before:h-[1px] before:w-[100%] before:bg-[var(--background-light-color)]
                 "
                 key={itm.id}
@@ -331,7 +335,7 @@ export default function DisplayTasks ({
                   </span>
                   <div
                     className={`
-                      flex gap-3 shink-0 p-2 opacity-70 font-bold
+                      flex flex-wrap whitespace-nowrap justify-end gap-3 shink-0 px-2 opacity-70 font-bold
                     `}
                   >
                     { itm.priority === 'none' ||
@@ -365,13 +369,20 @@ export default function DisplayTasks ({
                 </label>
                 <nav
                   className={`
-                    flex shrink-0 items-center gap-2 opacity-0 h-0 group-hover:h-[1.5rem] group-hover:opacity-100 
+                    flex shrink-0 items-end enter gap-2 opacity-0 h-0 px-2 group-hover:h-[2rem] group-hover:opacity-100 
                     ease-out transition-all duration-150
-                    ${isEn ? 'ml-auto' : 'mr-auto'}
                   `}
                 >
+                  <span
+                    className="text-xs text-body-extra-light"
+                  >
+                    {dayjs(itm.created_at).format('YY-MM-DD hh:mma')}
+                  </span>
                   <div
-                    className="group relative overflow-hidden hover:overflow-visible"
+                    className={`
+                      group relative overflow-hidden hover:overflow-visible"
+                      ${isEn ? 'ml-auto' : 'mr-auto'}
+                    `}
                   >
                     <PriorityHighRoundedSvg 
                       className="

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 // API
 import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
 import getTasks from '@/api/getTasks';
+import getBuckets from '@/api/getBuckets';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
 
@@ -40,6 +41,11 @@ export default function Inbox () {
     queryFn: getTasks
   });
 
+  const { data: buckets, isLoading: isBucketsLoading } = useQuery({
+    queryKey: ['buckets'],
+    queryFn: getBuckets
+  });
+
   return (
     <MainWrapper>
       <Header tab={isEn ? 'Inbox' : 'الصندوق'} />
@@ -49,6 +55,7 @@ export default function Inbox () {
         isTasksLoading={isTasksLoading} 
         currentLanguage={currentLanguage}
         title={isEn ? 'To Do' : 'قائمه المهام'}
+        buckets={buckets}
       />
       <DisplayCompletedTasks 
         tasks={tasks?.filter((itm: any) => itm.is_completed)} 
