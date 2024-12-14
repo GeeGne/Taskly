@@ -34,8 +34,8 @@ import TripleBarActivity from '@/components/TripleBarActivity';
 
 // STORES
 import { 
-  useSideBarStore, useNotificationToastStore,
-  useTaskInputStore, usePriorityPopupStore,
+  useSideBarStore, useNotificationToastStore, 
+  useTaskInputStore, usePriorityPopupStore, 
   useTodayLabelStore
 } from '@/store/index.js';
 
@@ -161,6 +161,23 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
     }
   };
 
+  const hanldeTranslate = (priorityKey: string) => {
+    
+    if (isEn) return priorityKey;
+
+    switch (priorityKey) {
+      case 'normal':
+        return 'متوسط';
+      case 'important':
+        return 'مهم';
+      case 'critical':
+        return 'غايه الاهميه';
+      default:
+        console.error('Unknown priorityKey: ', priorityKey);
+        return '--';
+    }
+  }
+
   // DEBUG
   // const [ focus, setFocus ] = useState(true);
   // const toggle = true;
@@ -265,7 +282,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
               <span
                 className={`text-xs text-[${getPriorityColor()}] font-bold px-1`}
               >
-                {priorityKey}
+                {hanldeTranslate(priorityKey)}
               </span>
               <XSvg className="border-solid border-body-extra-light group-hover:border-heading border-[1px] rounded-sm" color="var(--font-body-color)" />
             </button>

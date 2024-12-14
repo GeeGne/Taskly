@@ -181,10 +181,27 @@ export default function DisplayTasks ({
     }, 5000)
   }
 
+  const hanldeTranslate = (priorityKey: string) => {
+    
+    if (isEn) return priorityKey;
+
+    switch (priorityKey) {
+      case 'normal':
+        return 'متوسط';
+      case 'important':
+        return 'مهم';
+      case 'critical':
+        return 'غايه الاهميه';
+      default:
+        console.error('Unknown priorityKey: ', priorityKey);
+        return '--';
+    }
+  }
+
   // DEBUG & UI
   // isTasksLoading = true;
   // console.log('hightlightTaskBasedOnPriorityToggle: ', hightlightTaskBasedOnPriorityToggle);
-  console.log('tasks: ', tasks);
+  // console.log('tasks: ', tasks);
 
   return (
     <section
@@ -348,7 +365,7 @@ export default function DisplayTasks ({
 
                         `}
                       >
-                        {'!' + itm.priority}
+                        {'!' + hanldeTranslate(itm.priority)}
                       </span>
                     }
                     { itm.for_today &&

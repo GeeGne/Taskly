@@ -69,7 +69,7 @@ export default function PriorityPopup ({ currentLanguage }: { currentLanguage: s
             <span
               className="text-xs font-bold text-[var(--none-priority-color)]"
             >
-              none
+              {isEn ? 'none' : 'عادي'}
             </span>
           </button>
           <button
@@ -85,7 +85,7 @@ export default function PriorityPopup ({ currentLanguage }: { currentLanguage: s
             <span
               className="text-xs font-bold text-[var(--normal-priority-color)]"
             >
-              normal
+              {isEn ? 'normal' : 'متوسط'}
             </span>
           </button>
           <button
@@ -101,7 +101,7 @@ export default function PriorityPopup ({ currentLanguage }: { currentLanguage: s
             <span
               className="text-xs font-bold text-[var(--important-priority-color)]"
             >
-              important
+              {isEn ? 'important' : 'مهم'}
             </span>
           </button>
           <button
@@ -117,7 +117,7 @@ export default function PriorityPopup ({ currentLanguage }: { currentLanguage: s
             <span
               className="text-xs font-bold text-[var(--critical-priority-color)]"
             >
-              critical
+              {isEn ? 'critical' : 'غايه الاهميه'}
             </span>
           </button>
         </div>
