@@ -209,14 +209,14 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
         <hr/>
         <div
           className={`
-            flex gap-4 opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
+            flex flex-wrap gap-4 opacity-0 peer-focus:opacity-100 transition-all duration-150 ease-out
             ${focus ? `opacity-100` : `opacity-0`}
           `}
         >
           <button
             className="
               flex items-center text-xs text-body-light hover:text-heading font-bold 
-              px-2 rounded-md cursor-pointer
+              p-2 rounded-md cursor-pointer
               border-solid border-body-light hover:border-heading border-[1px]
             "
             data-type="priority_button_is_clicked"
@@ -234,7 +234,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
           <button
             className={`
               relative flex items-center text-xs hover:text-heading font-bold 
-              border-solid border-body-light border-[1px] px-2 rounded-md cursor-pointer
+              border-solid border-body-light border-[1px] p-2 rounded-md cursor-pointer
               hover:border-heading overflow-hidden
               ${todayLabelToggle ? 'bg-transparent text-heading border-transparent' : 'bg-transparent text-body-light border-body-light'}
             `}
@@ -273,7 +273,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
           { priorityKey &&
             <button
               className="
-                group flex items-center bg-[var(--background-light-color)] px-1 cursor-pointer
+                group flex items-center bg-[var(--background-light-color)] p-2 cursor-pointer
               "
               data-type="priorityKey_button_is_clicked"
               onClick={handleClick}
