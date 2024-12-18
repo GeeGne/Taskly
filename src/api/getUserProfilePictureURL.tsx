@@ -6,7 +6,7 @@ async function getUserProfilePictureURL () {
     if (userDataError) throw new Error (`Couldn't get user Data, please refresh your browser`);
 
     const { data , error } = await supabase
-      .from('userPfp')
+      .from('user_profile')
       .select('*')
       .eq('user_id', userData.user.id)
     if (error) throw new Error ('Failed to fetch user picture URL: ' + error.message);

@@ -44,7 +44,7 @@ export default function RootLayout({
   const currentLanguage = useLanguageStore(status => status.currentLanguage);
 
   // DEBUG
-  console.log( dayjs());
+  // console.log( dayjs());
 
   return (
     <html lang="en">

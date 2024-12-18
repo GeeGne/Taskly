@@ -6,7 +6,7 @@ async function updateUserProfilePictureURL (picture_url: string) {
     if (userDataError) throw new Error (`Couldn't get user Data, please refresh your browser`);
 
     const { data, error } = await supabase
-      .from('userPfp')
+      .from('user_profile')
       .upsert(
         {
           user_id: userData.user.id,

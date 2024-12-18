@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 // API
-import checkAuthAndGetUser from '@/api/checkAuthAndGetUser';
+import IncrementTotalTasksByOne from '@/api/IncrementTotalTasksByOne';
 import getTasks from '@/api/getTasks';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
@@ -14,21 +14,8 @@ import deleteTask from '@/api/deleteTask';
 import Redirector from '@/utils/Redirector';
 
 // COMPONENTS
-import PriorityPopup from '@/components/popups/PriorityPopup';
 import PriorityHighRoundedSvg from '@/components/svgs/PriorityHighRoundedSvg';
-import MainWrapper from '@/components/MainWrapper';
-import Header from '@/components/Header';
-import DisplayTasks from '@/components/DisplayTasks';
-import DisplayCompletedTasks from '@/components/DisplayCompletedTasks';
-import SpinnersRingSvg from '@/components/svgs/SpinnersRingSvg';
-import SpinnersRingsMultipleSvg from '@/components/svgs/SpinnersRingsMultipleSvg';
-import BoxArrowRightSvg from '@/components/svgs/BoxArrowRightSvg';
-import ArrowBarLeftSvg from '@/components/svgs/ArrowBarLeftSvg';
-import ArrowBarRightSvg from '@/components/svgs/ArrowBarRightSvg';
-import CheckLgSvg from '@/components/svgs/CheckLgSvg';
 import CheckSvg from '@/components/svgs/CheckSvg';
-import ArrowUpSvg from '@/components/svgs/ArrowUpSvg';
-import ArrowDownSvg from '@/components/svgs/ArrowDownSvg';
 import XSvg from '@/components/svgs/XSvg';
 import TripleBarActivity from '@/components/TripleBarActivity';
 
@@ -76,6 +63,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       setNotificationToast(Date.now());
       setPriorityKey(null);
       setTodayLabelToggle(false);
+      // IncrementTotalTasksByOne();
     }
   });
 
