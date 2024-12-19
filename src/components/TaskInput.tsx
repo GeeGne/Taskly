@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 // API
-import IncrementTotalTasksByOne from '@/api/IncrementTotalTasksByOne';
+import incrementTotalTasksByOne from '@/api/incrementTotalTasksByOne';
 import getTasks from '@/api/getTasks';
 import addTask from '@/api/addTask';
 import deleteTask from '@/api/deleteTask';
@@ -63,9 +63,13 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       setNotificationToast(Date.now());
       setPriorityKey(null);
       setTodayLabelToggle(false);
-      IncrementTotalTasksByOne();
+      incrementTotalTasksByOneMutation.mutate();
     }
   });
+
+  const incrementTotalTasksByOneMutation = useMutation({
+    mutationFn: incrementTotalTasksByOne
+  })
 
   const getPriorityColor = () => {
     switch (priorityKey) {

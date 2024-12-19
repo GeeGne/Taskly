@@ -262,6 +262,20 @@ export default function ProfilePage () {
             description={isEn ? "Keep track of tasks that still need your attention and plan your next steps" : "تابع المهام التي لا تزال بحاجة إلى اهتمامك وخطط لخطواتك التالية."}
             percantage={10}
           />
+          <div
+            className="flex justify-between w-[100%] text-lg"
+          >
+            <span
+              className="text-body"
+            >
+              total tasks
+            </span>
+            <span
+              className="bg-gradient-to-r from-heading to-primary bg-clip-text text-transparent font-bold"
+            >
+              300
+            </span>
+          </div>
         </section>
       </div>
     </MainWrapper>
