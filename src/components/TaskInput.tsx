@@ -63,7 +63,7 @@ export default function TaskInput ({ currentLanguage = 'en', bucket_id = null }:
       setNotificationToast(Date.now());
       setPriorityKey(null);
       setTodayLabelToggle(false);
-      // IncrementTotalTasksByOne();
+      IncrementTotalTasksByOne();
     }
   });
 
