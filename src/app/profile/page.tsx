@@ -33,11 +33,16 @@ import {
 
 // ASSETS
 import pfpImg from '@/../public/assets/pfp.jpg'
+import achivementFrameSvg from '@/../public/assets/icons/achivement-frame-sketch.svg'
+import achivementFramePng from '@/../public/assets/achivement-frame.png'
+
 
 // UTILS
 import calTasks from '@/utils/calTasks';
 import calRemainingTasks from '@/utils/calRemainingTasks';
 import calCompletedTasks from '@/utils/calCompletedTasks';
+
+
 
 // TYPES
 type NameParams = {
@@ -263,17 +268,59 @@ export default function ProfilePage () {
             percantage={10}
           />
           <div
-            className="flex justify-between w-[100%] text-lg"
+            className="flex flex-col items-center justify-between w-[100%] text-lg"
           >
+            <div
+              className="relative"
+            >
+              <Image 
+                src={achivementFrameSvg}
+                alt="Achivement Frame"
+                width={300}
+                height={300}
+              />
+              <span
+                className="
+                  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
+                  bg-gradient-to-r from-heading to-primary bg-clip-text 
+                  text-2xl text-transparent font-bold
+                "
+              >
+                300
+              </span>
+            </div>
             <span
               className="text-body"
             >
               total tasks
             </span>
-            <span
-              className="bg-gradient-to-r from-heading to-primary bg-clip-text text-transparent font-bold"
+          </div>
+          <div
+            className="flex flex-col items-center justify-between w-[100%] text-lg"
+          >
+            <div
+              className="relative"
             >
-              300
+              <Image 
+                src={achivementFramePng}
+                alt="Achivement Frame"
+                width={300}
+                height={300}
+              />
+              <span
+                className="
+                  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
+                  bg-gradient-to-r from-heading to-primary bg-clip-text 
+                  text-2xl text-transparent font-bold
+                "
+              >
+                300
+              </span>
+            </div>
+            <span
+              className="text-body"
+            >
+              total tasks
             </span>
           </div>
         </section>
